@@ -20,12 +20,16 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone_number', 20);
             $table->integer('type_user');
             $table->integer('status');
             $table->integer('session');
-            $table->rememberToken();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('phone_number', 20)->nullable();
+            //$table->foreignId('role_id')->nullable()->constrained('roles');
+            $table->string('picture')->nullable();
             $table->timestamps();
+            $table->rememberToken();
         });
     }
 
