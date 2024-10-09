@@ -6,7 +6,7 @@
 Descubre una nueva forma de comprar y vender Productos Orgánicos. En nuestra web app, revolucionamos la manera en que se conectan productores y consumidores de productos orgánicos. Olvídate de los intermediarios y disfruta de una experiencia directa, rápida y fácil. Únete a nuestra plataforma y sé parte de una red que valora la calidad, la equidad y la sostenibilidad apoyando un sistema más justo y transparente!
 
 
-# **Acerca de Nosotros**
+## **Acerca de Nosotros**
 
 Raíces Orgánicas es una plataforma e-commerce diseñada para promover la venta de productos orgánicos por parte de productores independientes.
 Nuestro sistema online proporciona la búsqueda de alimentos orgánicos de manera fácil y rápida, brindando calidad y practicidad sin necesidad de distribuidores intermediarios. En consecuencia, fomenta precios justos entre ambas partes al momento de ofrecer y adquirir algún producto.
@@ -25,18 +25,18 @@ En nuestra web app, priorizamos la conexión entre productores y consumidores de
 
 ## **Tipos de Usuarios**
 
-**Clientes**
+### **Clientes**
 
 - Perfil: Compradores de productos orgánicos, que buscan calidad y transparencia.
 - Funciones: Navegar, buscar y filtrar productos. Crear y gestionar cuentas. Realizar compras y gestionar pedidos. Dejar reseñas y calificaciones.
 
-**Productores**
+### **Productores**
 
 - Perfil: Personas encargadas de la gestión de la tienda.
 - Funciones: Añadir, editar y eliminar productos. Gestionar pedidos y seguimiento de estadísticas de ventas. Responder a consultas de clientes. Gestionar el contenido del blog y las promociones.
 - Cumplimiento Normativo: Asegurarse de que todos los productos cumplan con las normativas locales sobre productos orgánicos.
 
-**Rol Administrador**
+### **Rol Administrador**
 - Gestión de Usuarios: Registro, Login y verificación de identidad de los usuarios.
 - Moderación de Contenidos: Supervisión de los productos publicados y comentarios.
 - Gestión de Categorías: Definición y limitación de las categorías disponibles.
@@ -47,53 +47,53 @@ En nuestra web app, priorizamos la conexión entre productores y consumidores de
 
 **Funcionalidades para los roles de Usuario:** Clientes | Productores
 
-1. Registro, autenticación y creación de perfil de usuarios
-- Opción para registrarse como cliente o productor.
+1. **Registro, autenticación y creación de perfil de usuarios**
+ - Opción para registrarse como cliente o productor.
    
-2. Verificación de Identidad:
+2. **Verificación de Identidad**
 - Verificación a través de cuenta de email.
 - Acceso seguro con correo y contraseña.
     
-3. Catálogo de Productos
+3. **Catálogo de Productos**
 - Filtros de Búsqueda: Por categoría (frutas, verduras, productos procesados), precios, disponibilidad, etc.
 - Descripción Detallada: Información sobre el origen, beneficios, y certificaciones orgánicas.
 - Imágenes atractivas de los productos.
     
-4. Disponibilidad:
+4. **Disponibilidad**
 - Control de stock de productos para la disponibilidad de venta.
 
-5. Conexión entre Partes:
+5. **Conexión entre Partes**
 - Al confirmar la compra el cliente accede a información de contacto con productores/ vendedores.
 
-6. Carrito de Compras
+6. **Carrito de Compras**
 - Añadir/Eliminar Productos: Opción para modificar la selección de productos.
 - Cálculo del total: Mostrar el total incluyendo impuestos y costos de envío.
     
-7. Proceso de Pago
+7. **Proceso de Pago**
 - Métodos de Pago: Tarjetas de crédito, Débito, Mercado Pago, Transferencias bancarias, etc.
 - Seguridad: Implementar certificados SSL y cumplir con normativas de seguridad.
     
 
-8. Gestión de Pedidos
+8. **Gestión de Pedidos**
 -  Historial de Pedidos: Los usuarios pueden ver sus compras pasadas.
 - Estado de Pedidos: Seguimiento sobre el estado de envío de últimos pedidos.
 - Confirmación de Pedido: Para continuar el proceso de compra de productos.
     
 
-9. Notificaciones
+9. **Notificaciones**
 - Alertas de solicitud de pedido, confirmación de pedido, envío de pedido y mensajería.
    
-10. Sistema de Reseñas y Calificaciones:
+10. **Sistema de Reseñas y Calificaciones**
 - Sistema de Puntos y comentarios y para productos adquiridos
 - Opiniones de Clientes: Permitir a los usuarios dejar comentarios y valoraciones sobre los productos adquiridos.
     
 
-11. Soporte al Cliente
+11. **Soporte al Cliente**
 - FAQs: Para resolver dudas rápidas.
 - Formulario de Contacto: Para consultas más específicas.
     
 
-12. Responsive Design
+12. **Responsive Design**
 - Compatibilidad Móvil: Asegurarse de que la tienda funcione bien en dispositivos móviles.
 
 ## **Herramientas Utilizadas**
@@ -112,21 +112,21 @@ Vercel*
 
 **🕵️ Tester:**
 
-API Testing: *Postman, Swagger*
-QA Manual: *Jira, Loom.*
-Gestión de Proyectos y Seguimiento: *Jira, Excel*
-Mapeo Mental y Diagramas: *Freemind, Figma*
+- API Testing: *Postman, Swagger*.
+- QA Manual: *Jira, Loom.*
+- Gestión de Proyectos y Seguimiento: *Jira, Excel*
+ - Mapeo Mental y Diagramas: *Freemind, Figma*
 
 **✏️UX/UI:**
 
-Diseño: *Figma*
-Prototipos y Flujos: *Figma para mockups y prototipos interactivos*
+- Diseño: *Figma*
+- Prototipos y Flujos: *Figma para mockups y prototipos interactivos*
 
 **🗂️ Organización:**
 
-Comunicación: *Discord, Slack, Google Meet.*
-Colaboración Visual: *Figma*
-Control de Versiones: *GitHub*
+- Comunicación: *Discord, Slack, Google Meet.*
+- Colaboración Visual: *Figma*
+- Control de Versiones: *GitHub*
 
 
 
