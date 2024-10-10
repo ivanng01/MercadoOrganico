@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
     // Metodo login
-    public function login_sesion(Request $request){
+    public function login_session(Request $request){
         $credentials = $request->only('username', 'password');
         $validator = Validator::make($credentials, [
             'username' => 'required',
@@ -78,23 +78,33 @@ class LoginController extends Controller
     }
 
     // Metodo cerrar sesion
-    public function logout_user(Request $request){        
-        $user = User::find($request->id);
-        $user->tokens()->delete();
-
-        $update_session = User::find($user->id);
-        $update_session->session = 0;
-        $update_session->update();
-        
+    public function logout_user(Request $request)
+    {
+        // Obtén el usuario autenticado directamente
+        $user = $request->user();
+    
+        // Verifica que el usuario exista
+        if ($user) {
+            // Elimina todos los tokens del usuario
+            $user->tokens()->delete();
+    
+            // Actualiza la sesión del usuario
+            $user->session = 0;
+            $user->save(); // O usa update()
+    
+            return response()->json([
+                'success' => 'Sesión cerrada',
+            ], 200);
+        }
+    
         return response()->json([
-            'success' => 'Sesion cerrada',
-        ], 200);
+            'error' => 'Usuario no encontrado',
+        ], 404);
     }
-
     // Metodo create_user para crear usuario
     public function create_user(Request $request) {
         
-        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number');
+        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number', 'gender', 'birth_date', 'picture');
         $validator = Validator::make($credentials, [
             'email' => [
                 'required',
@@ -108,6 +118,9 @@ class LoginController extends Controller
             'lastname' => 'required|string|min:2|max:50',
             'password' => 'required|string|min:8|max:30',
             'type_user' => 'required|integer|in:1,2',
+            'gender' => 'required|in:male,female,other',
+            'birth_date' => 'required|date',
+            'picture' => 'nullable|string|max:255',
             'phone_number' => [
                 'required',
                 'string',
@@ -130,6 +143,9 @@ class LoginController extends Controller
             'password' => Hash::make($request->input('password')),
             'phone_number' => $request->input('phone_number'),
             'type_user' => $request->input('type_user'),
+            'gender' => $request->input('gender'),
+            'birth_date' => $request->input('birth_date'),
+            'picture' => $request->input('picture'),
             'status' => 1,
             'session' => 1,
         ]);
