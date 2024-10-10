@@ -11,11 +11,39 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+* @OA\Info(
+*             title="Controlador de Acceso de usuario", 
+*             version="1.0",
+*             description="Crear usuario, cerrar e iniciar sesion."
+* )
+*
+* @OA\Server(url="http://localhost")
+*/
+
+
 
 
 class LoginController extends Controller
 {
-    // Metodo login
+    /**
+     * @OA\Post(
+     *     path="/api/login_user",
+     *     tags={"Authentication"},
+     *     summary="Iniciar sesión",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"username","password"},
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Login satisfactorio"),
+     *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
+     *     @OA\Response(response=422, description="Error de validación")
+     * )
+     */
     public function login_session(Request $request){
         $credentials = $request->only('username', 'password');
         $validator = Validator::make($credentials, [
@@ -77,6 +105,16 @@ class LoginController extends Controller
         }
     }
 
+
+     /**
+     * @OA\Post(
+     *     path="/api/log_out",
+     *     tags={"Authentication"},
+     *     summary="Cerrar sesión",
+     *     @OA\Response(response=200, description="Sesión cerrada"),
+     *     @OA\Response(response=404, description="Usuario no encontrado")
+     * )
+     */
     // Metodo cerrar sesion
     public function logout_user(Request $request)
     {
@@ -101,7 +139,33 @@ class LoginController extends Controller
             'error' => 'Usuario no encontrado',
         ], 404);
     }
-    // Metodo create_user para crear usuario
+
+
+    /**
+     * @OA\Post(
+     *     path="/api/create_user",
+     *     tags={"User Management"},
+     *     summary="Crear usuario",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","username","name","lastname","password","type_user","phone_number","gender","birth_date"},
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="lastname", type="string"),
+     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="type_user", type="integer"),
+     *             @OA\Property(property="phone_number", type="string"),
+     *             @OA\Property(property="gender", type="string"),
+     *             @OA\Property(property="birth_date", type="string", format="date"),
+     *             @OA\Property(property="picture", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Usuario creado"),
+     *     @OA\Response(response=422, description="Error de validación")
+     * )
+     */
     public function create_user(Request $request) {
         
         $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number', 'gender', 'birth_date', 'picture');
