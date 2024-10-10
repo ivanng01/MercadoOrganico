@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import { Button } from "@/components/ui/button"; 
+import { Button } from "@/components/ui/button";
 import { PriceRangeSliderProps } from "@/types/types";
 
 const CURRENCY_SYMBOL: string = import.meta.env.VITE_CURRENCY_SYMBOL || "$";
@@ -25,7 +25,7 @@ const PriceRangeSlider = ({ value, onChange, max = 2000 }: PriceRangeSliderProps
   </SliderPrimitive.Root>
 );
 
-export default function Component() {
+export default function SliderwithNumberInput() {
   const [range, setRange] = useState<number[]>([10, 600]);
 
   const handleFilter = () => {
