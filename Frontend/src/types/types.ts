@@ -24,3 +24,9 @@ export interface SearchModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+export interface PriceRangeSliderProps {
+  value: number[];
+  onChange: (value: number[]) => void;
+  max?: number;
+}
