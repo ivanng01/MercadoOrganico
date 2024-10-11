@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::controller(LoginController::class)->group(function(){
+    Route::post('/login_user', 'login_session');
+    Route::post('/create_user', 'create_user');
 });
 
-Route::controller(LoginController::class)->group(function(){
-    Route::post('/login_user', 'login_sesion');
-    Route::post('/crear_usuario', 'create_user');
-    Route::post('/cerrar_session', 'logout_user');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/log_out', [LoginController::class, 'logout_user']);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });

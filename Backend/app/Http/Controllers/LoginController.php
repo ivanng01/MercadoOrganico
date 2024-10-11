@@ -11,12 +11,40 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+* @OA\Info(
+*             title="Controlador de Acceso de usuario", 
+*             version="1.0",
+*             description="Crear usuario, cerrar e iniciar sesion."
+* )
+*
+* @OA\Server(url="http://localhost")
+*/
+
+
 
 
 class LoginController extends Controller
 {
-    // Metodo login
-    public function login_sesion(Request $request){
+    /**
+     * @OA\Post(
+     *     path="/api/login_user",
+     *     tags={"Authentication"},
+     *     summary="Iniciar sesión",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"username","password"},
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Login satisfactorio"),
+     *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
+     *     @OA\Response(response=422, description="Error de validación")
+     * )
+     */
+    public function login_session(Request $request){
         $credentials = $request->only('username', 'password');
         $validator = Validator::make($credentials, [
             'username' => 'required',
@@ -77,24 +105,70 @@ class LoginController extends Controller
         }
     }
 
-    // Metodo cerrar sesion
-    public function logout_user(Request $request){        
-        $user = User::find($request->id);
-        $user->tokens()->delete();
 
-        $update_session = User::find($user->id);
-        $update_session->session = 0;
-        $update_session->update();
-        
+     /**
+     * @OA\Post(
+     *     path="/api/log_out",
+     *     tags={"Authentication"},
+     *     summary="Cerrar sesión",
+     *     @OA\Response(response=200, description="Sesión cerrada"),
+     *     @OA\Response(response=404, description="Usuario no encontrado")
+     * )
+     */
+    // Metodo cerrar sesion
+    public function logout_user(Request $request)
+    {
+        // Obtén el usuario autenticado directamente
+        $user = $request->user();
+    
+        // Verifica que el usuario exista
+        if ($user) {
+            // Elimina todos los tokens del usuario
+            $user->tokens()->delete();
+    
+            // Actualiza la sesión del usuario
+            $user->session = 0;
+            $user->save(); // O usa update()
+    
+            return response()->json([
+                'success' => 'Sesión cerrada',
+            ], 200);
+        }
+    
         return response()->json([
-            'success' => 'Sesion cerrada',
-        ], 200);
+            'error' => 'Usuario no encontrado',
+        ], 404);
     }
 
-    // Metodo create_user para crear usuario
+
+    /**
+     * @OA\Post(
+     *     path="/api/create_user",
+     *     tags={"User Management"},
+     *     summary="Crear usuario",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","username","name","lastname","password","type_user","phone_number","gender","birth_date"},
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="username", type="string"),
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="lastname", type="string"),
+     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="type_user", type="integer"),
+     *             @OA\Property(property="phone_number", type="string"),
+     *             @OA\Property(property="gender", type="string"),
+     *             @OA\Property(property="birth_date", type="string", format="date"),
+     *             @OA\Property(property="picture", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Usuario creado"),
+     *     @OA\Response(response=422, description="Error de validación")
+     * )
+     */
     public function create_user(Request $request) {
         
-        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number');
+        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number', 'gender', 'birth_date', 'picture');
         $validator = Validator::make($credentials, [
             'email' => [
                 'required',
@@ -108,6 +182,9 @@ class LoginController extends Controller
             'lastname' => 'required|string|min:2|max:50',
             'password' => 'required|string|min:8|max:30',
             'type_user' => 'required|integer|in:1,2',
+            'gender' => 'required|in:male,female,other',
+            'birth_date' => 'required|date',
+            'picture' => 'nullable|string|max:255',
             'phone_number' => [
                 'required',
                 'string',
@@ -130,6 +207,9 @@ class LoginController extends Controller
             'password' => Hash::make($request->input('password')),
             'phone_number' => $request->input('phone_number'),
             'type_user' => $request->input('type_user'),
+            'gender' => $request->input('gender'),
+            'birth_date' => $request->input('birth_date'),
+            'picture' => $request->input('picture'),
             'status' => 1,
             'session' => 1,
         ]);

@@ -1,0 +1,155 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Controlador de Acceso de usuario",
+        "description": "Crear usuario, cerrar e iniciar sesion.",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost"
+        }
+    ],
+    "paths": {
+        "/api/login_user": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Iniciar sesión",
+                "operationId": "89439b7d172d82040024dff634bc2a2d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login satisfactorio"
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/log_out": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Cerrar sesión",
+                "operationId": "c6e49150ec5d89abb949d384ca486863",
+                "responses": {
+                    "200": {
+                        "description": "Sesión cerrada"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/create_user": {
+            "post": {
+                "tags": [
+                    "User Management"
+                ],
+                "summary": "Crear usuario",
+                "operationId": "19ae2a6770766408b33803b6ecb1d5e4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "username",
+                                    "name",
+                                    "lastname",
+                                    "password",
+                                    "type_user",
+                                    "phone_number",
+                                    "gender",
+                                    "birth_date"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "type_user": {
+                                        "type": "integer"
+                                    },
+                                    "phone_number": {
+                                        "type": "string"
+                                    },
+                                    "gender": {
+                                        "type": "string"
+                                    },
+                                    "birth_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "picture": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "User Management",
+            "description": "User Management"
+        }
+    ]
+}
