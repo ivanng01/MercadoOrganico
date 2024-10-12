@@ -30,3 +30,7 @@ function calculateEAN8Checksum(skuBase: string): number {
   const checksum = (10 - (sum % 10)) % 10;
   return checksum;
 }
+
+export const handleUpClick = (): void => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};

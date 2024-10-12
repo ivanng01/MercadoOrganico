@@ -1,14 +1,16 @@
 import { Menu, Search, ShoppingCart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
-import Logo from "./logo";
+import LogoSmall from "./logo-small";
+import SocialMediaNavbar from "./SocialMediaNavbar";
 
 export default function PublicNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,13 +20,17 @@ export default function PublicNavbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isAuthRoute = location.pathname === "/login" || location.pathname === "/register";
+
   return (
     <>
+      {!isAuthRoute && <SocialMediaNavbar />}
+
       <header
         className={`sticky top-0 z-50 w-full max-w-screen-2xl mx-auto lg:px-[120px] ${isScrolled ? "backdrop-blur supports-[backdrop-filter]" : ""}`}
       >
         <div className="container flex h-16 items-center justify-between p-4">
-          <Logo />
+          <LogoSmall />
           <nav className="hidden md:flex items-center space-x-4">
             <Button variant="link" asChild>
               <Link to="/">Inicio</Link>
