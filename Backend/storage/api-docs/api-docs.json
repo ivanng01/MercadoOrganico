@@ -1,23 +1,28 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Controlador de Acceso de usuario",
-        "description": "Crear usuario, cerrar e iniciar sesion.",
-        "version": "1.0"
+        "title": "Ecommerce de productos orgánicos",
+        "description": "Documentación para la API de ecommerce de productos orgánicos",
+        "version": "1.0.0"
     },
     "servers": [
         {
-            "url": "http://localhost"
+            "url": "https://backend-raices.vercel.app/api/api",
+            "description": "Servidor de producción"
+        },
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Servidor local de desarrollo"
         }
     ],
     "paths": {
-        "/api/login_user": {
+        "/login_user": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Iniciar sesión",
-                "operationId": "89439b7d172d82040024dff634bc2a2d",
+                "operationId": "372021241e2412af4ec72b892a6ccecf",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -29,10 +34,12 @@
                                 ],
                                 "properties": {
                                     "username": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "producer_user"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "StrongTrainerPassword123"
                                     }
                                 },
                                 "type": "object"
@@ -53,30 +60,39 @@
                 }
             }
         },
-        "/api/log_out": {
+        "/log_out": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Cerrar sesión",
-                "operationId": "c6e49150ec5d89abb949d384ca486863",
+                "description": "Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
+                "operationId": "c75a370123a31c1644f9269d5f242b77",
                 "responses": {
                     "200": {
                         "description": "Sesión cerrada"
                     },
+                    "401": {
+                        "description": "No autorizado, el usuario no está autenticado"
+                    },
                     "404": {
                         "description": "Usuario no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
-        "/api/create_user": {
+        "/create_user": {
             "post": {
                 "tags": [
                     "User Management"
                 ],
                 "summary": "Crear usuario",
-                "operationId": "19ae2a6770766408b33803b6ecb1d5e4",
+                "operationId": "d676f731a4ff54b59ad5a9b3577a6a2e",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -139,6 +155,16 @@
                         "description": "Error de validación"
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Ingrese el token",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     },
