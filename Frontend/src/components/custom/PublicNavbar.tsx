@@ -1,5 +1,5 @@
 import { Menu, Search, ShoppingCart } from "lucide-react";
-import { Link, useLocation } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import SocialMediaNavbar from "./SocialMediaNavbar";
 export default function PublicNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const location = useLocation(); 
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,9 +27,7 @@ export default function PublicNavbar() {
       {!isAuthRoute && <SocialMediaNavbar />}
 
       <header
-        className={`sticky top-0 z-50 w-full max-w-screen-2xl mx-auto lg:px-[120px] ${
-          isScrolled ? "backdrop-blur supports-[backdrop-filter]" : ""
-        }`}
+        className={`sticky top-0 z-50 w-full max-w-screen-2xl mx-auto lg:px-[120px] ${isScrolled ? "backdrop-blur supports-[backdrop-filter]" : ""}`}
       >
         <div className="container flex h-16 items-center justify-between p-4">
           <LogoSmall />

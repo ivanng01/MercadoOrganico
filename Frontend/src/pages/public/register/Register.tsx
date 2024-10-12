@@ -15,7 +15,7 @@ export default function Register() {
     <div className="flex items-center justify-center min-h-screen">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <LogoBig className="mx-auto py-4"/>
+          <LogoBig className="mx-auto py-4" />
           <h2 className="text-2xl font-semibold text-center">¡Únete ahora!</h2>
         </CardHeader>
         <CardContent>

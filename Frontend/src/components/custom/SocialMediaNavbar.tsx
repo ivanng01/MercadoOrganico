@@ -1,6 +1,6 @@
 import { Facebook, Instagram, Twitter, User } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Separator } from "@/components/ui/separator"; 
+import { Separator } from "@/components/ui/separator";
 
 export default function SocialMediaNavbar() {
   return (
