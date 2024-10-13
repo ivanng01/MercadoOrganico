@@ -12,15 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 /**
-* @OA\Info(
-*             title="Controlador de Acceso de usuario", 
-*             version="1.0",
-*             description="Crear usuario, cerrar e iniciar sesion."
-* )
-*
-* @OA\Server(url="http://localhost")
-*/
-
+ * Controlador de Acceso de usuario
+ * @OA\Server(url="http://localhost")
+ */
 
 
 
@@ -29,14 +23,24 @@ class LoginController extends Controller
     /**
      * @OA\Post(
      *     path="/api/login_user",
-     *     tags={"Authentication"},
+     *     tags={"Autenticación"},
      *     summary="Iniciar sesión",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"username","password"},
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="password", type="string")
+     *             required={"identifier", "password"},
+     *             @OA\Property(property="identifier", type="string", description="Nombre de usuario o email"),
+     *             @OA\Property(property="password", type="string"),
+     *             example={
+     *                 "example1": {
+     *                     "identifier": "example@example.com",
+     *                     "password": "password"
+     *                 },
+     *                 "example2": {
+     *                     "identifier": "johndoe",
+     *                     "password": "password"
+     *                 }
+     *             }
      *         )
      *     ),
      *     @OA\Response(response=200, description="Login satisfactorio"),
@@ -44,72 +48,85 @@ class LoginController extends Controller
      *     @OA\Response(response=422, description="Error de validación")
      * )
      */
-    public function login_session(Request $request){
-        $credentials = $request->only('username', 'password');
+
+
+
+
+
+
+    public function login_session(Request $request) {
+        // Obtener credenciales del request
+        $credentials = $request->only('identifier', 'password'); // Cambiamos 'username' a 'identifier'
         $validator = Validator::make($credentials, [
-            'username' => 'required',
+            'identifier' => 'required', // Validamos 'identifier'
             'password' => 'required',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
         }
-
-        if (Auth::attempt($credentials)) {
-            $user = $request->user();
-            if(!is_null($user->tokens())){
+    
+        // Intentar obtener el usuario por nombre de usuario o email
+        $user = User::where('username', $request->identifier)
+                    ->orWhere('email', $request->identifier)
+                    ->first();
+    
+        if ($user && Auth::attempt(['username' => $user->username, 'password' => $credentials['password']])) {
+            // El resto del código para generar el token y actualizar la sesión
+            if (!is_null($user->tokens())) {
                 $user->tokens()->delete();
             }
             
-            $tokenResult = $user->createToken('Personal Access Token: '.$user->username);
+            $tokenResult = $user->createToken('Personal Access Token: ' . $user->username);
             $token = $tokenResult->plainTextToken;
-
+    
             $update_session = User::find($user->id);
             $update_session->session = 1;
             $update_session->update();
-
+    
             return response()->json([
                 'response' => [
-                    "user" => User::find($user->id),
+                    "user" => $user,
                     "token" => $token
                 ],
                 'success' => 'Login satisfactorio'
             ], 200);
-
-        }else{
-            $login_user = User::where("username", $request->username)->get();
-            if (!empty($login_user)) {
-                $faileds_login = Failed_login::getFailedLogins($login_user[0]["id"]);
+    
+        } else {
+            // Manejo de intentos fallidos
+            if ($user) {
+                $faileds_login = Failed_login::getFailedLogins($user->id);
                 if (count($faileds_login) == 3) {         
-                    Notification_user::createTrack($login_user[0]["id"], 1);
-
-                    $update_session = User::find($login_user[0]["id"]);
+                    Notification_user::createTrack($user->id, 1);
+    
+                    $update_session = User::find($user->id);
                     $update_session->status = 0;
                     $update_session->update();
-
+    
                     return response()->json([
-                        'errors' => 'Maximo de intentos alcanzados, se bloqueo el usuario'
+                        'errors' => 'Máximo de intentos alcanzados, se bloqueó el usuario'
                     ], 400);
-                }else{
+                } else {
                     $create_fail_login = new Failed_login();
-                    $create_fail_login->user_id = $login_user[0]["id"];
+                    $create_fail_login->user_id = $user->id;
                     $create_fail_login->save();
                 }
             }
-
+    
             return response()->json([
                 'errors' => 'Los datos ingresados son incorrectos'
             ], 400);
         }
     }
+    
 
 
-     /**
+    /**
      * @OA\Post(
      *     path="/api/log_out",
-     *     tags={"Authentication"},
+     *     tags={"Autenticación"},
      *     summary="Cerrar sesión",
      *     @OA\Response(response=200, description="Sesión cerrada"),
      *     @OA\Response(response=404, description="Usuario no encontrado")
@@ -141,31 +158,38 @@ class LoginController extends Controller
     }
 
 
-    /**
-     * @OA\Post(
-     *     path="/api/create_user",
-     *     tags={"User Management"},
-     *     summary="Crear usuario",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"email","username","name","lastname","password","type_user","phone_number","gender","birth_date"},
-     *             @OA\Property(property="email", type="string"),
-     *             @OA\Property(property="username", type="string"),
-     *             @OA\Property(property="name", type="string"),
-     *             @OA\Property(property="lastname", type="string"),
-     *             @OA\Property(property="password", type="string"),
-     *             @OA\Property(property="type_user", type="integer"),
-     *             @OA\Property(property="phone_number", type="string"),
-     *             @OA\Property(property="gender", type="string"),
-     *             @OA\Property(property="birth_date", type="string", format="date"),
-     *             @OA\Property(property="picture", type="string")
-     *         )
-     *     ),
-     *     @OA\Response(response=201, description="Usuario creado"),
-     *     @OA\Response(response=422, description="Error de validación")
-     * )
-     */
+/**
+ * @OA\Post(
+ *     path="/api/create_user",
+ *     tags={"Registrar Usuario"},
+ *     summary="Crear usuario",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"email", "username", "name", "lastname", "password", "type_user", "phone_number", "gender", "birth_date"},
+ *             @OA\Property(property="email", type="string"),
+ *             @OA\Property(property="username", type="string"),
+ *             @OA\Property(property="name", type="string"),
+ *             @OA\Property(property="lastname", type="string"),
+ *             @OA\Property(property="password", type="string"),
+ *             @OA\Property(property="type_user", type="integer"),
+ *             @OA\Property(
+ *                 property="phone_number", 
+ *                 type="string", 
+ *                 description="Número de teléfono en formato internacional (ej: +541234567)",
+ *                 example="+541234567"
+ *             ),
+ *             @OA\Property(property="gender", type="string"),
+ *             @OA\Property(property="birth_date", type="string", format="date"),
+ *             @OA\Property(property="picture", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(response=201, description="Usuario creado"),
+ *     @OA\Response(response=422, description="Error de validación")
+ * )
+ */
+
+
     public function create_user(Request $request) {
         
         $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number', 'gender', 'birth_date', 'picture');
