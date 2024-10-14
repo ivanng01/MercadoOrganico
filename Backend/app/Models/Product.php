@@ -19,4 +19,29 @@ class Product extends Model
         'stock',
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function purchaseHistories()
+    {
+        return $this->hasMany(PurchaseHistory::class);
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
+    }
+
 }

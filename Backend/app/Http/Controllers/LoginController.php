@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUser;
 use App\Models\Failed_login;
 use App\Models\User;
-use App\Models\Notification_user;
+use App\Models\NotificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +83,7 @@ class LoginController extends Controller
             if ($user) {
                 $faileds_login = Failed_login::getFailedLogins($user->id);
                 if (count($faileds_login) == 3) {         
-                    Notification_user::createTrack($user->id, 1);
+                    NotificationUser::createTrack($user->id, 1);
     
                     $update_session = User::find($user->id);
                     $update_session->status = 0;
@@ -166,7 +166,7 @@ class LoginController extends Controller
      */
     public function create_user(Request $request) {
         
-        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number', 'gender', 'birth_date', 'picture');
+        $credentials = $request->only('email', 'username', 'firstname', 'lastname', 'password', 'type_user', 'phone_number', 'gender', 'birth_date', 'picture');
         $validator = Validator::make($credentials, [
             'email' => [
                 'required',
@@ -176,7 +176,7 @@ class LoginController extends Controller
                 'max:64'
             ],
             'username' => 'required|string|alpha_dash|unique:users,username|min:3|max:15',
-            'name' => 'required|string|min:2|max:50',
+            'firstname' => 'required|string|min:2|max:50',
             'lastname' => 'required|string|min:2|max:50',
             'password' => 'required|string|min:8|max:30',
             'type_user' => 'required|integer|in:1,2',
