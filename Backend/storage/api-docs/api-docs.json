@@ -19,7 +19,7 @@
         "/login_user": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Autenticación"
                 ],
                 "summary": "Iniciar sesión",
                 "operationId": "372021241e2412af4ec72b892a6ccecf",
@@ -29,20 +29,29 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "username",
+                                    "identifier",
                                     "password"
                                 ],
                                 "properties": {
-                                    "username": {
-                                        "type": "string",
-                                        "example": "producer_user"
+                                    "identifier": {
+                                        "description": "Nombre de usuario o email",
+                                        "type": "string"
                                     },
                                     "password": {
-                                        "type": "string",
-                                        "example": "StrongTrainerPassword123"
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
+                            },
+                            "example": {
+                                "example1": {
+                                    "identifier": "example@example.com",
+                                    "password": "password"
+                                },
+                                "example2": {
+                                    "identifier": "johndoe",
+                                    "password": "password"
+                                }
                             }
                         }
                     }
@@ -63,27 +72,18 @@
         "/log_out": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Autenticación"
                 ],
                 "summary": "Cerrar sesión",
-                "description": "Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
                 "operationId": "c75a370123a31c1644f9269d5f242b77",
                 "responses": {
                     "200": {
                         "description": "Sesión cerrada"
                     },
-                    "401": {
-                        "description": "No autorizado, el usuario no está autenticado"
-                    },
                     "404": {
                         "description": "Usuario no encontrado"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/create_user": {
@@ -156,6 +156,218 @@
                     }
                 }
             }
+        },
+        "/api/create_product": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Crear producto",
+                "operationId": "9e98d38594e839b5fd543c3db2a5beda",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "price",
+                                    "category_id",
+                                    "status",
+                                    "stock",
+                                    "is_featured"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre del producto",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción del producto",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Precio del producto",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "description": "ID de la categoría",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "Estado del producto",
+                                        "type": "string"
+                                    },
+                                    "stock": {
+                                        "description": "Cantidad en stock",
+                                        "type": "integer"
+                                    },
+                                    "is_featured": {
+                                        "description": "¿Es un producto destacado?",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "example": {
+                                "name": "Producto Ejemplo",
+                                "description": "Descripción del producto ejemplo.",
+                                "price": 99.99,
+                                "category_id": 1,
+                                "status": "disponible",
+                                "stock": 100,
+                                "is_featured": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente"
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/delete_product/{id}": {
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar producto",
+                "operationId": "7944646b68c708bd5659a3182b034295",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "ID del producto a eliminar",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "400": {
+                        "description": "Error en la solicitud"
+                    }
+                }
+            }
+        },
+        "/api/update_product/{id}": {
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar producto, posdata poner también _method put en POSTMAN",
+                "operationId": "b8f756fbaec19d2e042d5b379d5e12d7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "ID del producto a actualizar",
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "_method",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "description": "Método para la actualización, debe ser 'PUT'",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "price",
+                                    "category_id",
+                                    "status",
+                                    "stock",
+                                    "is_featured"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre del producto",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción del producto",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Precio del producto",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "description": "ID de la categoría",
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "description": "Estado del producto",
+                                        "type": "string"
+                                    },
+                                    "stock": {
+                                        "description": "Cantidad en stock",
+                                        "type": "integer"
+                                    },
+                                    "is_featured": {
+                                        "description": "¿Es un producto destacado?",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "example": {
+                                "name": "Producto Actualizado",
+                                "description": "Descripción actualizada del producto.",
+                                "price": 79.99,
+                                "category_id": 2,
+                                "status": "available",
+                                "stock": 50,
+                                "is_featured": false
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -170,12 +382,16 @@
     },
     "tags": [
         {
-            "name": "Authentication",
-            "description": "Authentication"
+            "name": "Autenticación",
+            "description": "Autenticación"
         },
         {
             "name": "User Management",
             "description": "User Management"
+        },
+        {
+            "name": "Products",
+            "description": "Products"
         }
     ]
 }

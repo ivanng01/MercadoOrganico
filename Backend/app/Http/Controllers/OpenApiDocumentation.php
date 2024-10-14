@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
 /**
@@ -29,6 +28,4 @@ use OpenApi\Annotations as OA;
  *     description="Ingrese el token"
  * )
  */
-class ApiController extends Controller
-{
-}
+class OpenApiDocumentation {}

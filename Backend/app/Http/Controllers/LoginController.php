@@ -13,113 +13,118 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-/**
- * @OA\Post(
- *     path="/login_user",
- *     tags={"Authentication"},
- *     summary="Iniciar sesión",
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"username", "password"},
- *             @OA\Property(property="username", type="string", example="producer_user"),
- *             @OA\Property(property="password", type="string", example="StrongTrainerPassword123")
- *         )
- *     ),
- *     @OA\Response(response=200, description="Login satisfactorio"),
- *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
- *     @OA\Response(response=422, description="Error de validación")
- * )
- */
+    /**
+     * @OA\Post(
+     *     path="/login_user",
+     *     tags={"Autenticación"},
+     *     summary="Iniciar sesión",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"identifier", "password"},
+     *             @OA\Property(property="identifier", type="string", description="Nombre de usuario o email"),
+     *             @OA\Property(property="password", type="string"),
+     *             example={
+     *                 "example1": {
+     *                     "identifier": "example@example.com",
+     *                     "password": "password"
+     *                 },
+     *                 "example2": {
+     *                     "identifier": "johndoe",
+     *                     "password": "password"
+     *                 }
+     *             }
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Login satisfactorio"),
+     *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
+     *     @OA\Response(response=422, description="Error de validación")
+     * )
+     */
 
-    public function login_session(Request $request){
-        $credentials = $request->only('username', 'password');
+    public function login_session(Request $request) {
+        $credentials = $request->only('identifier', 'password'); 
         $validator = Validator::make($credentials, [
-            'username' => 'required',
+            'identifier' => 'required', 
             'password' => 'required',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
             ], 422);
         }
-
-        if (Auth::attempt($credentials)) {
-            $user = $request->user();
-            if(!is_null($user->tokens())){
+    
+        $user = User::where('username', $request->identifier)
+                    ->orWhere('email', $request->identifier)
+                    ->first();
+    
+        if ($user && Auth::attempt(['username' => $user->username, 'password' => $credentials['password']])) {
+            if (!is_null($user->tokens())) {
                 $user->tokens()->delete();
             }
             
-            $tokenResult = $user->createToken('Personal Access Token: '.$user->username);
+            $tokenResult = $user->createToken('Personal Access Token: ' . $user->username);
             $token = $tokenResult->plainTextToken;
-
+    
             $update_session = User::find($user->id);
             $update_session->session = 1;
             $update_session->update();
-
+    
             return response()->json([
                 'response' => [
-                    "user" => User::find($user->id),
+                    "user" => $user,
                     "token" => $token
                 ],
                 'success' => 'Login satisfactorio'
             ], 200);
-
-        }else{
-            $login_user = User::where("username", $request->username)->get();
-            if (!empty($login_user)) {
-                $faileds_login = Failed_login::getFailedLogins($login_user[0]["id"]);
+    
+        } else {
+            if ($user) {
+                $faileds_login = Failed_login::getFailedLogins($user->id);
                 if (count($faileds_login) == 3) {         
-                    Notification_user::createTrack($login_user[0]["id"], 1);
-
-                    $update_session = User::find($login_user[0]["id"]);
+                    Notification_user::createTrack($user->id, 1);
+    
+                    $update_session = User::find($user->id);
                     $update_session->status = 0;
                     $update_session->update();
-
+    
                     return response()->json([
-                        'errors' => 'Maximo de intentos alcanzados, se bloqueo el usuario'
+                        'errors' => 'Máximo de intentos alcanzados, se bloqueó el usuario'
                     ], 400);
-                }else{
+                } else {
                     $create_fail_login = new Failed_login();
-                    $create_fail_login->user_id = $login_user[0]["id"];
+                    $create_fail_login->user_id = $user->id;
                     $create_fail_login->save();
                 }
             }
-
+    
             return response()->json([
                 'errors' => 'Los datos ingresados son incorrectos'
             ], 400);
         }
     }
+    
 
 
-/**
- * @OA\Post(
- *     path="/log_out",
- *     tags={"Authentication"},
- *     summary="Cerrar sesión",
- *     description="Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
- *     security={{"bearerAuth": {}}},
- *     @OA\Response(response=200, description="Sesión cerrada"),
- *     @OA\Response(response=401, description="No autorizado, el usuario no está autenticado"),
- *     @OA\Response(response=404, description="Usuario no encontrado")
- * )
- */
-    // Metodo cerrar sesion
+    /**
+     * @OA\Post(
+     *     path="/log_out",
+     *     tags={"Autenticación"},
+     *     summary="Cerrar sesión",
+     *     @OA\Response(response=200, description="Sesión cerrada"),
+     *     @OA\Response(response=404, description="Usuario no encontrado")
+     * )
+     */
     public function logout_user(Request $request)
     {
-        // Obtén el usuario autenticado directamente
         $user = $request->user();
     
-        // Verifica que el usuario exista
         if ($user) {
-            // Elimina todos los tokens del usuario
             $user->tokens()->delete();
     
-            // Actualiza la sesión del usuario
             $user->session = 0;
-            $user->save(); // O usa update()
+            $user->save(); 
     
             return response()->json([
                 'success' => 'Sesión cerrada',
@@ -184,29 +189,27 @@ class LoginController extends Controller
 
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 422);
-        }
-        
-        $user = User::create([
-            'username' => $request->input('username'),
-            'name' => $request->input('name'),
-            'lastname' => $request->input('lastname'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'phone_number' => $request->input('phone_number'),
-            'type_user' => $request->input('type_user'),
-            'gender' => $request->input('gender'),
-            'birth_date' => $request->input('birth_date'),
-            'picture' => $request->input('picture'),
-            'status' => 1,
-            'session' => 1,
-        ]);
-        
-        $dataUser = User::find($user->id);
-        return response()->json(['message' => 'Usuario creado', 'user' => $dataUser], 201);
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
     }
+
+    $user = User::create([
+        'username' => $request->input('username'),
+        'firstname' => $request->input('firstname'), 
+        'lastname' => $request->input('lastname'),
+        'email' => $request->input('email'),
+        'password' => Hash::make($request->input('password')),
+        'phone_number' => null,
+        'type_user' => 1, 
+        'gender' => null, 
+        'birth_date' => null,
+        'picture' => null,
+        'status' => 1, 
+        'session' => 1, 
+    ]);
+
+    $dataUser = User::find($user->id);
+    return response()->json(['message' => 'Usuario creado', 'user' => $dataUser], 201);
+}
 
 }
