@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUser;
 use App\Models\Failed_login;
 use App\Models\User;
-use App\Models\Notification_user;
+use App\Models\NotificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
