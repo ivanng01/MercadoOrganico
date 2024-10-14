@@ -66,7 +66,7 @@ class ProductController extends Controller
      * )
      */
 
-    public function list_products(Request $request)
+    public function index(Request $request)
     {
         $category_id = $request->query('category_id');
         $status = $request->query('status');
@@ -124,7 +124,7 @@ class ProductController extends Controller
      *     @OA\Response(response=422, description="Error de validación")
      * )
      */
-    public function create_product(Request $request) {
+    public function create(Request $request) {
         $this->validateProduct($request);
 
         $product = Product::create([
@@ -181,7 +181,7 @@ class ProductController extends Controller
      * )
      */  
 
-     public function update_product(Request $request, $id) {
+     public function update(Request $request, $id) {
         $this->validateProduct($request);
     
         $product = Product::find($id);
@@ -213,7 +213,7 @@ class ProductController extends Controller
      *     @OA\Response(response=400, description="Error en la solicitud")
      * )
      */
-    public function delete_product($id) {
+    public function delete($id) {
         $product = Product::find($id);
 
         if ($product) {

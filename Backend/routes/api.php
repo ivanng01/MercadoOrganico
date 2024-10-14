@@ -41,10 +41,10 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::prefix('products')->group(function () {
         Route::controller(ProductController::class)->group(function () {
-            Route::get('/', 'listProducts');  
-            Route::post('/', 'createProduct'); 
-            Route::put('/{id}', 'updateProduct');  
-            Route::delete('/{id}', 'deleteProduct'); 
+            Route::get('/', 'index');  
+            Route::post('/', 'create'); 
+            Route::put('/{id}', 'update');  
+            Route::delete('/{id}', 'delete'); 
         });
     });
 });
