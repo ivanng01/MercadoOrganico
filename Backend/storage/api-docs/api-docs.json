@@ -19,7 +19,7 @@
         "/login_user": {
             "post": {
                 "tags": [
-                    "Autenticación"
+                    "Authentication"
                 ],
                 "summary": "Iniciar sesión",
                 "operationId": "372021241e2412af4ec72b892a6ccecf",
@@ -72,18 +72,27 @@
         "/log_out": {
             "post": {
                 "tags": [
-                    "Autenticación"
+                    "Authentication"
                 ],
                 "summary": "Cerrar sesión",
+                "description": "Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
                 "operationId": "c75a370123a31c1644f9269d5f242b77",
                 "responses": {
                     "200": {
                         "description": "Sesión cerrada"
                     },
+                    "401": {
+                        "description": "No autorizado, el usuario no está autenticado"
+                    },
                     "404": {
                         "description": "Usuario no encontrado"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/create_user": {
@@ -157,13 +166,13 @@
                 }
             }
         },
-        "/api/create_product": {
+        "/create_product": {
             "post": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Crear producto",
-                "operationId": "9e98d38594e839b5fd543c3db2a5beda",
+                "operationId": "3c18b7da48bee76b1e0e172161332c13",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -236,13 +245,13 @@
                 }
             }
         },
-        "/api/delete_product/{id}": {
+        "/delete_product/{id}": {
             "delete": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Eliminar producto",
-                "operationId": "7944646b68c708bd5659a3182b034295",
+                "operationId": "d599aeae3160bc5dfc2779311718149d",
                 "parameters": [
                     {
                         "name": "id",
@@ -267,13 +276,13 @@
                 }
             }
         },
-        "/api/update_product/{id}": {
+        "/update_product/{id}": {
             "post": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Actualizar producto, posdata poner también _method put en POSTMAN",
-                "operationId": "b8f756fbaec19d2e042d5b379d5e12d7",
+                "operationId": "46b305813301b64e6385cbbb255d3add",
                 "parameters": [
                     {
                         "name": "id",
@@ -382,8 +391,8 @@
     },
     "tags": [
         {
-            "name": "Autenticación",
-            "description": "Autenticación"
+            "name": "Authentication",
+            "description": "Authentication"
         },
         {
             "name": "User Management",

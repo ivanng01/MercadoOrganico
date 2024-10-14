@@ -16,7 +16,7 @@ class LoginController extends Controller
     /**
      * @OA\Post(
      *     path="/login_user",
-     *     tags={"Autenticación"},
+     *     tags={"Authentication"},
      *     summary="Iniciar sesión",
      *     @OA\RequestBody(
      *         required=true,
@@ -104,18 +104,20 @@ class LoginController extends Controller
             ], 400);
         }
     }
-    
-
 
     /**
-     * @OA\Post(
-     *     path="/log_out",
-     *     tags={"Autenticación"},
-     *     summary="Cerrar sesión",
-     *     @OA\Response(response=200, description="Sesión cerrada"),
-     *     @OA\Response(response=404, description="Usuario no encontrado")
-     * )
-     */
+    * @OA\Post(
+    *     path="/log_out",
+    *     tags={"Authentication"},
+    *     summary="Cerrar sesión",
+    *     description="Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
+    *     security={{"bearerAuth": {}}},
+    *     @OA\Response(response=200, description="Sesión cerrada"),
+    *     @OA\Response(response=401, description="No autorizado, el usuario no está autenticado"),
+    *     @OA\Response(response=404, description="Usuario no encontrado")
+    * )
+    */
+
     public function logout_user(Request $request)
     {
         $user = $request->user();

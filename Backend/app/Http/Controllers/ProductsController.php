@@ -5,14 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
-/**
- * Controlador de productos.
- */
 class ProductsController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/create_product",
+     *     path="/create_product",
      *     tags={"Products"},
      *     summary="Crear producto",
      *     @OA\RequestBody(
@@ -60,7 +57,7 @@ class ProductsController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/delete_product/{id}",
+     *     path="/delete_product/{id}",
      *     tags={"Products"},
      *     summary="Eliminar producto",
      *     @OA\Parameter(
@@ -87,7 +84,7 @@ class ProductsController extends Controller
 
   /**
  * @OA\Post(
- *     path="/api/update_product/{id}",
+ *     path="/update_product/{id}",
  *     tags={"Products"},
  *     summary="Actualizar producto, posdata poner también _method put en POSTMAN",
  *     @OA\Parameter(
