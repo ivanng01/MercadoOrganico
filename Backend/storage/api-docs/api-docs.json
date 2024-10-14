@@ -16,13 +16,68 @@
         }
     ],
     "paths": {
-        "/login_user": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Registra un usuario cliente",
+                "operationId": "2d21e359fe383ed65e6eade8f537bb58",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "username",
+                                    "firstname",
+                                    "lastname",
+                                    "password",
+                                    "type_user",
+                                    "phone_number",
+                                    "gender",
+                                    "birth_date"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "firstname": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Iniciar sesión",
-                "operationId": "372021241e2412af4ec72b892a6ccecf",
+                "operationId": "a18fa152592f54ccf7546ec09758a011",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -69,14 +124,14 @@
                 }
             }
         },
-        "/log_out": {
+        "/auth/logout": {
             "post": {
                 "tags": [
                     "Authentication"
                 ],
                 "summary": "Cerrar sesión",
                 "description": "Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
-                "operationId": "c75a370123a31c1644f9269d5f242b77",
+                "operationId": "ac817d384aac3f7824a06cb3e840b18d",
                 "responses": {
                     "200": {
                         "description": "Sesión cerrada"
@@ -95,84 +150,123 @@
                 ]
             }
         },
-        "/create_user": {
-            "post": {
+        "/products": {
+            "get": {
                 "tags": [
-                    "User Management"
+                    "Products"
                 ],
-                "summary": "Crear usuario",
-                "operationId": "d676f731a4ff54b59ad5a9b3577a6a2e",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "username",
-                                    "name",
-                                    "lastname",
-                                    "password",
-                                    "type_user",
-                                    "phone_number",
-                                    "gender",
-                                    "birth_date"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "username": {
-                                        "type": "string"
-                                    },
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "lastname": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "type_user": {
-                                        "type": "integer"
-                                    },
-                                    "phone_number": {
-                                        "type": "string"
-                                    },
-                                    "gender": {
-                                        "type": "string"
-                                    },
-                                    "birth_date": {
-                                        "type": "string",
-                                        "format": "date"
-                                    },
-                                    "picture": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
+                "summary": "Obtener lista de productos con filtros opcionales",
+                "operationId": "587d0ee06062d7a6f45821aa7a92bf88",
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "ID de la categoría",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Estado del producto (available, unavailable, etc.)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "available",
+                            "enum": [
+                                "available",
+                                "unavailable",
+                                "out of stock",
+                                "discontinued"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página para paginación",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de productos por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
-                },
+                ],
                 "responses": {
-                    "201": {
-                        "description": "Usuario creado"
+                    "200": {
+                        "description": "Lista de productos obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID del producto",
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "description": "Nombre del producto",
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "description": "Descripción del producto",
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "description": "Precio del producto",
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "category_id": {
+                                                "description": "ID de la categoría",
+                                                "type": "integer"
+                                            },
+                                            "status": {
+                                                "description": "Estado del producto",
+                                                "type": "string"
+                                            },
+                                            "stock": {
+                                                "description": "Cantidad en stock",
+                                                "type": "integer"
+                                            },
+                                            "is_featured": {
+                                                "description": "¿Es un producto destacado?",
+                                                "type": "boolean"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
                     },
-                    "422": {
-                        "description": "Error de validación"
+                    "404": {
+                        "description": "No se encontraron productos"
                     }
-                }
-            }
-        },
-        "/create_product": {
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Crear producto",
-                "operationId": "3c18b7da48bee76b1e0e172161332c13",
+                "operationId": "04bc69298c3631ccb7ea8e490088a9a4",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -242,47 +336,21 @@
                     "422": {
                         "description": "Error de validación"
                     }
-                }
-            }
-        },
-        "/delete_product/{id}": {
-            "delete": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Eliminar producto",
-                "operationId": "d599aeae3160bc5dfc2779311718149d",
-                "parameters": [
+                },
+                "security": [
                     {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "description": "ID del producto a eliminar",
-                            "type": "integer"
-                        }
+                        "bearerAuth": []
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Producto eliminado exitosamente"
-                    },
-                    "404": {
-                        "description": "Producto no encontrado"
-                    },
-                    "400": {
-                        "description": "Error en la solicitud"
-                    }
-                }
+                ]
             }
         },
-        "/update_product/{id}": {
-            "post": {
+        "/products/{id}": {
+            "put": {
                 "tags": [
                     "Products"
                 ],
-                "summary": "Actualizar producto, posdata poner también _method put en POSTMAN",
-                "operationId": "46b305813301b64e6385cbbb255d3add",
+                "summary": "Actualizar producto",
+                "operationId": "d6a0d80f3a4decf670c402af393ad0c8",
                 "parameters": [
                     {
                         "name": "id",
@@ -291,15 +359,6 @@
                         "schema": {
                             "description": "ID del producto a actualizar",
                             "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "_method",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "description": "Método para la actualización, debe ser 'PUT'",
-                            "type": "string"
                         }
                     }
                 ],
@@ -375,7 +434,248 @@
                     "422": {
                         "description": "Error de validación"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar producto",
+                "operationId": "57e31733fafb0f256202463c46d38ff7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "ID del producto a eliminar",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "400": {
+                        "description": "Error en la solicitud"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener todos los usuarios",
+                "operationId": "7e2f5799553ec93c9c43e2a58490d447",
+                "responses": {
+                    "200": {
+                        "description": "Una lista de usuarios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "id": 1,
+                                            "username": "johndoe123",
+                                            "email": "johndoe@example.com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener un usuario por ID",
+                "operationId": "910a0c7cf580e1c605648d82a4e57f46",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Un objeto de usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "username": "johndoe123",
+                                    "email": "johndoe@example.com"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Eliminar un usuario",
+                "operationId": "43dd20becb1f47444e484cbb18ce345c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Usuario eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Actualizar parcialmente un usuario",
+                "description": "Permite la actualización parcial de un usuario especificando solo los campos que se desean modificar. Se pueden actualizar todos los campos, excepto email, username y password.",
+                "operationId": "6055962f27a3fb88a3445c27693dcf5f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            },
+                            "example": {
+                                "firstname": "Antonio",
+                                "lastname": "Banderas",
+                                "type_user": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado parcialmente exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "username": "antonio54",
+                                    "firstname": "Antonio",
+                                    "lastname": "Banderas",
+                                    "email": "antoniobanderas@gmail.com"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/profile": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener el perfil del usuario autenticado",
+                "operationId": "c478ac7528255232c445adcd37615e93",
+                "responses": {
+                    "200": {
+                        "description": "Perfil de usuario obtenido exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "username": "johndoe123",
+                                    "email": "johndoe@example.com"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -395,12 +695,12 @@
             "description": "Authentication"
         },
         {
-            "name": "User Management",
-            "description": "User Management"
-        },
-        {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }
