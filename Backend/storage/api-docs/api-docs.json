@@ -100,13 +100,9 @@
                                 "required": [
                                     "email",
                                     "username",
-                                    "name",
+                                    "firstname",
                                     "lastname",
-                                    "password",
-                                    "type_user",
-                                    "phone_number",
-                                    "gender",
-                                    "birth_date"
+                                    "password"
                                 ],
                                 "properties": {
                                     "email": {
@@ -115,31 +111,13 @@
                                     "username": {
                                         "type": "string"
                                     },
-                                    "name": {
+                                    "firstname": {
                                         "type": "string"
                                     },
                                     "lastname": {
                                         "type": "string"
                                     },
                                     "password": {
-                                        "type": "string"
-                                    },
-                                    "type_user": {
-                                        "type": "integer"
-                                    },
-                                    "phone_number": {
-                                        "description": "Número de teléfono en formato internacional (ej: +541234567)",
-                                        "type": "string",
-                                        "example": "+541234567"
-                                    },
-                                    "gender": {
-                                        "type": "string"
-                                    },
-                                    "birth_date": {
-                                        "type": "string",
-                                        "format": "date"
-                                    },
-                                    "picture": {
                                         "type": "string"
                                     }
                                 },

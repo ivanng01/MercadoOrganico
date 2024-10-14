@@ -166,22 +166,12 @@ class LoginController extends Controller
  *     @OA\RequestBody(
  *         required=true,
  *         @OA\JsonContent(
- *             required={"email", "username", "name", "lastname", "password", "type_user", "phone_number", "gender", "birth_date"},
+ *             required={"email", "username", "firstname", "lastname", "password"},
  *             @OA\Property(property="email", type="string"),
  *             @OA\Property(property="username", type="string"),
- *             @OA\Property(property="name", type="string"),
+ *             @OA\Property(property="firstname", type="string"),
  *             @OA\Property(property="lastname", type="string"),
- *             @OA\Property(property="password", type="string"),
- *             @OA\Property(property="type_user", type="integer"),
- *             @OA\Property(
- *                 property="phone_number", 
- *                 type="string", 
- *                 description="Número de teléfono en formato internacional (ej: +541234567)",
- *                 example="+541234567"
- *             ),
- *             @OA\Property(property="gender", type="string"),
- *             @OA\Property(property="birth_date", type="string", format="date"),
- *             @OA\Property(property="picture", type="string")
+ *             @OA\Property(property="password", type="string")
  *         )
  *     ),
  *     @OA\Response(response=201, description="Usuario creado"),
@@ -189,57 +179,47 @@ class LoginController extends Controller
  * )
  */
 
+ public function create_user(Request $request) {
+    // Solo se requieren los campos mencionados
+    $credentials = $request->only('email', 'username', 'firstname', 'lastname', 'password');
 
-    public function create_user(Request $request) {
-        
-        $credentials = $request->only('email', 'username', 'name', 'lastname', 'password', 'type_user', 'phone_number', 'gender', 'birth_date', 'picture');
-        $validator = Validator::make($credentials, [
-            'email' => [
-                'required',
-                'email',
-                'unique:users,email',
-                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
-                'max:64'
-            ],
-            'username' => 'required|string|alpha_dash|unique:users,username|min:3|max:15',
-            'name' => 'required|string|min:2|max:50',
-            'lastname' => 'required|string|min:2|max:50',
-            'password' => 'required|string|min:8|max:30',
-            'type_user' => 'required|integer|in:1,2',
-            'gender' => 'required|in:male,female,other',
-            'birth_date' => 'required|date',
-            'picture' => 'nullable|string|max:255',
-            'phone_number' => [
-                'required',
-                'string',
-                'regex:/^\+?[1-9]\d{7,19}$/',
-            ],
+    // Validación
+    $validator = Validator::make($credentials, [
+        'email' => [
+            'required',
+            'email',
+            'unique:users,email',
+            'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            'max:64'
+        ],
+        'username' => 'required|string|alpha_dash|unique:users,username|min:3|max:15',
+        'firstname' => 'required|string|min:2|max:50', // Cambiado de name a firstname
+        'lastname' => 'required|string|min:2|max:50',
+        'password' => 'required|string|min:8|max:30',
+    ]);
 
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 422);
-        }
-        
-        $user = User::create([
-            'username' => $request->input('username'),
-            'name' => $request->input('name'),
-            'lastname' => $request->input('lastname'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'phone_number' => $request->input('phone_number'),
-            'type_user' => $request->input('type_user'),
-            'gender' => $request->input('gender'),
-            'birth_date' => $request->input('birth_date'),
-            'picture' => $request->input('picture'),
-            'status' => 1,
-            'session' => 1,
-        ]);
-        
-        $dataUser = User::find($user->id);
-        return response()->json(['message' => 'Usuario creado', 'user' => $dataUser], 201);
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
     }
+
+    // Creación del usuario
+    $user = User::create([
+        'username' => $request->input('username'),
+        'firstname' => $request->input('firstname'), // Cambiado de name a firstname
+        'lastname' => $request->input('lastname'),
+        'email' => $request->input('email'),
+        'password' => Hash::make($request->input('password')),
+        'phone_number' => null,
+        'type_user' => 1, // Valor por defecto
+        'gender' => null, // Asignar null por defecto
+        'birth_date' => null,
+        'picture' => null,
+        'status' => 1, // Valor por defecto
+        'session' => 1, // Valor por defecto
+    ]);
+
+    $dataUser = User::find($user->id);
+    return response()->json(['message' => 'Usuario creado', 'user' => $dataUser], 201);
+}
 
 }
