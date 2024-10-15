@@ -30,3 +30,23 @@ export interface PriceRangeSliderProps {
   onChange: (value: number[]) => void;
   max?: number;
 }
+
+export interface RegisterData {
+  email: string;
+  username: string;
+  firstname: string;
+  lastname: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface CustomError {
+  errors?: {
+    email?: string;
+    username?: string;
+  };
+}
+export interface LoginData {
+  identifier: string;
+  password: string;
+}
