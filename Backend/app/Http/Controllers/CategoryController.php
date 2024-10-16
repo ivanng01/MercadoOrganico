@@ -20,6 +20,53 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/categories",
+     *     tags={"Categories"},
+     *     summary="Listar todas las categorías",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de categorías",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Category")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="No tienes permiso para ver las categorías"
+     *     )
+     * )
+     */
+    
+    public function index(Request $request)
+    {
+        $parent_id = $request->query('parent_id');
+        $name = $request->query('name');
+        $limit = $request->query('limit', 10); 
+        $page = $request->query('page', 1); 
+    
+        $query = Category::query();
+    
+        if ($parent_id) {
+            $query->where('parent_id', $parent_id);
+        }
+        if ($name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+    
+        $categories = $query->paginate($limit, ['*'], 'page', $page);
+    
+        if ($categories->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron categorías'], 404);
+        }
+    
+        return response()->json(['message' => 'Lista de categorías recuperada con éxito', 'categories' => $categories], 200);
+    }
+
     /**
      * @OA\Post(
      *     path="/categories",
@@ -150,5 +197,54 @@ class CategoryController extends Controller
         $category->update($request->only(['name', 'description', 'parent_id']));
 
         return response()->json(['message' => 'Categoría actualizada con éxito', 'category' => $category], 200);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/categories/{id}",
+     *     tags={"Categories"},
+     *     summary="Eliminar una categoría",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la categoría a eliminar",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Categoría eliminada con éxito",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="No tienes permiso para eliminar categorías"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Categoría no encontrada"
+     *     )
+     * )
+     */
+    public function delete(Request $request, $id)
+    {
+        $authenticatedUser = $request->user();
+
+        if ($authenticatedUser->type_user < 3) {
+            return response()->json(['message' => 'No tienes permiso para eliminar categorías.'], 403);
+        }
+
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json(['message' => 'Categoría no encontrada.'], 404);
+        }
+
+        $category->delete();
+
+        return response()->json(['message' => 'Categoría eliminada con éxito.'], 200);
     }
 }
