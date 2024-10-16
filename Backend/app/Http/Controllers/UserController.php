@@ -156,39 +156,53 @@ class UserController extends Controller
      *         response=204,
      *         description="Usuario eliminado exitosamente"
      *     ),
+     *     @OA\Response(response=403, description="No tienes permiso para eliminar el usuario"),
      *     @OA\Response(response=404, description="Usuario no encontrado")
      * )
      */
-    public function destroy(User $user)
+    public function destroy(Request $request, $id)
     {
-        return response()->json([
-            'message' => 'Funcionalidad de eliminación no implementada aún.'
-        ], 501); 
+        $authenticatedUser = $request->user();
+
+        if ($authenticatedUser->type_user < 3) {
+            return response()->json(['message' => 'No tienes permiso para eliminar el usuario.'], 403);
+        }
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado.'], 404);
+        }
+
+        $user->delete();
+
+        return response()->json(null, 204);
     }
 
-/**
- * @OA\Patch(
- *     path="/users/{id}/type",
- *     tags={"Users"},
- *     summary="Cambiar el tipo de usuario",
- *     @OA\Parameter(
- *         name="id",
- *         in="path",
- *         required=true,
- *         @OA\Schema(type="integer")
- *     ),
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             required={"type_user"},
- *             @OA\Property(property="type_user", type="integer", description="Nuevo tipo de usuario")
- *         )
- *     ),
- *     @OA\Response(response=200, description="Tipo de usuario actualizado"),
- *     @OA\Response(response=404, description="Usuario no encontrado"),
- *     @OA\Response(response=403, description="No tienes permiso para cambiar el tipo de usuario.")
- * )
- */
+
+    /** 
+     * @OA\Patch(
+     *     path="/users/{id}/type",
+     *     tags={"Users"},
+     *     summary="Cambiar el tipo de usuario",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"type_user"},
+     *             @OA\Property(property="type_user", type="integer", description="Nuevo tipo de usuario")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Tipo de usuario actualizado"),
+     *     @OA\Response(response=404, description="Usuario no encontrado"),
+     *     @OA\Response(response=403, description="No tienes permiso para cambiar el tipo de usuario.")
+     * )
+     */
 
     public function changeType(Request $request, $id)
     {
@@ -214,7 +228,4 @@ class UserController extends Controller
     
         return response()->json(['message' => 'Tipo de usuario actualizado', 'user' => $user], 200);
     }
-    
-    
-
 }

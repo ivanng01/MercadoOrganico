@@ -43,11 +43,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('categories')->middleware('auth:api')->group(function () {
+        Route::get('/', [CategoryController::class, 'index']);
         Route::post('/', [CategoryController::class, 'create']); 
         Route::patch('/{id}', [CategoryController::class, 'update']); 
+        Route::delete('/{id}', [CategoryController::class, 'delete']); 
     });
-    
-    
     
     Route::prefix('products')->middleware('auth:api')->group(function () {
         Route::controller(ProductController::class)->group(function () {
