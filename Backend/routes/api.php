@@ -5,6 +5,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,12 +36,20 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', 'index'); 
             Route::get('/profile', 'profile');
             Route::get('/{user}', 'show'); 
-            Route::patch('/{user}', 'update'); 
+            Route::patch('/{user}', 'update');
+            Route::patch('/{user}/type', 'changeType'); 
             Route::delete('/{user}', 'destroy');
         });
     });
+
+    Route::prefix('categories')->middleware('auth:api')->group(function () {
+        Route::post('/', [CategoryController::class, 'create']); 
+        Route::patch('/{id}', [CategoryController::class, 'update']); 
+    });
     
-    Route::prefix('products')->group(function () {
+    
+    
+    Route::prefix('products')->middleware('auth:api')->group(function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('/', 'index');  
             Route::post('/', 'create'); 

@@ -88,7 +88,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'No products found'], 404);
         }
     
-        return response()->json(['message' => ' Product list retrieved successfully', 'product' => $products], 200);
+        return response()->json(['message' => 'Product list retrieved successfully', 'product' => $products], 200);
     }
 
     /**
@@ -126,7 +126,15 @@ class ProductController extends Controller
      */
     public function create(Request $request) {
         $this->validateProduct($request);
-
+    
+   
+        $user = $request->user();
+    
+        if ($user->type_user != 2 && $user->type_user != 3) {
+            return response()->json(['error' => 'Error de validación'], 403);
+        }
+    
+      
         $product = Product::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -135,10 +143,12 @@ class ProductController extends Controller
             'status' => $request->input('status'),
             'stock' => $request->input('stock'),
             'is_featured' => $request->input('is_featured'),
+            'user_id' => $user->id, 
         ]);
-
-        return response()->json(['message' => 'Product created successfully', 'product' => $product], 201);
+    
+        return response()->json($product, 201);
     }
+    
 
     /**
      * @OA\Put(
@@ -183,18 +193,24 @@ class ProductController extends Controller
 
      public function update(Request $request, $id) {
         $this->validateProduct($request);
-    
+        
         $product = Product::find($id);
         
         if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+            return response()->json(['message' => 'Producto no encontrado'], 404);
         }
-
-        // Update only the allowed fields
-        $product->update($request->all());
     
-        return response()->json(['message' => 'Product updated successfully', 'product' => $product]);
+        $user = $request->user();
+        
+        if ($user->type_user != 3 && $product->user_id != $user->id) {
+            return response()->json(['error' => 'Error de validación'], 403);
+        }
+    
+        $product->update($request->all());
+        
+        return response()->json(['message' => 'Producto actualizado exitosamente', 'product' => $product]);
     }
+    
 
     /**
      * @OA\Delete(
@@ -215,14 +231,21 @@ class ProductController extends Controller
      */
     public function delete($id) {
         $product = Product::find($id);
-
-        if ($product) {
-            $product->delete();
-            return response()->json(['message' => 'Product deleted successfully.']);
+    
+        if (!$product) {
+            return response()->json(['message' => 'Producto no encontrado.'], 404);
         }
-
-        return response()->json(['message' => 'Product not found.'], 404);
+    
+        $user = request()->user();
+        
+        if ($user->type_user != 3 && $product->user_id != $user->id) {
+            return response()->json(['error' => 'Error de autorización'], 403);
+        }
+    
+        $product->delete();
+        return response()->json(['message' => 'Producto eliminado exitosamente.']);
     }
+    
 
     private function validateProduct(Request $request) {
         $request->validate([

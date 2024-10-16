@@ -131,7 +131,7 @@
                 ],
                 "summary": "Cerrar sesión",
                 "description": "Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
-                "operationId": "ac817d384aac3f7824a06cb3e840b18d",
+                "operationId": "13d1b10ae1f04943de6d1707e9be6f62",
                 "responses": {
                     "200": {
                         "description": "Sesión cerrada"
@@ -150,13 +150,194 @@
                 ]
             }
         },
+        "/categories": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Crear una nueva categoría",
+                "operationId": "acbe4469b0ac5de3c86d5c46c280e36a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre de la categoría",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción de la categoría",
+                                        "type": "string"
+                                    },
+                                    "parent_id": {
+                                        "description": "ID de la categoría padre (opcional)",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categoría creada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        },
+                                        "category": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para crear categorías"
+                    },
+                    "422": {
+                        "description": "Datos de entrada no válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "description": "Errores de validación",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/categories/{id}": {
+            "patch": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Actualizar una categoría existente",
+                "operationId": "fad7d7ab8a8e415f1d330c72f3dd6f4e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre de la categoría",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción de la categoría",
+                                        "type": "string"
+                                    },
+                                    "parent_id": {
+                                        "description": "ID de la categoría padre (opcional)",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Categoría actualizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        },
+                                        "category": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para actualizar categorías"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    },
+                    "422": {
+                        "description": "Datos de entrada no válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "description": "Errores de validación",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/products": {
             "get": {
                 "tags": [
                     "Products"
                 ],
                 "summary": "Obtener lista de productos con filtros opcionales",
-                "operationId": "587d0ee06062d7a6f45821aa7a92bf88",
+                "operationId": "c1ff6f862214e1896c59cfe0491ce0e8",
                 "parameters": [
                     {
                         "name": "category_id",
@@ -266,7 +447,7 @@
                     "Products"
                 ],
                 "summary": "Crear producto",
-                "operationId": "04bc69298c3631ccb7ea8e490088a9a4",
+                "operationId": "fc6b0c9d45a547228d52dd3ee292ddc4",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -350,7 +531,7 @@
                     "Products"
                 ],
                 "summary": "Actualizar producto",
-                "operationId": "d6a0d80f3a4decf670c402af393ad0c8",
+                "operationId": "1419d479f9340e30e67fe21a2ca525b7",
                 "parameters": [
                     {
                         "name": "id",
@@ -446,7 +627,7 @@
                     "Products"
                 ],
                 "summary": "Eliminar producto",
-                "operationId": "57e31733fafb0f256202463c46d38ff7",
+                "operationId": "6e239d36b1092f33c2e4c1f10ef36f3f",
                 "parameters": [
                     {
                         "name": "id",
@@ -677,9 +858,81 @@
                     }
                 ]
             }
+        },
+        "/users/{id}/type": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Cambiar el tipo de usuario",
+                "operationId": "e9544a19ed44c3725875a8c0aa4ef335",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "type_user"
+                                ],
+                                "properties": {
+                                    "type_user": {
+                                        "description": "Nuevo tipo de usuario",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tipo de usuario actualizado"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    },
+                    "403": {
+                        "description": "No tienes permiso para cambiar el tipo de usuario."
+                    }
+                }
+            }
         }
     },
     "components": {
+        "schemas": {
+            "Category": {
+                "properties": {
+                    "id": {
+                        "description": "ID de la categoría",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nombre de la categoría",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Descripción de la categoría",
+                        "type": "string"
+                    },
+                    "parent_id": {
+                        "description": "ID de la categoría padre (opcional)",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
@@ -693,6 +946,10 @@
         {
             "name": "Authentication",
             "description": "Authentication"
+        },
+        {
+            "name": "Categories",
+            "description": "Categories"
         },
         {
             "name": "Products",

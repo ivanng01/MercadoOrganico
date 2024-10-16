@@ -103,4 +103,10 @@ class User extends Authenticatable
         return $this->hasMany(Inventory::class);
     }
 
+        public function typeUser()
+    {
+        return $this->belongsTo(TypeUser::class, 'type_user');
+    }
+
+
 }
