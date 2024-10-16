@@ -20,6 +20,7 @@ return new class extends Migration
         $table->decimal('price', 8, 2);
         $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
         $table->enum('status', ['available', 'unavailable']);
+        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
         $table->boolean('is_featured')->default(false);
         $table->integer('stock');
         $table->timestamps();

@@ -71,7 +71,28 @@ class UserController extends Controller
      */
     public function profile(Request $request)
     {
-        return response()->json($request->user());
+        // Verificación de autenticación de usuario
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+    
+        $user = $request->user();
+    
+        // Selecciona solo los campos necesarios
+        $response = [
+            'username' => $user->username,
+            'firstname' => $user->firstname,
+            'lastname' => $user->lastname,
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
+            'gender' => $user->gender,
+            'birth_date' => $user->birth_date,
+            'type_user' => $user->type_user,
+            'status' => $user->status,
+            'picture' => $user->picture,
+        ];
+    
+        return response()->json($response);
     }
 
     /**
@@ -144,4 +165,56 @@ class UserController extends Controller
             'message' => 'Funcionalidad de eliminación no implementada aún.'
         ], 501); 
     }
+
+/**
+ * @OA\Patch(
+ *     path="/users/{id}/type",
+ *     tags={"Users"},
+ *     summary="Cambiar el tipo de usuario",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"type_user"},
+ *             @OA\Property(property="type_user", type="integer", description="Nuevo tipo de usuario")
+ *         )
+ *     ),
+ *     @OA\Response(response=200, description="Tipo de usuario actualizado"),
+ *     @OA\Response(response=404, description="Usuario no encontrado"),
+ *     @OA\Response(response=403, description="No tienes permiso para cambiar el tipo de usuario.")
+ * )
+ */
+
+    public function changeType(Request $request, $id)
+    {
+        $authenticatedUser = $request->user();
+        
+        // Verificar el tipo de usuario autenticado
+        if ($authenticatedUser->type_user !== 3) { 
+            return response()->json(['message' => 'No tienes permiso para cambiar el tipo de usuario.'], 403);
+        }
+    
+        $request->validate([
+            'type_user' => 'required|integer|exists:type_users,id',
+        ]);
+    
+        $user = User::findOrFail($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado.'], 404);
+        }
+    
+        $user->type_user = $request->type_user;
+        $user->save();
+    
+        return response()->json(['message' => 'Tipo de usuario actualizado', 'user' => $user], 200);
+    }
+    
+    
+
 }

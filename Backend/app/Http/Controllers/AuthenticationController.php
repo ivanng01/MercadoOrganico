@@ -177,7 +177,7 @@ class AuthenticationController extends Controller
      *     @OA\Response(response=404, description="Usuario no encontrado")
      * )
     */
-    public function logout(Request $request)
+    public function logoutUser(Request $request)
     {
         $user = $request->user();
     

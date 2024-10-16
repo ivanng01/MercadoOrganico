@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,16 +19,18 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('type_user');
+            $table->unsignedBigInteger('type_user'); // Cambiado a unsignedBigInteger
             $table->integer('status');
             $table->integer('session');
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->date('birth_date')->nullable();
             $table->string('phone_number', 20)->nullable();
-            //$table->foreignId('role_id')->nullable()->constrained('roles');
             $table->string('picture')->nullable();
             $table->timestamps();
             $table->rememberToken();
+
+            // Agregar la clave foránea
+            $table->foreign('type_user')->references('id')->on('type_users')->onDelete('cascade');
         });
     }
 
