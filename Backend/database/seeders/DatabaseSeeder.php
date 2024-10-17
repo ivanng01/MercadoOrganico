@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // Llama al UserSeeder para llenar la tabla de usuarios
         $this->call([
+            TypeUsersTableSeeder::class, 
             UserSeeder::class,
             CategorySeeder::class,
         ]);
