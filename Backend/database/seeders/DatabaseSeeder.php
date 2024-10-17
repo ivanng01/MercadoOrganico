@@ -13,11 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Llama al UserSeeder para llenar la tabla de usuarios
         $this->call([
             TypeUsersTableSeeder::class, 
             UserSeeder::class,
             CategorySeeder::class,
+            ProductSeeder::class,
+            OrderSeeder::class,
+            OrderItemSeeder::class,
+            ShoppingCartSeeder::class,
         ]);
     }
 }
