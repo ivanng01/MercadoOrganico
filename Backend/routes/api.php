@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\ShoppingCartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +57,16 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/{id}', 'delete'); 
         });
     });
+
+
+    Route::prefix('cart')->middleware('auth:api')->group(function () {
+        Route::controller(ShoppingCartController::class)->group(function () {
+        Route::post('/cart/add', [ShoppingCartController::class, 'addProduct']);
+        Route::get('/cart', [ShoppingCartController::class, 'viewCart']);
+        Route::post('/cart/update', [ShoppingCartController::class, 'updateProduct']);
+        Route::delete('/cart/remove', [ShoppingCartController::class, 'removeProduct']);
+        Route::post('/cart/checkout', [ShoppingCartController::class, 'checkout']);
+        });
+    });
+
 });

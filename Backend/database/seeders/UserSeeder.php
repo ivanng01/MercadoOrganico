@@ -32,5 +32,41 @@ class UserSeeder extends Seeder
 
             ]
         );
+
+         // Segundo usuario con type_user = 2
+         User::updateOrCreate(
+            ['email' => 'user2@example.com'],
+            [
+                'username' => 'janedoe',
+                'firstname' => 'Jane',
+                'lastname' => 'Doe',
+                'password' => bcrypt('password123'),
+                'phone_number' => '+544107851479',
+                'type_user' => 2,
+                'gender' => 'female',
+                'birth_date' => '1992-02-02',
+                'picture' => 'path/to/picture2.jpg',
+                'status' => 1,
+                'session' => 0,
+            ]
+        );
+
+        // Tercer usuario con type_user = 3
+        User::updateOrCreate(
+            ['email' => 'user3@example.com'],
+            [
+                'username' => 'liadone',
+                'firstname' => 'Lia',
+                'lastname' => 'Done',
+                'password' => bcrypt('securepassword'),
+                'phone_number' => '+544107851480',
+                'type_user' => 3,
+                'gender' => 'male',
+                'birth_date' => '1995-03-03',
+                'picture' => 'path/to/picture3.jpg',
+                'status' => 1,
+                'session' => 0,
+            ]
+        );
     }
 }

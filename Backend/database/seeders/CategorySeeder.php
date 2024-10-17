@@ -16,9 +16,16 @@ class CategorySeeder extends Seeder
     public function run()
     {
         Category::create([
-            'name' => 'Vegetales',
-            'description' => 'Categoria de vegetales',
-            'parent_id' => null,
+            'name' => 'Naturales',
+            'description' => 'Categoria de naturales',
+            'parent_id' => 1,
         ]);
+
+        Category::updateOrCreate([
+            'name' => 'Sinteticos',
+            'description' => 'Categoria de sinteticos',
+            'parent_id' => 2,
+        ]);
+
     }
 }
