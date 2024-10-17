@@ -143,7 +143,7 @@ class AuthenticationController extends Controller
             if ($user) {
                 $faileds_login = Failed_login::getFailedLogins($user->id);
                 if (count($faileds_login) == 3) {         
-                    Notification_user::createTrack($user->id, 1);
+                    NotificationUser::createTrack($user->id, 1);
     
                     $update_session = User::find($user->id);
                     $update_session->status = 0;

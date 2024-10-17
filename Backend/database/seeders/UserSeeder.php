@@ -18,9 +18,9 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'example@example.com'], // Cambia esto al correo que desees
             [
-                'name' => 'John', // Nombre
-                'lastname' => 'Doe', // Apellido
                 'username' => 'johndoe', // Nombre de usuario
+                'firstname' => 'John', // Nombre
+                'lastname' => 'Doe', // Apellido
                 'password' => bcrypt('password'), // Contraseña (encriptada)
                 'phone_number' => '+544107851478', // Número de teléfono
                 'type_user' => 1, // Tipo de usuario (ajusta según tu lógica)
