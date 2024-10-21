@@ -77,12 +77,7 @@ class ProductController extends Controller
      */
 
 
-     public function __construct()
-    {
-        $this->middleware('auth:sanctum', ['except' => ['index']]);
-    }
-
-     public function index(Request $request)
+    public function index(Request $request)
      {
          $category_id = $request->query('category_id');
          $status = $request->query('status');
@@ -184,7 +179,7 @@ class ProductController extends Controller
     
         // Verificar el tipo de usuario
         if ($user->type_user != 2 && $user->type_user != 3) {
-            return response()->json(['error' => 'Error de validación'], 403);
+            return response()->json(['error' => 'No tienes los permisos para esta acción'], 403);
         }
     
         // Crear la solicitud
