@@ -26,6 +26,10 @@ Route::controller(AuthenticationController::class)->group(function(){
     Route::post('/auth/login', 'loginSession');  
 });
 
+Route::controller(ProductController::class)->group(function(){
+    Route::get('/products', 'index'); 
+});
+
 // Rutas protegidas por autenticación
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -49,11 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{id}', [CategoryController::class, 'delete']); 
     });
     
-    Route::prefix('products')->group(function () {
-        // Ruta pública: ver productos
-        Route::get('/', [ProductController::class, 'index']);  
-    
-        // Rutas protegidas: requieren autenticación
+    Route::prefix('products')->group(function () {    
         Route::middleware('auth:api')->group(function () {
             Route::post('/', [ProductController::class, 'create']); 
             Route::put('/{id}', [ProductController::class, 'update']);  

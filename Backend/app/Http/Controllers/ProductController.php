@@ -32,7 +32,6 @@ class ProductController extends Controller
      *     path="/products",
      *     tags={"Products"},
      *     summary="Obtener lista de productos con filtros opcionales",
-     *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="category_id",
      *         in="query",
