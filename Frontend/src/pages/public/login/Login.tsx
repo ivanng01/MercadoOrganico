@@ -5,11 +5,11 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Checkbox } from "@/components/ui/checkbox";
-import LogoBig from "@/components/custom/logo-big";
 import { handleUpClick } from "@/lib/utils";
 import { z } from "zod";
 import { loginSchema } from "@/lib/validation";
 import { loginUser } from "@/api/services/authService";
+import LogoBrand from "@/components/custom/LogoBrand";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,10 +46,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen bg-foreground px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <LogoBig className="mx-auto py-4" />
+          <LogoBrand variant="big" className="mx-auto py-4"/>
           <h2 className="text-2xl font-semibold text-center">¡Nos alegra verte de nuevo!</h2>
         </CardHeader>
         <CardContent>
@@ -65,7 +65,7 @@ export default function Login() {
                   type="text"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className={`transition duration-200 ${identifierError ? "border-red-500" : identifier ? "border-primary" : "border-gray-300"}`}
+                  className={`transition duration-200 ${identifierError ? "border-red-500" : identifier ? "border-primary" : "border-input"}`}
                 />
                 {identifierError && <p className="text-red-500 text-sm">{identifierError}</p>}
               </div>
@@ -80,7 +80,7 @@ export default function Login() {
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className={`transition duration-200 ${passwordError ? "border-red-500" : password ? "border-primary" : "border-gray-300"}`}
+                    className={`transition duration-200 ${passwordError ? "border-red-500" : password ? "border-primary" : "border-input"}`}
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3">
                     {showPassword ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
@@ -99,7 +99,7 @@ export default function Login() {
                   Olvidaste tu contraseña?
                 </a>
               </div>
-              <Button className="w-full bg-primary hover:bg-primary" type="submit">
+              <Button className="w-full hover:bg-primary" type="submit">
                 Iniciar sesión
               </Button>
             </div>

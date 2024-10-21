@@ -6,7 +6,7 @@ export default function SocialMediaNavbar() {
   return (
     <>
       <nav className="p-4">
-        <div className="container mx-auto flex justify-between items-center max-w-screen-2xl lg:px-[120px]">
+        <div className="container mx-auto flex justify-between items-center max-w-screen-2xl lg:px-[120px] text-foreground">
           <div className="flex space-x-4">
             <a href="#" aria-label="Twitter">
               <Twitter className="h-5 w-5 hover:text-primary" />
@@ -23,7 +23,7 @@ export default function SocialMediaNavbar() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <User className="bg-primary h-auto w-6 text-white rounded-full m-auto p-1" />
+            <User className="bg-primary h-auto w-6 rounded-full m-auto p-1 text-white" />
             <Link to="/login" className="hover:text-primary">
               Acceso
             </Link>
