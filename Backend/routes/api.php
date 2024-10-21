@@ -49,15 +49,21 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{id}', [CategoryController::class, 'delete']); 
     });
     
-    Route::prefix('products')->middleware('auth:api')->group(function () {
-        Route::controller(ProductController::class)->group(function () {
-            Route::get('/', 'index');  
-            Route::post('/', 'create'); 
-            Route::put('/{id}', 'update');  
-            Route::delete('/{id}', 'delete'); 
+    Route::prefix('products')->group(function () {
+        // Ruta pública: ver productos
+        Route::get('/', [ProductController::class, 'index']);  
+    
+        // Rutas protegidas: requieren autenticación
+        Route::middleware('auth:api')->group(function () {
+            Route::post('/', [ProductController::class, 'create']); 
+            Route::put('/{id}', [ProductController::class, 'update']);  
+            Route::delete('/{id}', [ProductController::class, 'delete']); 
+            Route::get('/requests/waitlist', [ProductController::class, 'getProductsInWaitlist']); 
+            Route::put('/requests/waitlist/{id}/approve', [ProductController::class, 'approveRequest']); 
+            Route::put('/requests/waitlist/{id}/reject', [ProductController::class, 'rejectRequest']); 
         });
     });
-
+    
 
     Route::prefix('cart')->middleware('auth:api')->group(function () {
         Route::controller(ShoppingCartController::class)->group(function () {

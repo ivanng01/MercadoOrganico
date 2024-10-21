@@ -151,6 +151,36 @@
             }
         },
         "/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Listar todas las categorías",
+                "operationId": "ead5fb1cf2a7453acb2e37928a1b1eaf",
+                "responses": {
+                    "200": {
+                        "description": "Lista de categorías",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para ver las categorías"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "Categories"
@@ -236,6 +266,53 @@
             }
         },
         "/categories/{id}": {
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Eliminar una categoría",
+                "operationId": "d3025043e9f048647bda098aece0f84b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría eliminada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para eliminar categorías"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "patch": {
                 "tags": [
                     "Categories"
@@ -337,7 +414,7 @@
                     "Products"
                 ],
                 "summary": "Obtener lista de productos con filtros opcionales",
-                "operationId": "c1ff6f862214e1896c59cfe0491ce0e8",
+                "operationId": "daa41ee2ff942906ce7781631bafb816",
                 "parameters": [
                     {
                         "name": "category_id",
@@ -391,42 +468,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "id": {
-                                                "description": "ID del producto",
-                                                "type": "integer"
-                                            },
-                                            "name": {
-                                                "description": "Nombre del producto",
-                                                "type": "string"
-                                            },
-                                            "description": {
-                                                "description": "Descripción del producto",
-                                                "type": "string"
-                                            },
-                                            "price": {
-                                                "description": "Precio del producto",
-                                                "type": "number",
-                                                "format": "float"
-                                            },
-                                            "category_id": {
-                                                "description": "ID de la categoría",
-                                                "type": "integer"
-                                            },
-                                            "status": {
-                                                "description": "Estado del producto",
-                                                "type": "string"
-                                            },
-                                            "stock": {
-                                                "description": "Cantidad en stock",
-                                                "type": "integer"
-                                            },
-                                            "is_featured": {
-                                                "description": "¿Es un producto destacado?",
-                                                "type": "boolean"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "$ref": "#/components/schemas/Product"
                                     }
                                 }
                             }
@@ -595,9 +637,7 @@
                                 "description": "Descripción actualizada del producto.",
                                 "price": 79.99,
                                 "category_id": 2,
-                                "status": "available",
-                                "stock": 50,
-                                "is_featured": false
+                                "stock": 50
                             }
                         }
                     }
@@ -648,6 +688,117 @@
                     },
                     "400": {
                         "description": "Error en la solicitud"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/requests/waitlist/": {
+            "post": {
+                "tags": [
+                    "Products in waitlist"
+                ],
+                "summary": "Lista de espera",
+                "operationId": "0853c37421bfe3851fad2891d22ad206",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "auth"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Productos"
+                    },
+                    "400": {
+                        "description": "No tiene permisos para acceder"
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/requests/waitlist/{id}/approve": {
+            "post": {
+                "tags": [
+                    "Products in waitlist"
+                ],
+                "summary": "Lista de espera",
+                "operationId": "6188fb6d3e42129c20c889182325a3e3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "auth"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto aprobado"
+                    },
+                    "400": {
+                        "description": "No tiene permisos para acceder"
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/requests/waitlist/{id}/reject": {
+            "post": {
+                "tags": [
+                    "Products in waitlist"
+                ],
+                "summary": "Lista de espera",
+                "operationId": "ee37bf4417bc33cb9103b0dce5bc4822",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "auth"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto rechazado"
+                    },
+                    "400": {
+                        "description": "No tiene permisos para acceder"
+                    },
+                    "422": {
+                        "description": "Error"
                     }
                 },
                 "security": [
@@ -753,6 +904,9 @@
                 "responses": {
                     "204": {
                         "description": "Usuario eliminado exitosamente"
+                    },
+                    "403": {
+                        "description": "No tienes permiso para eliminar el usuario"
                     },
                     "404": {
                         "description": "Usuario no encontrado"
@@ -931,6 +1085,36 @@
                     }
                 },
                 "type": "object"
+            },
+            "Product": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "category_id": {
+                        "type": "integer"
+                    },
+                    "stock": {
+                        "type": "integer"
+                    },
+                    "image_path": {
+                        "type": "string"
+                    },
+                    "is_featured": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -954,6 +1138,10 @@
         {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "Products in waitlist",
+            "description": "Products in waitlist"
         },
         {
             "name": "Users",

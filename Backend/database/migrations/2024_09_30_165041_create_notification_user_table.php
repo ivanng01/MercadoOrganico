@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,10 +17,12 @@ class CreateNotificationUserTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('notifications');
-        Schema::dropIfExists('notification_users');
+        // Elimina la clave foránea primero
+        Schema::table('notification_users', function (Blueprint $table) {
+            $table->dropForeign(['notification_id']); // Elimina la clave foránea
+        });
+
+        // Ahora, elimina la tabla
+        Schema::dropIfExists('notification_users'); // Cambia esto
     }
 }
-
-
-
