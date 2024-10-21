@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CarouselHero from "../components/hero/CarouselHero";
+import ProductCategories from "../components/category/ProductCategories";
 
 const roles = [
   {
@@ -28,6 +29,7 @@ export default function Home() {
   return (
     <>
       <CarouselHero />
+      <ProductCategories />
       <div className="min-h-screen p-8 text-center w-full">
         <h1 className="text-4xl font-bold mb-6">Bienvenido a Raices Orgánicas</h1>
         <p className="p-6">La mejor tienda de productos 100% orgánicos</p>
