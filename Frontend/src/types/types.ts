@@ -66,3 +66,11 @@ export interface CarouselApi {
   selectedScrollSnap: () => number;
   on: (event: string, callback: () => void) => void;
 }
+
+export interface IconsProps {
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+  className?: string;
+}
+
