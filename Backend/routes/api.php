@@ -3,7 +3,6 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShoppingCartController;
@@ -19,22 +18,23 @@ use App\Http\Controllers\ShoppingCartController;
 |
 */
 
-//Rutas públicas
-
-Route::controller(AuthenticationController::class)->group(function(){
+// Rutas públicas
+Route::controller(AuthenticationController::class)->group(function() {
     Route::post('/auth/register', 'createUser'); 
     Route::post('/auth/login', 'loginSession');  
 });
 
-Route::controller(ProductController::class)->group(function(){
+// Rutas públicas para productos
+Route::controller(ProductController::class)->group(function() {
     Route::get('/products', 'index'); 
 });
 
 // Rutas protegidas por autenticación
-
 Route::middleware('auth:sanctum')->group(function () {
+    // Rutas de autenticación
     Route::post('/auth/logout', [AuthenticationController::class, 'logoutUser']);    
-    
+
+    // Rutas de usuarios
     Route::prefix('users')->group(function () {
         Route::controller(UserController::class)->group(function () {
             Route::get('/', 'index'); 
@@ -46,33 +46,36 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-    Route::prefix('categories')->middleware('auth:api')->group(function () {
-        Route::get('/', [CategoryController::class, 'index']);
-        Route::post('/', [CategoryController::class, 'create']); 
-        Route::patch('/{id}', [CategoryController::class, 'update']); 
-        Route::delete('/{id}', [CategoryController::class, 'delete']); 
-    });
-    
-    Route::prefix('products')->group(function () {    
-        Route::middleware('auth:api')->group(function () {
-            Route::post('/', [ProductController::class, 'create']); 
-            Route::put('/{id}', [ProductController::class, 'update']);  
-            Route::delete('/{id}', [ProductController::class, 'delete']); 
-            Route::get('/requests/waitlist', [ProductController::class, 'getProductsInWaitlist']); 
-            Route::put('/requests/waitlist/{id}/approve', [ProductController::class, 'approveRequest']); 
-            Route::put('/requests/waitlist/{id}/reject', [ProductController::class, 'rejectRequest']); 
+    // Rutas de categorías
+    Route::prefix('categories')->group(function () {
+        Route::controller(CategoryController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::post('/', 'create'); 
+            Route::patch('/{id}', 'update'); 
+            Route::delete('/{id}', 'delete'); 
         });
     });
     
+    // Rutas de productos
+    Route::prefix('products')->group(function () {
+        Route::controller(ProductController::class)->group(function () {    
+            Route::post('/', 'create'); 
+            Route::put('/{id}', 'update');  
+            Route::delete('/{id}', 'delete'); 
+            Route::get('/requests/waitlist', 'getProductsInWaitlist'); 
+            Route::put('/requests/waitlist/{id}/approve', 'approveRequest'); 
+            Route::put('/requests/waitlist/{id}/reject', 'rejectRequest'); 
+        });
+    });
 
-    Route::prefix('cart')->middleware('auth:api')->group(function () {
+    // Rutas del carrito de compras
+    Route::prefix('cart')->group(function () {
         Route::controller(ShoppingCartController::class)->group(function () {
-        Route::post('/cart/add', [ShoppingCartController::class, 'addProduct']);
-        Route::get('/cart', [ShoppingCartController::class, 'viewCart']);
-        Route::post('/cart/update', [ShoppingCartController::class, 'updateProduct']);
-        Route::delete('/cart/remove', [ShoppingCartController::class, 'removeProduct']);
-        Route::post('/cart/checkout', [ShoppingCartController::class, 'checkout']);
+            Route::post('/add', 'addProduct');
+            Route::get('/', 'viewCart');
+            Route::post('/update', 'updateProduct');
+            Route::delete('/remove', 'removeProduct');
+            Route::post('/checkout', 'checkout');
         });
     });
-
 });
