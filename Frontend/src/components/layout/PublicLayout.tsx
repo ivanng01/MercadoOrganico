@@ -1,6 +1,6 @@
-import { SiteFooter } from "@/components/ui/site-footer";
 import PublicNavbar from "../custom/PublicNavbar";
 import { LayoutProps } from "@/types/types";
+import SiteFooter from "../ui/site-footer";
 
 export default function PublicLayout({ children }: LayoutProps) {
   return (
@@ -8,7 +8,6 @@ export default function PublicLayout({ children }: LayoutProps) {
       <PublicNavbar />
 
       <main className="flex-grow">{children}</main>
-
       <SiteFooter />
     </main>
   );
