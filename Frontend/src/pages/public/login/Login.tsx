@@ -49,7 +49,7 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-foreground px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <LogoBrand variant="big" className="mx-auto py-4"/>
+          <LogoBrand variant="big" className="mx-auto py-4" />
           <h2 className="text-2xl font-semibold text-center">¡Nos alegra verte de nuevo!</h2>
         </CardHeader>
         <CardContent>

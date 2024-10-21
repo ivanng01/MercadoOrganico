@@ -24,14 +24,10 @@ export default function PublicNavbar() {
     <>
       {!isAuthRoute && <SocialMediaNavbar />}
 
-      <header
-        className={`sticky top-0 z-50 w-full px-4 max-w-screen-2xl mx-auto lg:px-[120px] bg-background py-2 ${
-          isScrolled ? "shadow-lg" : ""
-        }`}
-      >
+      <header className={`sticky top-0 z-50 w-full px-4 max-w-screen-2xl mx-auto lg:px-[120px] bg-background py-2 ${isScrolled ? "shadow-lg" : ""}`}>
         <div className="flex h-16 items-center justify-between">
           <LogoBrand variant="small" />
-          
+
           <nav className="hidden md:flex items-center space-x-4">
             <Button variant="link" asChild>
               <Link to="/">Inicio</Link>
@@ -51,11 +47,7 @@ export default function PublicNavbar() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <button
-              className="text-button"
-              aria-label="Buscar"
-              onClick={() => setSearchModalOpen(true)}
-            >
+            <button className="text-button" aria-label="Buscar" onClick={() => setSearchModalOpen(true)}>
               <Search className="h-5 w-5" />
             </button>
             <Link to="/cart" aria-label="Carrito">
