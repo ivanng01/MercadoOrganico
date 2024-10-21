@@ -1,6 +1,6 @@
-import { SiteFooter } from "@/components/ui/site-footer";
 import AuthenticatedNavbar from "../custom/AuthenticatedNavbar";
 import { LayoutProps } from "@/types/types";
+import SiteFooter from "../ui/site-footer";
 
 export default function ProtectedLayout({ children }: LayoutProps) {
   return (
