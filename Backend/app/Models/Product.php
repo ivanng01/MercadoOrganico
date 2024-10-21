@@ -18,6 +18,8 @@ class Product extends Model
         'user_id',
         'is_featured',
         'stock',
+        'request_id',
+        'image_path',
     ];
 
     public function category()
@@ -43,6 +45,11 @@ class Product extends Model
     public function inventories()
     {
         return $this->hasMany(Inventory::class);
+    }
+
+    public function request()
+    {
+        return $this->belongsTo(ProductRequest::class);
     }
 
 }

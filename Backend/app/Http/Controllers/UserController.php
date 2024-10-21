@@ -71,14 +71,14 @@ class UserController extends Controller
      */
     public function profile(Request $request)
     {
-        // Verificación de autenticación de usuario
+       
         if (!auth()->check()) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
     
         $user = $request->user();
     
-        // Selecciona solo los campos necesarios
+        
         $response = [
             'username' => $user->username,
             'firstname' => $user->firstname,
@@ -121,24 +121,38 @@ class UserController extends Controller
       * )
       */
 
-    public function update(Request $request, User $user)
-    {
-        $validatedData = $request->validate([
-            'firstname' => 'sometimes|required|string|max:255',
-            'lastname' => 'sometimes|required|string|max:255',
-            'type_user' => 'sometimes|required|integer',
-            'status' => 'sometimes|required|integer',
-            'session' => 'sometimes|required|integer',
-            'gender' => 'sometimes|nullable|string',
-            'birth_date' => 'sometimes|nullable|date',
-            'phone_number' => 'sometimes|nullable|string|max:15',
-            'picture' => 'sometimes|nullable|string',
-        ]);
+      public function update(Request $request, User $user)
+      {
 
-        $user->update($validatedData);
-
-        return response()->json(['user' => $user], 200);
-    }
+          if (!auth()->check()) {
+              return response()->json(['message' => 'Unauthorized'], 401);
+          }
+      
+        
+          $authenticatedUser = auth()->user();
+          if ($authenticatedUser->id !== $user->id && $authenticatedUser->type_user !== 3) {
+              return response()->json(['message' => 'Forbidden'], 403);
+          }
+      
+          // Validación de datos
+          $validatedData = $request->validate([
+              'firstname' => 'sometimes|required|string|max:255',
+              'lastname' => 'sometimes|required|string|max:255',
+              'type_user' => 'sometimes|required|integer',
+              'status' => 'sometimes|required|integer',
+              'session' => 'sometimes|required|integer',
+              'gender' => 'sometimes|nullable|string',
+              'birth_date' => 'sometimes|nullable|date',
+              'phone_number' => 'sometimes|nullable|string|max:15',
+              'picture' => 'sometimes|nullable|string',
+          ]);
+      
+          
+          $user->update($validatedData);
+      
+          return response()->json(['user' => $user], 200);
+      }
+      
 
     /**
      * @OA\Delete(
@@ -208,7 +222,7 @@ class UserController extends Controller
     {
         $authenticatedUser = $request->user();
         
-        // Verificar el tipo de usuario autenticado
+        
         if ($authenticatedUser->type_user !== 3) { 
             return response()->json(['message' => 'No tienes permiso para cambiar el tipo de usuario.'], 403);
         }
@@ -228,4 +242,5 @@ class UserController extends Controller
     
         return response()->json(['message' => 'Tipo de usuario actualizado', 'user' => $user], 200);
     }
+
 }

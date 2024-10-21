@@ -14,16 +14,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->text('description')->nullable();
-        $table->decimal('price', 8, 2);
-        $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-        $table->enum('status', ['available', 'unavailable']);
-        $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-        $table->boolean('is_featured')->default(false);
-        $table->integer('stock');
-        $table->timestamps();
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->decimal('price', 8, 2);
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->enum('status', ['available', 'unavailable']);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->boolean('is_featured')->default(false);
+            $table->integer('stock');
+            $table->foreignId('request_id')->nullable()->constrained('product_requests')->onDelete('set null');
+            $table->string('image_path')->nullable();
+            $table->timestamps();
         });
     }
 
