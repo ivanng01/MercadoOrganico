@@ -6,8 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-import ThemeToggle from "./ThemeToggle";
-import LogoSmall from "./logo-small";
+import LogoBrand from "./LogoBrand";
 
 export default function AuthenticatedNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,12 +35,9 @@ export default function AuthenticatedNavbar() {
       className={`sticky top-0 z-50 w-full max-w-screen-2xl mx-auto lg:px-[120px] ${isScrolled ? "backdrop-blur supports-[backdrop-filter]" : ""}`}
     >
       <nav className="flex justify-between h-16 items-center p-4">
-        <LogoSmall />
+        <LogoBrand variant="small" />
 
         <ul className="hidden sm:flex sm:items-center space-x-4">
-          <li>
-            <ThemeToggle />
-          </li>
           <li>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

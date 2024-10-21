@@ -50,3 +50,19 @@ export interface LoginData {
   identifier: string;
   password: string;
 }
+
+export interface Slide {
+  id: number;
+  tagline: string;
+  title: string;
+  subtitle: string;
+  image: string;
+}
+
+export interface CarouselApi {
+  scrollNext: () => void;
+  scrollPrev: () => void;
+  scrollTo: (index: number) => void;
+  selectedScrollSnap: () => number;
+  on: (event: string, callback: () => void) => void;
+}

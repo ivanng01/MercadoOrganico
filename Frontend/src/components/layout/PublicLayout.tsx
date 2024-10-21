@@ -7,7 +7,7 @@ export default function PublicLayout({ children }: LayoutProps) {
     <main className="flex flex-col min-h-screen">
       <PublicNavbar />
 
-      <main className="flex-grow p-4">{children}</main>
+      <main className="flex-grow">{children}</main>
 
       <SiteFooter />
     </main>

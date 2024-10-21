@@ -4,13 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import LogoBig from "@/components/custom/logo-big";
 import { handleUpClick } from "@/lib/utils";
 import { RegisterData } from "@/types/types";
 import { registerUser } from "@/api/services/authService";
 import { showToast } from "@/lib/showToast";
 import { registerSchema } from "@/lib/validation";
 import { z } from "zod";
+import LogoBrand from "@/components/custom/LogoBrand";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -86,10 +86,10 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen py-8 bg-foreground px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <LogoBig className="mx-auto py-4" />
+          <LogoBrand variant="big" className="mx-auto py-4" />
           <h2 className="text-2xl font-semibold text-center">¡Únete ahora!</h2>
         </CardHeader>
         <CardContent>
@@ -106,7 +106,7 @@ export default function Register() {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`border ${isFieldValid("email") ? "border-primary" : errorMessages.email ? "border-red-500" : "border-gray-300"}`}
+                  className={`border ${isFieldValid("email") ? "border-primary" : errorMessages.email ? "border-red-500" : "border-input"}`}
                 />
                 {errorMessages.email && <p className="text-red-500 text-sm">{errorMessages.email}</p>}
               </div>
@@ -123,7 +123,7 @@ export default function Register() {
                     type="text"
                     value={formData.firstname}
                     onChange={handleChange}
-                    className={`border ${isFieldValid("firstname") ? "border-primary" : errorMessages.firstname ? "border-red-500" : "border-gray-300"}`}
+                    className={`border ${isFieldValid("firstname") ? "border-primary" : errorMessages.firstname ? "border-red-500" : "border-input"}`}
                   />
                   {errorMessages.firstname && <p className="text-red-500 text-sm">{errorMessages.firstname}</p>}
                 </div>
@@ -139,7 +139,7 @@ export default function Register() {
                     type="text"
                     value={formData.lastname}
                     onChange={handleChange}
-                    className={`border ${isFieldValid("lastname") ? "border-primary" : errorMessages.lastname ? "border-red-500" : "border-gray-300"}`}
+                    className={`border ${isFieldValid("lastname") ? "border-primary" : errorMessages.lastname ? "border-red-500" : "border-input"}`}
                   />
                   {errorMessages.lastname && <p className="text-red-500 text-sm">{errorMessages.lastname}</p>}
                 </div>
@@ -157,7 +157,7 @@ export default function Register() {
                   value={formData.username}
                   onChange={handleChange}
                   autoComplete="username"
-                  className={`border ${isFieldValid("username") ? "border-primary" : errorMessages.username ? "border-red-500" : "border-gray-300"}`}
+                  className={`border ${isFieldValid("username") ? "border-primary" : errorMessages.username ? "border-red-500" : "border-input"}`}
                 />
                 {errorMessages.username && <p className="text-red-500 text-sm">{errorMessages.username}</p>}
               </div>
@@ -175,7 +175,7 @@ export default function Register() {
                     value={formData.password}
                     onChange={handleChange}
                     autoComplete="current-password"
-                    className={`border ${isFieldValid("password") ? "border-primary" : errorMessages.password ? "border-red-500" : "border-gray-300"}`}
+                    className={`border ${isFieldValid("password") ? "border-primary" : errorMessages.password ? "border-red-500" : "border-input"}`}
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3">
                     {showPassword ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
@@ -197,7 +197,7 @@ export default function Register() {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     autoComplete="new-password"
-                    className={`border ${isFieldValid("confirmPassword") ? "border-primary" : errorMessages.confirmPassword ? "border-red-500" : "border-gray-300"}`}
+                    className={`border ${isFieldValid("confirmPassword") ? "border-primary" : errorMessages.confirmPassword ? "border-red-500" : "border-input"}`}
                   />
                   <button
                     type="button"

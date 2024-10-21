@@ -2,10 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import { AdminRoutes, ClientRoutes, ProducerRoutes, PublicRoutes } from "./routes";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
 import PublicLayout from "./components/layout/PublicLayout";
-import useDarkMode from "./hooks/useDarkMode";
 
 function App() {
-  useDarkMode();
   return (
     <>
       <Routes>
