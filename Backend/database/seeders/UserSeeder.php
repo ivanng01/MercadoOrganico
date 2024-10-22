@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         // Crea o actualiza un usuario con un correo específico
         User::updateOrCreate(
-            ['email' => 'example@example.com'], // Cambia esto al correo que desees
+            ['email' => 'user@example.com'], // Cambia esto al correo que desees
             [
                 'username' => 'johndoe', // Nombre de usuario
                 'firstname' => 'John', // Nombre

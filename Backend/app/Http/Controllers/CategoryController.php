@@ -26,7 +26,6 @@ class CategoryController extends Controller
      *     path="/categories",
      *     tags={"Categories"},
      *     summary="Listar todas las categorías",
-     *     security={{"bearerAuth": {}}},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de categorías",
@@ -41,29 +40,29 @@ class CategoryController extends Controller
      *     )
      * )
      */
-    
+
     public function index(Request $request)
     {
         $parent_id = $request->query('parent_id');
         $name = $request->query('name');
-        $limit = $request->query('limit', 10); 
-        $page = $request->query('page', 1); 
-    
+        $limit = $request->query('limit', 10);
+        $page = $request->query('page', 1);
+
         $query = Category::query();
-    
+
         if ($parent_id) {
             $query->where('parent_id', $parent_id);
         }
         if ($name) {
             $query->where('name', 'like', '%' . $name . '%');
         }
-    
+
         $categories = $query->paginate($limit, ['*'], 'page', $page);
-    
+
         if ($categories->isEmpty()) {
             return response()->json(['message' => 'No se encontraron categorías'], 404);
         }
-    
+
         return response()->json(['message' => 'Lista de categorías recuperada con éxito', 'categories' => $categories], 200);
     }
 

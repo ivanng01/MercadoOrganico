@@ -29,6 +29,11 @@ Route::controller(ProductController::class)->group(function() {
     Route::get('/products', 'index'); 
 });
 
+// Rutas públicas para categorías
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('/categories', 'index'); 
+});
+
 // Rutas protegidas por autenticación
 Route::middleware('auth:sanctum')->group(function () {
     // Rutas de autenticación
@@ -46,10 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-    // Rutas de categorías
+    // Rutas de categorías (protegidas)
     Route::prefix('categories')->group(function () {
         Route::controller(CategoryController::class)->group(function () {
-            Route::get('/', 'index');
             Route::post('/', 'create'); 
             Route::patch('/{id}', 'update'); 
             Route::delete('/{id}', 'delete'); 
@@ -60,8 +64,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('products')->group(function () {
         Route::controller(ProductController::class)->group(function () {    
             Route::post('/', 'create'); 
-            Route::put('/{id}', 'update');  
-            Route::delete('/{id}', 'delete'); 
+            Route::patch('/{product}', 'update');  
+            Route::delete('/{product}', 'delete'); 
             Route::get('/requests/waitlist', 'getProductsInWaitlist'); 
             Route::put('/requests/waitlist/{id}/approve', 'approveRequest'); 
             Route::put('/requests/waitlist/{id}/reject', 'rejectRequest'); 

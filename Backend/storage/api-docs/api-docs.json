@@ -174,12 +174,7 @@
                     "403": {
                         "description": "No tienes permiso para ver las categorías"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -414,7 +409,7 @@
                     "Products"
                 ],
                 "summary": "Obtener lista de productos con filtros opcionales",
-                "operationId": "daa41ee2ff942906ce7781631bafb816",
+                "operationId": "c1ff6f862214e1896c59cfe0491ce0e8",
                 "parameters": [
                     {
                         "name": "category_id",
@@ -693,29 +688,17 @@
             }
         },
         "/products/requests/waitlist/": {
-            "post": {
+            "get": {
                 "tags": [
-                    "Products in waitlist"
+                    "Products"
                 ],
-                "summary": "Lista de espera",
-                "operationId": "0853c37421bfe3851fad2891d22ad206",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "auth"
-                                ]
-                            }
-                        }
-                    }
-                },
+                "summary": "Obtener los productos en lista de espera",
+                "operationId": "cde6562739765ef5e12cbd5457168fd9",
                 "responses": {
                     "201": {
                         "description": "Productos"
                     },
-                    "400": {
+                    "403": {
                         "description": "No tiene permisos para acceder"
                     },
                     "422": {
@@ -730,33 +713,49 @@
             }
         },
         "/products/requests/waitlist/{id}/approve": {
-            "post": {
+            "put": {
                 "tags": [
-                    "Products in waitlist"
+                    "Products"
                 ],
-                "summary": "Lista de espera",
-                "operationId": "6188fb6d3e42129c20c889182325a3e3",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "auth"
-                                ]
-                            }
+                "summary": "Aprobar un producto en la lista de espera",
+                "description": "Este endpoint permite a un administrador aprobar una solicitud de producto en la lista de espera. Solo los usuarios con el rol adecuado pueden acceder a esta acción.",
+                "operationId": "cadfdddc7fa2739f19440fb59f52509f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la solicitud de producto que se desea aprobar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
-                },
+                ],
                 "responses": {
-                    "201": {
-                        "description": "Producto aprobado"
+                    "200": {
+                        "description": "Solicitud aprobada con éxito.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Solicitud aprobada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "400": {
-                        "description": "No tiene permisos para acceder"
+                    "403": {
+                        "description": "No tiene permiso para acceder a esta acción."
+                    },
+                    "404": {
+                        "description": "Solicitud no encontrada o ya procesada."
                     },
                     "422": {
-                        "description": "Error"
+                        "description": "Error en la solicitud."
                     }
                 },
                 "security": [
@@ -767,33 +766,49 @@
             }
         },
         "/products/requests/waitlist/{id}/reject": {
-            "post": {
+            "put": {
                 "tags": [
-                    "Products in waitlist"
+                    "Products"
                 ],
-                "summary": "Lista de espera",
-                "operationId": "ee37bf4417bc33cb9103b0dce5bc4822",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "auth"
-                                ]
-                            }
+                "summary": "Rechazar un producto en la lista de espera",
+                "description": "Este endpoint permite a un administrador rechazar una solicitud de producto en la lista de espera. Solo los usuarios con el rol adecuado pueden acceder a esta acción.",
+                "operationId": "f2a586b96e5373e002f44aa8eeb1a310",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la solicitud de producto que se desea rechazar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
-                },
+                ],
                 "responses": {
-                    "201": {
-                        "description": "Producto rechazado"
+                    "200": {
+                        "description": "Solicitud rechazada con éxito.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Solicitud rechazada."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "400": {
-                        "description": "No tiene permisos para acceder"
+                    "403": {
+                        "description": "No tiene permiso para acceder a esta acción."
+                    },
+                    "404": {
+                        "description": "Solicitud no encontrada o ya procesada."
                     },
                     "422": {
-                        "description": "Error"
+                        "description": "Error en la solicitud."
                     }
                 },
                 "security": [
@@ -1133,10 +1148,6 @@
         {
             "name": "Products",
             "description": "Products"
-        },
-        {
-            "name": "Products in waitlist",
-            "description": "Products in waitlist"
         },
         {
             "name": "Users",
