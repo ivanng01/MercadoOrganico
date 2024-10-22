@@ -8,11 +8,63 @@ use App\Models\ShoppingCart;
 use App\Models\Order;
 use App\Models\OrderItem;
 
+/**
+ * @OA\Schema(
+ *     schema="CartItem",
+ *     type="object",
+ *     @OA\Property(property="product_id", type="integer", description="ID del producto"),
+ *     @OA\Property(property="quantity", type="integer", description="Cantidad del producto en el carrito"),
+ *     @OA\Property(property="product", type="object", description="Detalles del producto",
+ *         @OA\Property(property="id", type="integer", description="ID del producto"),
+ *         @OA\Property(property="name", type="string", description="Nombre del producto"),
+ *         @OA\Property(property="price", type="number", format="float", description="Precio del producto"),
+ *     )
+ * )
+ */
+
 class ShoppingCartController extends Controller
 {
-    // Agrego producto al carrito
+    
+    /**
+     * @OA\Post(
+     *     path="/cart/products",
+     *     tags={"Carrito"},
+     *     summary="Agregar un producto al carrito",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"product_id", "quantity"},
+     *             @OA\Property(property="product_id", type="integer", description="ID del producto"),
+     *             @OA\Property(property="quantity", type="integer", description="Cantidad del producto")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto añadido al carrito",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Stock insuficiente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de error")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de error")
+     *         )
+     *     )
+     * )
+     */
+
     public function addProduct(Request $request)
-{
+    {
     $request->validate([
         'product_id' => 'required|exists:products,id',
         'quantity' => 'required|integer|min:1'
@@ -28,7 +80,6 @@ class ShoppingCartController extends Controller
         return response()->json(['message' => 'Stock insuficiente para este producto'], 400);
     }
 
-    // Verifico si el producto ya está en el carrito
     $cartItem = ShoppingCart::where('user_id', $userId)->where('product_id', $productId)->first();
 
     if ($cartItem) {
@@ -51,7 +102,24 @@ class ShoppingCartController extends Controller
     return response()->json(['message' => 'Producto añadido al carrito']);
     }
 
-    //Veo productos en el carrito
+    /**
+     * @OA\Get(
+     *     path="/cart",
+     *     tags={"Carrito"},
+     *     summary="Ver productos en el carrito",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de productos en el carrito",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="cartItems", type="array", 
+     *                 @OA\Items(ref="#/components/schemas/CartItem")),
+     *             @OA\Property(property="totalPrice", type="number", format="float", description="Precio total del carrito")
+     *         )
+     *     )
+     * )
+     */
     public function viewCart()
     {
         $userId = auth()->id();
@@ -66,7 +134,44 @@ class ShoppingCartController extends Controller
         return response()->json(['cartItems' => $cartItems, 'totalPrice' => $totalPrice]);
     }
 
-    //Actualizo cantidad de un producto en el carrito
+    /**
+     * @OA\Patch(
+     *     path="/cart/products",
+     *     tags={"Carrito"},
+     *     summary="Actualizar cantidad de un producto en el carrito",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"product_id", "quantity"},
+     *             @OA\Property(property="product_id", type="integer", description="ID del producto"),
+     *             @OA\Property(property="quantity", type="integer", description="Nueva cantidad del producto")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cantidad actualizada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado en el carrito",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de error")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Stock insuficiente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de error")
+     *         )
+     *     )
+     * )
+     */
+
     public function updateProduct(Request $request)
     {
     $request->validate([
@@ -95,7 +200,35 @@ class ShoppingCartController extends Controller
     return response()->json(['message' => 'Cantidad actualizada']);
     }
 
-    // Elimino producto del carrito
+    /**
+     * @OA\Delete(
+     *     path="/cart/products",
+     *     tags={"Carrito"},
+     *     summary="Eliminar un producto del carrito",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"product_id"},
+     *             @OA\Property(property="product_id", type="integer", description="ID del producto a eliminar")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto eliminado del carrito",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado en el carrito",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de error")
+     *         )
+     *     )
+     * )
+     */
     public function removeProduct(Request $request)
     {
         $request->validate([
@@ -113,7 +246,29 @@ class ShoppingCartController extends Controller
         return response()->json(['message' => 'Producto no encontrado en el carrito'], 404);
     }
 
-    // Confirmo compra y creo pedido
+
+    /**
+ * @OA\Post(
+ *     path="/cart/checkout",
+ *     tags={"Carrito"},
+ *     summary="Confirmar compra y crear un pedido",
+ *     security={{"bearerAuth": {}}},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Pedido realizado exitosamente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Mensaje de éxito")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Carrito vacío o stock insuficiente",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Mensaje de error")
+ *         )
+ *     )
+ * )
+ */
     public function checkout()
     {
     $userId = auth()->id();
@@ -123,15 +278,12 @@ class ShoppingCartController extends Controller
         return response()->json(['message' => 'El carrito está vacío'], 400);
     }
 
-    //Valido si hay suficiente stock para cada producto en el carrito
     foreach ($cartItems as $cartItem) {
         if ($cartItem->product->stock < $cartItem->quantity) {
             return response()->json(['message' => 'Stock insuficiente para el producto ' . $cartItem->product->name], 400);
         }
     }
-
-    //Creo el pedido
-    $order = Order::create([
+        $order = Order::create([
         'user_id' => $userId,
         'order_date' => now(),
         'total_amount' => $cartItems->sum(function ($item) {
@@ -141,9 +293,7 @@ class ShoppingCartController extends Controller
         'shipping_status' => 'pending'
     ]);
 
-    //Proceso cada producto en el carrito
     foreach ($cartItems as $cartItem) {
-        //Creo items de pedido
         OrderItem::create([
             'order_id' => $order->id,
             'product_id' => $cartItem->product_id,
@@ -151,16 +301,13 @@ class ShoppingCartController extends Controller
             'price' => $cartItem->product->price
         ]);
 
-        //Decremento el stock del producto
         $product = $cartItem->product;
         $product->stock -= $cartItem->quantity;
         $product->save();
 
-        //Elimino del carrito después de agregar al pedido
         $cartItem->delete();
     }
 
     return response()->json(['message' => 'Pedido realizado exitosamente']);
     }
-
 }
