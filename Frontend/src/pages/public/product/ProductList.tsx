@@ -17,7 +17,7 @@ export default function ProductList() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sortOption, setSortOption] = useState<string>("Relevancia");
   const [totalResults, setTotalResults] = useState<number>(0);
-  const resultsPerPage = 3; 
+  const resultsPerPage = 3;
   const navigate = useNavigate();
 
   const fetchProducts = async (filters: ProductFilters = {}, page: number = 1) => {
@@ -62,12 +62,7 @@ export default function ProductList() {
     <section className="flex p-4 bg-foreground gap-4 w-full min-h-screen mx-auto max-w-screen-2xl lg:px-[120px]">
       <ProductFilter onFilterChange={fetchProducts} />
       <section className="w-full col-span-full">
-        <ResultsCounterSorter
-          totalResults={totalResults}
-          currentPage={currentPage}
-          resultsPerPage={resultsPerPage}
-          onSortChange={handleSortChange}
-        />
+        <ResultsCounterSorter totalResults={totalResults} currentPage={currentPage} resultsPerPage={resultsPerPage} onSortChange={handleSortChange} />
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {loading && <p className="text-center col-span-full">Cargando productos...</p>}
           {!loading && error && (
@@ -75,15 +70,12 @@ export default function ProductList() {
               <NoProductsFound />
             </div>
           )}
-          {!loading && !error && products.length > 0 && products.map((product) => (
-            <ProductCard key={product.id} product={product} onClick={() => handleProductClick(product.id)} />
-          ))}
+          {!loading &&
+            !error &&
+            products.length > 0 &&
+            products.map((product) => <ProductCard key={product.id} product={product} onClick={() => handleProductClick(product.id)} />)}
         </div>
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </section>
     </section>
   );

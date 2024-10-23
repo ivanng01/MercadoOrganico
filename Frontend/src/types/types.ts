@@ -111,7 +111,7 @@ export interface ProductCardProps {
 export interface ProductFilters {
   is_featured?: number;
   sort?: string;
-  page?: number; 
+  page?: number;
 }
 
 export interface PaginationProps {
