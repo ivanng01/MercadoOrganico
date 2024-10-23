@@ -168,6 +168,35 @@ class ProductController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/products/{id}",
+     *     tags={"Products"},
+     *     summary="Obtener un producto por su ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID del producto a obtener",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Producto encontrado", 
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
+     *     @OA\Response(response=404, description="Producto no encontrado")
+     * )
+     */
+    public function show($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Producto no encontrado'], 404);
+        }
+
+        return response()->json($product, 200);
+    }
+
+    /**
      * @OA\Patch(
      *     path="/products/{id}",
      *     tags={"Products"},
