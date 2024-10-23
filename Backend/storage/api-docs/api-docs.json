@@ -1640,27 +1640,27 @@
     "tags": [
         {
             "name": "Authentication",
-            "description": "Authentication"
+            "description": "Para todos los usuarios"
         },
         {
             "name": "Categories",
-            "description": "Categories"
+            "description": "Solo para administradores"
         },
         {
             "name": "Products",
-            "description": "Products"
+            "description": "Para todos los usuarios (Con restricciones)"
         },
         {
             "name": "Roles",
-            "description": "Roles"
+            "description": "Solo para Administradores"
         },
         {
             "name": "Cart",
-            "description": "Cart"
+            "description": "Para todos los usuarios"
         },
         {
             "name": "Users",
-            "description": "Users"
+            "description": "Solo para Administradores"
         }
     ]
 }

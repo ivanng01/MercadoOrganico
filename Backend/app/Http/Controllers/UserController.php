@@ -27,6 +27,10 @@ use Illuminate\Http\Request;
  *     @OA\Property(property="created_at", type="string", format="date-time"),
  *     @OA\Property(property="updated_at", type="string", format="date-time"),
  * )
+ * @OA\Tag(
+ *     name="Users",
+ *     description="Solo para Administradores"
+ * )
  */
 
 class UserController extends Controller
@@ -124,9 +128,10 @@ class UserController extends Controller
      */
     public function profile()
     {
-        $user = auth()->user()->load('role');
+        $user = auth()->user();
+        $user->role;
 
-        return response()->json([$user], 200);
+        return response()->json($user, 200);
     }
 
     /**

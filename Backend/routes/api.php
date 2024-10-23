@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/profile', 'profile');
 
             // Rutas restringidas a roles 1 y 2
-            Route::middleware('role:1,2')->group(function () {
+            Route::middleware('role:1')->group(function () {
                 Route::get('/', 'index');
                 Route::get('/{id}', 'show');
                 Route::patch('/{id}', 'update');
