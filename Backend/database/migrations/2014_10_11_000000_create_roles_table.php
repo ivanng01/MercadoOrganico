@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('type_users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string("type_user", 100)->unique();
-            $table->integer("estado");
-            $table->timestamps();
+        Schema::create('roles', function (Blueprint $table) {
+            $table->bigIncrements('id'); 
+            $table->string('name', 100)->unique(); 
+            $table->string('description', 255)->nullable(); 
+            $table->boolean('status')->default(true); 
+            $table->timestamps(); 
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_users'); // Cambiado a 'type_users'
+        Schema::dropIfExists('roles');
     }
 };

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -25,13 +23,13 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
-        'type_user',
         'birth_date',
-        'picture',    
-        'gender',  
+        'picture',
+        'gender',
         'status',
         'session',
         'remember_token',
+        'role_id',
     ];
 
     /**
@@ -52,6 +50,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->role_id)) {
+                $user->role_id = 3;
+            }
+        });
+    }
 
     public function passwordResets()
     {
@@ -103,10 +112,8 @@ class User extends Authenticatable
         return $this->hasMany(Inventory::class);
     }
 
-        public function typeUser()
+    public function role()
     {
-        return $this->belongsTo(TypeUser::class, 'type_user');
+        return $this->belongsTo(Role::class);
     }
-
-
 }
