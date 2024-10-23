@@ -1,14 +1,29 @@
 export interface Product {
   id: number;
+  name: string;
   description: string;
-  link: string;
-  product_picture: string;
   price: number;
-  origin: string;
-  batch_number: string;
-  expiration_date: string;
+  category_id: number;
+  status: string;
+  user_id: number;
+  is_featured: number;
   stock: number;
-  is_featured: boolean;
+  image_path: string | null;
+  created_at: string;
+  updated_at: string;
+  product_picture: string;
+}
+
+export interface ProductData {
+  id: number;
+  sku: string;
+  name: string;
+  is_featured?: number;
+  description: string;
+  price: number;
+  image: string;
+  stock: number;
+  image_path: string;
 }
 
 export interface StoreState {
@@ -74,3 +89,33 @@ export interface IconsProps {
   className?: string;
 }
 
+export interface ProductsApiResponse {
+  data: Product[];
+  message: string;
+  meta: {
+    total: number;
+  };
+}
+// types/types.ts
+export interface ProductFilterProps {
+  category_id?: number;
+  sort?: string;
+  onFilterChange: (filters: Record<string, unknown>) => void;
+}
+
+export interface ProductCardProps {
+  product: Product;
+  onClick: () => void;
+}
+
+export interface ProductFilters {
+  is_featured?: number;
+  sort?: string;
+  page?: number;
+}
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
