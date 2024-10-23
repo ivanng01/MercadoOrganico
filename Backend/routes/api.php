@@ -28,6 +28,7 @@ Route::controller(AuthenticationController::class)->group(function () {
 // Rutas públicas para productos
 Route::controller(ProductController::class)->group(function () {
     Route::get('/products', 'index');
+    Route::get('/products/{id}', 'show');
 });
 
 // Rutas públicas para categorías
