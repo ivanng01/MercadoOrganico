@@ -13,7 +13,7 @@ const PriceRangeSlider = ({ value, onChange, max = 2000 }: PriceRangeSliderProps
     max={max}
     step={1}
   >
-    <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-accent">
+    <SliderPrimitive.Track className="relative h-1 w-full grow overflow-hidden rounded-full bg-muted-foreground">
       <SliderPrimitive.Range className="absolute h-full bg-primary" />
     </SliderPrimitive.Track>
     {value.map((_, index) => (
@@ -33,17 +33,17 @@ export default function SliderwithNumberInput() {
   };
 
   return (
-    <div className="w-full max-w-sm space-y-4 p-6 rounded-lg border border-accent shadow-md">
+    <div className="w-full space-y-4 p-4 rounded-lg border border-input text-card-foreground">
       <h2 className="text-lg font-semibold">Precio</h2>
       <PriceRangeSlider value={range} onChange={setRange} />
       <div className="flex justify-center space-x-2">
-        <div className="rounded px-2 py-1 bg-accent">
+        <div className="rounded px-2 py-1">
           <span className="text-sm">
             {CURRENCY_SYMBOL} {range[0]}
           </span>
         </div>
         <span>-</span>
-        <div className="rounded px-2 py-1 bg-accent">
+        <div className="rounded px-2 py-1">
           <span className="text-sm">
             {CURRENCY_SYMBOL} {range[1]}
           </span>

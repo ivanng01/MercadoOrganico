@@ -1,30 +1,26 @@
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { ProductCardProps } from "@/types/types";
 import { formatPrice, generateEAN8SKUFromID } from "@/lib/utils";
-import { Product } from "@/types/types";
 
-interface ProductCardProps {
-  product: Product;
-}
-
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, onClick }: ProductCardProps) {
   return (
-    <Card>
-      <CardHeader>
-        <img src={product.product_picture} alt={product.description} width={200} height={200} className="w-full h-auto object-cover" />
-      </CardHeader>
-      <CardContent>
-        <div className="mt-2">SKU: {generateEAN8SKUFromID(product.id)}</div>
-        <span className="block text-lg font-semibold mt-2 h-20">{product.description}</span>
-        <div className="flex justify-between items-center mt-4">
-          <span className="text-lg font-semibold text-destructive">{formatPrice(product.price)}</span>
-          <Button aria-label={`Agregar ${product.description} al carrito`}>
-            <ShoppingCart className="mr-2 h-4 w-4" />
-            Agregar
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="border border-input rounded-lg shadow-sm p-4 flex flex-col cursor-pointer min-h-[380px] max-h-[400px]" onClick={onClick}>
+      <img src={product.image_path || "/placeholder.svg"} alt={product.name} className="w-full max-h-40 object-contain mb-4 rounded" />
+      <div className="flex mb-2">
+        {[...Array(5)].map((_, i) => (
+          <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+        ))}
+      </div>
+      <p className="text-sm text-gray-500 mb-2">SKU: {generateEAN8SKUFromID(product.id)}</p>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
+      <div className="mt-auto flex justify-between items-center">
+        <span className="text-primary font-bold">{formatPrice(product.price)}</span>
+        <Button variant="outline" className="bg-primary text-white gap-2">
+          <ShoppingCart />
+          Agregar
+        </Button>
+      </div>
+    </div>
   );
 }
