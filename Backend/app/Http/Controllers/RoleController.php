@@ -6,6 +6,10 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 
 /**
+ * @OA\Tag(
+ *     name="Roles",
+ *     description="Solo para Administradores"
+ * )
  * @OA\Schema(
  *     schema="Role",
  *     type="object",
@@ -14,6 +18,7 @@ use Illuminate\Http\Request;
  *     @OA\Property(property="description", type="string", example="Usuario administrador")
  * )
  */
+
 class RoleController extends Controller
 {
     /**

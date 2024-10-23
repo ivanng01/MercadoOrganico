@@ -6,8 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductRequest;
 
-
 /**
+ * 
+ * @OA\Tag(
+ *     name="Products",
+ *     description="Para todos los usuarios (Con restricciones)"
+ * )
  * @OA\Schema(
  *     schema="Product",
  *     type="object",
@@ -22,7 +26,9 @@ use App\Models\ProductRequest;
  * )
  */
 
+
 class ProductController extends Controller
+
 {
 
     /**

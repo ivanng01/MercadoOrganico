@@ -9,6 +9,10 @@ use App\Models\Order;
 use App\Models\OrderItem;
 
 /**
+ * @OA\Tag(
+ *     name="Cart",
+ *     description="Para todos los usuarios"
+ * )
  * @OA\Schema(
  *     schema="CartItem",
  *     type="object",
@@ -24,7 +28,7 @@ use App\Models\OrderItem;
 
 class ShoppingCartController extends Controller
 {
-    
+
     /**
      * @OA\Post(
      *     path="/cart/products",
@@ -65,41 +69,41 @@ class ShoppingCartController extends Controller
 
     public function addProduct(Request $request)
     {
-    $request->validate([
-        'product_id' => 'required|exists:products,id',
-        'quantity' => 'required|integer|min:1'
-    ]);
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1'
+        ]);
 
-    $productId = $request->product_id;
-    $quantity = $request->quantity;
-    $userId = auth()->id();
+        $productId = $request->product_id;
+        $quantity = $request->quantity;
+        $userId = auth()->id();
 
-    $product = Product::find($productId);
+        $product = Product::find($productId);
 
-    if ($product->stock < $quantity) {
-        return response()->json(['message' => 'Stock insuficiente para este producto'], 400);
-    }
-
-    $cartItem = ShoppingCart::where('user_id', $userId)->where('product_id', $productId)->first();
-
-    if ($cartItem) {
-        $newQuantity = $cartItem->quantity + $quantity;
-
-        if ($product->stock < $newQuantity) {
-            return response()->json(['message' => 'No hay suficiente stock para esta cantidad'], 400);
+        if ($product->stock < $quantity) {
+            return response()->json(['message' => 'Stock insuficiente para este producto'], 400);
         }
 
-        $cartItem->quantity = $newQuantity;
-        $cartItem->save();
-    } else {
-        ShoppingCart::create([
-            'user_id' => $userId,
-            'product_id' => $productId,
-            'quantity' => $quantity,
-        ]);
-    }
+        $cartItem = ShoppingCart::where('user_id', $userId)->where('product_id', $productId)->first();
 
-    return response()->json(['message' => 'Producto añadido al carrito']);
+        if ($cartItem) {
+            $newQuantity = $cartItem->quantity + $quantity;
+
+            if ($product->stock < $newQuantity) {
+                return response()->json(['message' => 'No hay suficiente stock para esta cantidad'], 400);
+            }
+
+            $cartItem->quantity = $newQuantity;
+            $cartItem->save();
+        } else {
+            ShoppingCart::create([
+                'user_id' => $userId,
+                'product_id' => $productId,
+                'quantity' => $quantity,
+            ]);
+        }
+
+        return response()->json(['message' => 'Producto añadido al carrito']);
     }
 
     /**
@@ -124,8 +128,8 @@ class ShoppingCartController extends Controller
     {
         $userId = auth()->id();
         $cartItems = ShoppingCart::with('product')
-                        ->where('user_id', $userId)
-                        ->get();
+            ->where('user_id', $userId)
+            ->get();
 
         $totalPrice = $cartItems->sum(function ($item) {
             return $item->product->price * $item->quantity;
@@ -174,30 +178,30 @@ class ShoppingCartController extends Controller
 
     public function updateProduct(Request $request)
     {
-    $request->validate([
-        'product_id' => 'required|exists:products,id',
-        'quantity' => 'required|integer|min:1'
-    ]);
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1'
+        ]);
 
-    $userId = auth()->id();
-    $productId = $request->product_id;
-    $quantity = $request->quantity;
+        $userId = auth()->id();
+        $productId = $request->product_id;
+        $quantity = $request->quantity;
 
-    $cartItem = ShoppingCart::where('user_id', $userId)->where('product_id', $productId)->first();
-    $product = Product::find($productId);
+        $cartItem = ShoppingCart::where('user_id', $userId)->where('product_id', $productId)->first();
+        $product = Product::find($productId);
 
-    if (!$cartItem) {
-        return response()->json(['message' => 'Producto no encontrado en el carrito'], 404);
-    }
+        if (!$cartItem) {
+            return response()->json(['message' => 'Producto no encontrado en el carrito'], 404);
+        }
 
-    if ($product->stock < $quantity) {
-        return response()->json(['message' => 'Stock insuficiente para esta cantidad'], 400);
-    }
+        if ($product->stock < $quantity) {
+            return response()->json(['message' => 'Stock insuficiente para esta cantidad'], 400);
+        }
 
-    $cartItem->quantity = $quantity;
-    $cartItem->save();
+        $cartItem->quantity = $quantity;
+        $cartItem->save();
 
-    return response()->json(['message' => 'Cantidad actualizada']);
+        return response()->json(['message' => 'Cantidad actualizada']);
     }
 
     /**
@@ -248,66 +252,66 @@ class ShoppingCartController extends Controller
 
 
     /**
- * @OA\Post(
- *     path="/cart/checkout",
- *     tags={"Cart"},
- *     summary="Confirmar compra y crear un pedido",
- *     security={{"bearerAuth": {}}},
- *     @OA\Response(
- *         response=200,
- *         description="Pedido realizado exitosamente",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", description="Mensaje de éxito")
- *         )
- *     ),
- *     @OA\Response(
- *         response=400,
- *         description="Carrito vacío o stock insuficiente",
- *         @OA\JsonContent(
- *             @OA\Property(property="message", type="string", description="Mensaje de error")
- *         )
- *     )
- * )
- */
+     * @OA\Post(
+     *     path="/cart/checkout",
+     *     tags={"Cart"},
+     *     summary="Confirmar compra y crear un pedido",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pedido realizado exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de éxito")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Carrito vacío o stock insuficiente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de error")
+     *         )
+     *     )
+     * )
+     */
     public function checkout()
     {
-    $userId = auth()->id();
-    $cartItems = ShoppingCart::where('user_id', $userId)->get();
+        $userId = auth()->id();
+        $cartItems = ShoppingCart::where('user_id', $userId)->get();
 
-    if ($cartItems->isEmpty()) {
-        return response()->json(['message' => 'El carrito está vacío'], 400);
-    }
-
-    foreach ($cartItems as $cartItem) {
-        if ($cartItem->product->stock < $cartItem->quantity) {
-            return response()->json(['message' => 'Stock insuficiente para el producto ' . $cartItem->product->name], 400);
+        if ($cartItems->isEmpty()) {
+            return response()->json(['message' => 'El carrito está vacío'], 400);
         }
-    }
-        $order = Order::create([
-        'user_id' => $userId,
-        'order_date' => now(),
-        'total_amount' => $cartItems->sum(function ($item) {
-            return $item->product->price * $item->quantity;
-        }),
-        'payment_method' => 'Pendiente',
-        'shipping_status' => 'pending'
-    ]);
 
-    foreach ($cartItems as $cartItem) {
-        OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $cartItem->product_id,
-            'quantity' => $cartItem->quantity,
-            'price' => $cartItem->product->price
+        foreach ($cartItems as $cartItem) {
+            if ($cartItem->product->stock < $cartItem->quantity) {
+                return response()->json(['message' => 'Stock insuficiente para el producto ' . $cartItem->product->name], 400);
+            }
+        }
+        $order = Order::create([
+            'user_id' => $userId,
+            'order_date' => now(),
+            'total_amount' => $cartItems->sum(function ($item) {
+                return $item->product->price * $item->quantity;
+            }),
+            'payment_method' => 'Pendiente',
+            'shipping_status' => 'pending'
         ]);
 
-        $product = $cartItem->product;
-        $product->stock -= $cartItem->quantity;
-        $product->save();
+        foreach ($cartItems as $cartItem) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $cartItem->product_id,
+                'quantity' => $cartItem->quantity,
+                'price' => $cartItem->product->price
+            ]);
 
-        $cartItem->delete();
-    }
+            $product = $cartItem->product;
+            $product->stock -= $cartItem->quantity;
+            $product->save();
 
-    return response()->json(['message' => 'Pedido realizado exitosamente']);
+            $cartItem->delete();
+        }
+
+        return response()->json(['message' => 'Pedido realizado exitosamente']);
     }
 }

@@ -7,6 +7,10 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 
 /**
+ * @OA\Tag(
+ *     name="Categories",
+ *     description="Solo para administradores"
+ * )
  * @OA\Schema(
  *     schema="Category",
  *     type="object",

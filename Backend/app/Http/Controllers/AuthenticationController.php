@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
+/**
+ * @OA\Tag(
+ *     name="Authentication",
+ *     description="Para todos los usuarios"
+ * )
+ */
 
 class AuthenticationController extends Controller
 {
@@ -119,7 +127,7 @@ class AuthenticationController extends Controller
             $user->save();
 
             return response()->json([
-                "user" => $user,
+                "user" => new UserResource($user),                
                 "token" => $token,
                 'message' => 'Login satisfactorio'
             ], 200);
