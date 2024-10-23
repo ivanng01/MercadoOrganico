@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
  * )
  */
 
-
 class CategoryController extends Controller
 {
 
@@ -71,6 +70,7 @@ class CategoryController extends Controller
      *     path="/categories",
      *     tags={"Categories"},
      *     summary="Crear una nueva categoría",
+     *     description="Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
@@ -103,14 +103,9 @@ class CategoryController extends Controller
      *     )
      * )
      */
+
     public function create(Request $request)
     {
-        $authenticatedUser = $request->user();
-
-        if ($authenticatedUser->type_user < 3) {
-            return response()->json(['message' => 'No tienes permiso para crear categorías.'], 403);
-        }
-
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -131,6 +126,7 @@ class CategoryController extends Controller
      *     path="/categories/{id}",
      *     tags={"Categories"},
      *     summary="Actualizar una categoría existente",
+     *     description="Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -173,14 +169,9 @@ class CategoryController extends Controller
      *     )
      * )
      */
+
     public function update(Request $request, $id)
     {
-        $authenticatedUser = $request->user();
-
-        if ($authenticatedUser->type_user < 3) {
-            return response()->json(['message' => 'No tienes permiso para actualizar categorías.'], 403);
-        }
-
         $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'description' => 'nullable|string',
@@ -203,6 +194,7 @@ class CategoryController extends Controller
      *     path="/categories/{id}",
      *     tags={"Categories"},
      *     summary="Eliminar una categoría",
+     *     description="Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -228,14 +220,9 @@ class CategoryController extends Controller
      *     )
      * )
      */
+
     public function delete(Request $request, $id)
     {
-        $authenticatedUser = $request->user();
-
-        if ($authenticatedUser->type_user < 3) {
-            return response()->json(['message' => 'No tienes permiso para eliminar categorías.'], 403);
-        }
-
         $category = Category::find($id);
 
         if (!$category) {

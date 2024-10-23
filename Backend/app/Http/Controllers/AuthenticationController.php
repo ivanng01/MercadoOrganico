@@ -18,7 +18,7 @@ class AuthenticationController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"email","username","firstname","lastname","password","type_user","phone_number","gender","birth_date"},
+     *             required={"email","username","firstname","lastname","password","phone_number","gender","birth_date"},
      *             @OA\Property(property="email", type="string"),
      *             @OA\Property(property="username", type="string"),
      *             @OA\Property(property="firstname", type="string"),
@@ -59,7 +59,6 @@ class AuthenticationController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'phone_number' => null,
-            'type_user' => 1,
             'gender' => null,
             'birth_date' => null,
             'picture' => null,
