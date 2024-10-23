@@ -5,6 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="username", type="string"),
+ *     @OA\Property(property="firstname", type="string"),
+ *     @OA\Property(property="lastname", type="string"),
+ *     @OA\Property(property="email", type="string", format="email"),
+ *     @OA\Property(property="password", type="string", format="password"),
+ *     @OA\Property(property="phone_number", type="string"),
+ *     @OA\Property(property="birth_date", type="string", format="date"),
+ *     @OA\Property(property="picture", type="string", format="uri"),
+ *     @OA\Property(property="gender", type="string"),
+ *     @OA\Property(property="status", type="integer"),
+ *     @OA\Property(property="session", type="integer"),
+ *     @OA\Property(property="remember_token", type="string"),
+ *     @OA\Property(property="role_id", type="integer"),
+ *     @OA\Property(property="email_verified_at", type="string", format="date-time", nullable=true),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time"),
+ * )
+ */
+
 class UserController extends Controller
 {
     /**
@@ -20,11 +44,35 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function index()
+
+    public function index(Request $request)
     {
-        $users = User::all();
-        
-        return response()->json(['users' => $users], 200);
+        $query = User::with(['role']);
+
+        $filters = [
+            'username',
+            'firstname',
+            'lastname',
+            'email',
+            'role_id',
+            'status',
+            'session',
+            'gender',
+            'birth_date',
+            'phone_number',
+            'created_at',
+            'updated_at',
+        ];
+
+        foreach ($filters as $filter) {
+            if ($request->filled($filter)) {
+                $query->where($filter, $request->query($filter));
+            }
+        }
+
+        $users = $query->paginate(10);
+
+        return response()->json($users, 200);
     }
 
     /**
@@ -47,9 +95,14 @@ class UserController extends Controller
      *     @OA\Response(response=404, description="Usuario no encontrado")
      * )
      */
-    public function show(User $user)
+    public function show($id)
     {
-        return response()->json(['user' => $user], 200);
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado.'], 404);
+        }
+        return response()->json([$user], 200);
     }
 
     /**
@@ -69,90 +122,63 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function profile(Request $request)
+    public function profile()
     {
-       
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
-    
-        $user = $request->user();
-    
-        
-        $response = [
-            'username' => $user->username,
-            'firstname' => $user->firstname,
-            'lastname' => $user->lastname,
-            'email' => $user->email,
-            'phone_number' => $user->phone_number,
-            'gender' => $user->gender,
-            'birth_date' => $user->birth_date,
-            'type_user' => $user->type_user,
-            'status' => $user->status,
-            'picture' => $user->picture,
-        ];
-    
-        return response()->json($response);
+        $user = auth()->user()->load('role');
+
+        return response()->json([$user], 200);
     }
 
     /**
-      * @OA\Patch(
-      *     path="/users/{id}",
-      *     summary="Actualizar parcialmente un usuario",
-      *     description="Permite la actualización parcial de un usuario especificando solo los campos que se desean modificar. Se pueden actualizar todos los campos, excepto email, username y password.",
-      *     tags={"Users"},
-      *     security={{"bearerAuth": {}}},
-      *     @OA\Parameter(
-      *         name="id",
-      *         in="path",
-      *         required=true,
-      *         @OA\Schema(type="integer")
-      *     ),
-      *     @OA\RequestBody(
-      *         required=false,
-      *         @OA\JsonContent(type="object", example={"firstname": "Antonio", "lastname": "Banderas", "type_user": 1})
-      *     ),
-      *     @OA\Response(
-      *         response=200,
-      *         description="Usuario actualizado parcialmente exitosamente.",
-      *         @OA\JsonContent(type="object", example={"id": 1, "username": "antonio54", "firstname": "Antonio", "lastname": "Banderas", "email": "antoniobanderas@gmail.com"})
-      *     ),
-      *     @OA\Response(response=404, description="Usuario no encontrado")
-      * )
-      */
+     * @OA\Patch(
+     *     path="/users/{id}",
+     *     summary="Actualizar parcialmente un usuario",
+     *     description="Permite la actualización parcial de un usuario especificando solo los campos que se desean modificar. Se pueden actualizar todos los campos, excepto email, username y password.",
+     *     tags={"Users"},
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=false,
+     *         @OA\JsonContent(type="object", example={"firstname": "Antonio", "lastname": "Banderas", "role_id": 1})
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Usuario actualizado parcialmente exitosamente.",
+     *         @OA\JsonContent(type="object", example={"id": 1, "username": "antonio54", "firstname": "Antonio", "lastname": "Banderas", "email": "antoniobanderas@gmail.com"})
+     *     ),
+     *     @OA\Response(response=404, description="Usuario no encontrado")
+     * )
+     */
 
-      public function update(Request $request, User $user)
-      {
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
 
-          if (!auth()->check()) {
-              return response()->json(['message' => 'Unauthorized'], 401);
-          }
-      
-        
-          $authenticatedUser = auth()->user();
-          if ($authenticatedUser->id !== $user->id && $authenticatedUser->type_user !== 3) {
-              return response()->json(['message' => 'Forbidden'], 403);
-          }
-      
-          // Validación de datos
-          $validatedData = $request->validate([
-              'firstname' => 'sometimes|required|string|max:255',
-              'lastname' => 'sometimes|required|string|max:255',
-              'type_user' => 'sometimes|required|integer',
-              'status' => 'sometimes|required|integer',
-              'session' => 'sometimes|required|integer',
-              'gender' => 'sometimes|nullable|string',
-              'birth_date' => 'sometimes|nullable|date',
-              'phone_number' => 'sometimes|nullable|string|max:15',
-              'picture' => 'sometimes|nullable|string',
-          ]);
-      
-          
-          $user->update($validatedData);
-      
-          return response()->json(['user' => $user], 200);
-      }
-      
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no encontrado.'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'firstname' => 'sometimes|required|string|max:255',
+            'lastname' => 'sometimes|required|string|max:255',
+            'role_id' => 'sometimes|required|integer',
+            'status' => 'sometimes|required|integer',
+            'session' => 'sometimes|required|integer',
+            'gender' => 'sometimes|nullable|string',
+            'birth_date' => 'sometimes|nullable|date',
+            'phone_number' => 'sometimes|nullable|string|max:15',
+            'picture' => 'sometimes|nullable|string',
+        ]);
+
+        $user->update($validatedData);
+
+        return response()->json($user, 200);
+    }
 
     /**
      * @OA\Delete(
@@ -174,14 +200,9 @@ class UserController extends Controller
      *     @OA\Response(response=404, description="Usuario no encontrado")
      * )
      */
-    public function destroy(Request $request, $id)
+
+    public function destroy($id)
     {
-        $authenticatedUser = $request->user();
-
-        if ($authenticatedUser->type_user < 3) {
-            return response()->json(['message' => 'No tienes permiso para eliminar el usuario.'], 403);
-        }
-
         $user = User::find($id);
 
         if (!$user) {
@@ -192,55 +213,4 @@ class UserController extends Controller
 
         return response()->json(null, 204);
     }
-
-
-    /** 
-     * @OA\Patch(
-     *     path="/users/{id}/type",
-     *     tags={"Users"},
-     *     summary="Cambiar el tipo de usuario",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer")
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"type_user"},
-     *             @OA\Property(property="type_user", type="integer", description="Nuevo tipo de usuario")
-     *         )
-     *     ),
-     *     @OA\Response(response=200, description="Tipo de usuario actualizado"),
-     *     @OA\Response(response=404, description="Usuario no encontrado"),
-     *     @OA\Response(response=403, description="No tienes permiso para cambiar el tipo de usuario.")
-     * )
-     */
-
-    public function changeType(Request $request, $id)
-    {
-        $authenticatedUser = $request->user();
-        
-        
-        if ($authenticatedUser->type_user !== 3) { 
-            return response()->json(['message' => 'No tienes permiso para cambiar el tipo de usuario.'], 403);
-        }
-    
-        $request->validate([
-            'type_user' => 'required|integer|exists:type_users,id',
-        ]);
-    
-        $user = User::findOrFail($id);
-
-        if (!$user) {
-            return response()->json(['message' => 'Usuario no encontrado.'], 404);
-        }
-    
-        $user->type_user = $request->type_user;
-        $user->save();
-    
-        return response()->json(['message' => 'Tipo de usuario actualizado', 'user' => $user], 200);
-    }
-
 }

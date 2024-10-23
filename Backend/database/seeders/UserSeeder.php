@@ -14,56 +14,54 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // Crea o actualiza un usuario con un correo específico
+        $commonPassword = bcrypt('securePassword123');
+
         User::updateOrCreate(
-            ['email' => 'user@example.com'], // Cambia esto al correo que desees
+            ['email' => 'admin@example.com'],
             [
-                'username' => 'johndoe', // Nombre de usuario
-                'firstname' => 'John', // Nombre
-                'lastname' => 'Doe', // Apellido
-                'password' => bcrypt('password'), // Contraseña (encriptada)
-                'phone_number' => '+544107851478', // Número de teléfono
-                'type_user' => 1, // Tipo de usuario (ajusta según tu lógica)
-                'gender' => 'male', // Género
-                'birth_date' => '1990-01-01', // Fecha de nacimiento
-                'picture' => 'path/to/picture.jpg', // Ruta de la imagen
-                'status' => 1, // Estado del usuario
-                'session' => 0, // Estado del usuario
-
-            ]
-        );
-
-         // Segundo usuario con type_user = 2
-         User::updateOrCreate(
-            ['email' => 'user2@example.com'],
-            [
-                'username' => 'janedoe',
-                'firstname' => 'Jane',
-                'lastname' => 'Doe',
-                'password' => bcrypt('password123'),
-                'phone_number' => '+544107851479',
-                'type_user' => 2,
-                'gender' => 'female',
-                'birth_date' => '1992-02-02',
-                'picture' => 'path/to/picture2.jpg',
+                'username' => 'adminUser',
+                'firstname' => 'Admin',
+                'lastname' => 'User',
+                'password' => $commonPassword,
+                'phone_number' => '+544107851478',
+                'role_id' => 1,
+                'gender' => 'male',
+                'birth_date' => '1985-01-01',
+                'picture' => '/admin_picture.jpg',
                 'status' => 1,
                 'session' => 0,
             ]
         );
 
-        // Tercer usuario con type_user = 3
         User::updateOrCreate(
-            ['email' => 'user3@example.com'],
+            ['email' => 'producer@example.com'],
             [
-                'username' => 'liadone',
-                'firstname' => 'Lia',
-                'lastname' => 'Done',
-                'password' => bcrypt('securepassword'),
+                'username' => 'producerUser',
+                'firstname' => 'Production',
+                'lastname' => 'User',
+                'password' => $commonPassword,
+                'phone_number' => '+544107851479',
+                'role_id' => 2,
+                'gender' => 'female',
+                'birth_date' => '1990-02-02',
+                'picture' => '/producer_picture.jpg',
+                'status' => 1,
+                'session' => 0,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'client@example.com'],
+            [
+                'username' => 'clientUser',
+                'firstname' => 'Client',
+                'lastname' => 'User',
+                'password' => $commonPassword,
                 'phone_number' => '+544107851480',
-                'type_user' => 3,
+                'role_id' => 3,
                 'gender' => 'male',
                 'birth_date' => '1995-03-03',
-                'picture' => 'path/to/picture3.jpg',
+                'picture' => '/client_picture.jpg',
                 'status' => 1,
                 'session' => 0,
             ]

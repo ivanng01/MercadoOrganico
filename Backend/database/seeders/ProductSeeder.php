@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
             'category_id' => 1, 
             'user_id' => 2,
             'request_id' => 1,
-            'image_path' => '/huevos_gallina_campo.jpg',
+            'image_path' => '/huevos_gallina_campo.webp',
             'is_featured' => true, 
         ]);
 
@@ -29,7 +29,7 @@ class ProductSeeder extends Seeder
             'category_id' => 1, 
             'user_id' => 2,
             'request_id' => 2,
-            'image_path' => '/pan_integral.jpg',
+            'image_path' => '/pan_integral.webp',
             'is_featured' => true, 
         ]);
 
@@ -41,7 +41,7 @@ class ProductSeeder extends Seeder
             'category_id' => 2, 
             'user_id' => 3,
             'request_id' => 3,
-            'image_path' => '/platano_organico.jpg',
+            'image_path' => '/platano_organico.webp',
             'is_featured' => true,
         ]);
 
@@ -53,7 +53,7 @@ class ProductSeeder extends Seeder
             'category_id' => 2, 
             'user_id' => 3,
             'request_id' => 3,
-            'image_path' => '/manzana_roja.jpg',
+            'image_path' => '/manzana_roja.webp',
             'is_featured' => true, 
         ]);
     }

@@ -28,7 +28,7 @@ class ShoppingCartController extends Controller
     /**
      * @OA\Post(
      *     path="/cart/products",
-     *     tags={"Carrito"},
+     *     tags={"Cart"},
      *     summary="Agregar un producto al carrito",
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
@@ -105,7 +105,7 @@ class ShoppingCartController extends Controller
     /**
      * @OA\Get(
      *     path="/cart",
-     *     tags={"Carrito"},
+     *     tags={"Cart"},
      *     summary="Ver productos en el carrito",
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(
@@ -137,7 +137,7 @@ class ShoppingCartController extends Controller
     /**
      * @OA\Patch(
      *     path="/cart/products",
-     *     tags={"Carrito"},
+     *     tags={"Cart"},
      *     summary="Actualizar cantidad de un producto en el carrito",
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
@@ -203,7 +203,7 @@ class ShoppingCartController extends Controller
     /**
      * @OA\Delete(
      *     path="/cart/products",
-     *     tags={"Carrito"},
+     *     tags={"Cart"},
      *     summary="Eliminar un producto del carrito",
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
@@ -250,7 +250,7 @@ class ShoppingCartController extends Controller
     /**
  * @OA\Post(
  *     path="/cart/checkout",
- *     tags={"Carrito"},
+ *     tags={"Cart"},
  *     summary="Confirmar compra y crear un pedido",
  *     security={{"bearerAuth": {}}},
  *     @OA\Response(

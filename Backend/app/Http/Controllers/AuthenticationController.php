@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateUser;
-use App\Models\Failed_login;
 use App\Models\User;
-use App\Models\NotificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -33,9 +30,10 @@ class AuthenticationController extends Controller
      *     @OA\Response(response=422, description="Error de validación")
      * )
      */
-    public function createUser(Request $request) {
+    public function createUser(Request $request)
+    {
         $credentials = $request->only('email', 'username', 'firstname', 'lastname', 'password');
-    
+
         $validator = Validator::make($credentials, [
             'email' => [
                 'required',
@@ -45,32 +43,31 @@ class AuthenticationController extends Controller
                 'max:64'
             ],
             'username' => 'required|string|alpha_dash|unique:users,username|min:3|max:15',
-            'firstname' => 'required|string|min:2|max:50', 
+            'firstname' => 'required|string|min:2|max:50',
             'lastname' => 'required|string|min:2|max:50',
             'password' => 'required|string|min:8|max:30',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-    
+
         $user = User::create([
             'username' => $request->input('username'),
-            'firstname' => $request->input('firstname'), 
+            'firstname' => $request->input('firstname'),
             'lastname' => $request->input('lastname'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'phone_number' => null,
-            'type_user' => 1, 
-            'gender' => null, 
+            'type_user' => 1,
+            'gender' => null,
             'birth_date' => null,
             'picture' => null,
-            'status' => 1, 
-            'session' => 1, 
+            'status' => 1,
+            'session' => 1,
         ]);
-    
-        $dataUser = User::find($user->id);
-        return response()->json(['message' => 'Usuario creado', 'user' => $dataUser], 201);
+
+        return response()->json(['message' => 'Usuario creado', 'data' => $user], 201);
     }
 
     /**
@@ -83,16 +80,10 @@ class AuthenticationController extends Controller
      *         @OA\JsonContent(
      *             required={"identifier", "password"},
      *             @OA\Property(property="identifier", type="string", description="Nombre de usuario o email"),
-     *             @OA\Property(property="password", type="string"),
+     *             @OA\Property(property="password", type="string", description="Contraseña"),
      *             example={
-     *                 "example1": {
-     *                     "identifier": "example@example.com",
-     *                     "password": "password"
-     *                 },
-     *                 "example2": {
-     *                     "identifier": "johndoe",
-     *                     "password": "password"
-     *                 }
+     *                 "identifier": "olivia.perez@gmail.com",
+     *                 "password": "12345678"
      *             }
      *         )
      *     ),
@@ -102,66 +93,39 @@ class AuthenticationController extends Controller
      * )
      */
 
-    public function loginSession(Request $request) {
-        $credentials = $request->only('identifier', 'password'); 
+    public function loginSession(Request $request)
+    {
+        $credentials = $request->only('identifier', 'password');
         $validator = Validator::make($credentials, [
-            'identifier' => 'required', 
+            'identifier' => 'required',
             'password' => 'required',
         ]);
-    
+
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 422);
+            return response()->json(['errors' => $validator->errors()], 422);
         }
-    
-        $user = User::where('username', $request->identifier)
-                    ->orWhere('email', $request->identifier)
-                    ->first();
-    
+
+        $user = User::with('role')
+            ->where('username', $request->identifier)
+            ->orWhere('email', $request->identifier)
+            ->first();
+
         if ($user && Auth::attempt(['username' => $user->username, 'password' => $credentials['password']])) {
-            if (!is_null($user->tokens())) {
-                $user->tokens()->delete();
-            }
-            
+            $user->tokens()->delete();
+
             $tokenResult = $user->createToken('Personal Access Token: ' . $user->username);
             $token = $tokenResult->plainTextToken;
-    
-            $update_session = User::find($user->id);
-            $update_session->session = 1;
-            $update_session->update();
-    
+
+            $user->session = 1;
+            $user->save();
+
             return response()->json([
-                'response' => [
-                    "user" => $user,
-                    "token" => $token
-                ],
-                'success' => 'Login satisfactorio'
+                "user" => $user,
+                "token" => $token,
+                'message' => 'Login satisfactorio'
             ], 200);
-    
         } else {
-            if ($user) {
-                $faileds_login = Failed_login::getFailedLogins($user->id);
-                if (count($faileds_login) == 3) {         
-                    NotificationUser::createTrack($user->id, 1);
-    
-                    $update_session = User::find($user->id);
-                    $update_session->status = 0;
-                    $update_session->update();
-    
-                    return response()->json([
-                        'errors' => 'Máximo de intentos alcanzados, se bloqueó el usuario'
-                    ], 400);
-                } else {
-                    $create_fail_login = new Failed_login();
-                    $create_fail_login->user_id = $user->id;
-                    $create_fail_login->save();
-                }
-            }
-    
-            return response()->json([
-                'errors' => 'Los datos ingresados son incorrectos'
-            ], 400);
+            return response()->json(['errors' => 'Los datos ingresados son incorrectos'], 400);
         }
     }
 
@@ -176,25 +140,19 @@ class AuthenticationController extends Controller
      *     @OA\Response(response=401, description="No autorizado, el usuario no está autenticado"),
      *     @OA\Response(response=404, description="Usuario no encontrado")
      * )
-    */
+     */
     public function logoutUser(Request $request)
     {
         $user = $request->user();
-    
+
         if ($user) {
             $user->tokens()->delete();
-    
             $user->session = 0;
-            $user->save(); 
-    
-            return response()->json([
-                'success' => 'Sesión cerrada',
-            ], 200);
-        }
-    
-        return response()->json([
-            'error' => 'Usuario no encontrado',
-        ], 404);
-    }
+            $user->save();
 
+            return response()->json(['message' => 'Sesión cerrada'], 200);
+        }
+
+        return response()->json(['errors' => 'Usuario no encontrado'], 404);
+    }
 }

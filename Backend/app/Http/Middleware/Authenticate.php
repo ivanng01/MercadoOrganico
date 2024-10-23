@@ -16,8 +16,12 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         throw new HttpResponseException(response()->json([
-            'message' => 'Debe estar autenticado para acceder a este recurso.',
-            'error' => 'Unauthorized'
+            "status" => "error",
+            "code" => 401,
+            "message" => "Error en la operación.",
+            "data" => [
+                "message" => "Debe estar autenticado para acceder a este recurso."
+            ]
         ], 401));
     }
 }

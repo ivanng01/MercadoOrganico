@@ -22,10 +22,8 @@ use App\Models\ProductRequest;
  * )
  */
 
-
 class ProductController extends Controller
 {
-
 
     /**
      * @OA\Get(
@@ -76,7 +74,6 @@ class ProductController extends Controller
      * )
      */
 
-
     public function index(Request $request)
     {
         $category_id = $request->query('category_id');
@@ -84,15 +81,14 @@ class ProductController extends Controller
         $limit = $request->query('limit', 10);
         $page = $request->query('page', 1);
 
-        $approvedRequests = ProductRequest::where('status', 'approved')->get();
-        $approvedRequestIds = $approvedRequests->pluck('id');
+        $approvedRequestIds = ProductRequest::where('status', 'approved')->pluck('id');
 
-        $query = Product::query();
-        $query->whereIn('request_id', $approvedRequestIds);
+        $query = Product::whereIn('request_id', $approvedRequestIds);
 
         if ($category_id) {
             $query->where('category_id', $category_id);
         }
+
         if ($status) {
             $query->where('status', $status);
         }
@@ -103,30 +99,7 @@ class ProductController extends Controller
             return response()->json(['message' => 'No products found'], 404);
         }
 
-        $formattedProducts = $products->map(function ($product) use ($approvedRequests) {
-            $approvedRequest = $approvedRequests->where('id', $product->request_id)->first();
-
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'description' => $product->description,
-                'price' => $product->price,
-                'category_id' => $product->category_id,
-                'status' => $product->status,
-                'user_id' => $product->user_id,
-                'is_featured' => $product->is_featured,
-                'stock' => $product->stock,
-                'image_path' => $product->image_path,
-                'created_at' => $product->created_at,
-                'updated_at' => $product->updated_at,
-                'request' => $approvedRequest ? [
-                    'status' => $approvedRequest->status,
-                    'admin_id' => $approvedRequest->admin_id,
-                ] : null,
-            ];
-        });
-
-        return response()->json(['message' => 'Product list retrieved successfully', 'product' => $formattedProducts], 200);
+        return response()->json($products, 200);
     }
 
 
@@ -138,31 +111,16 @@ class ProductController extends Controller
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name", "description", "price", "category_id", "status", "stock", "is_featured"},
-     *             @OA\Property(property="name", type="string", description="Nombre del producto"),
-     *             @OA\Property(property="description", type="string", description="Descripción del producto"),
-     *             @OA\Property(property="price", type="number", format="float", description="Precio del producto"),
-     *             @OA\Property(property="category_id", type="integer", description="ID de la categoría"),
-     *             @OA\Property(property="status", type="string", description="Estado del producto"),
-     *             @OA\Property(property="stock", type="integer", description="Cantidad en stock"),
-     *             @OA\Property(property="is_featured", type="boolean", description="¿Es un producto destacado?"),
-     *             example={
-     *                 "name": "Producto Ejemplo",
-     *                 "description": "Descripción del producto ejemplo.",
-     *                 "price": 99.99,
-     *                 "category_id": 1,
-     *                 "status": "disponible",
-     *                 "stock": 100,
-     *                 "is_featured": 1
-     *             }
-     *         )
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
      *     ),
-     *     @OA\Response(response=201, description="Producto creado exitosamente"),
+     *     @OA\Response(response=201, description="Producto creado exitosamente", 
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
      *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
      *     @OA\Response(response=422, description="Error de validación")
      * )
      */
+
     public function create(Request $request)
     {
         try {
@@ -172,10 +130,6 @@ class ProductController extends Controller
         }
 
         $user = $request->user();
-
-        if ($user->type_user != 2 && $user->type_user != 3) {
-            return response()->json(['error' => 'No tienes los permisos para esta acción'], 403);
-        }
 
         $productRequest = ProductRequest::create([
             'name' => $request->input('name'),
@@ -207,10 +161,8 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-
-
     /**
-     * @OA\Put(
+     * @OA\Patch(
      *     path="/products/{id}",
      *     tags={"Products"},
      *     summary="Actualizar producto",
@@ -223,25 +175,11 @@ class ProductController extends Controller
      *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(
-     *             required={"name", "description", "price", "category_id", "status", "stock", "is_featured"},
-     *             @OA\Property(property="name", type="string", description="Nombre del producto"),
-     *             @OA\Property(property="description", type="string", description="Descripción del producto"),
-     *             @OA\Property(property="price", type="number", format="float", description="Precio del producto"),
-     *             @OA\Property(property="category_id", type="integer", description="ID de la categoría"),
-     *             @OA\Property(property="status", type="string", description="Estado del producto"),
-     *             @OA\Property(property="stock", type="integer", description="Cantidad en stock"),
-     *             @OA\Property(property="is_featured", type="boolean", description="¿Es un producto destacado?"),
-     *             example={
-     *                 "name": "Producto Actualizado",
-     *                 "description": "Descripción actualizada del producto.",
-     *                 "price": 79.99,
-     *                 "category_id": 2,
-     *                 "stock": 50,
-     *             }
-     *         )
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
      *     ),
-     *     @OA\Response(response=200, description="Producto actualizado exitosamente"),
+     *     @OA\Response(response=200, description="Producto actualizado exitosamente", 
+     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     ),
      *     @OA\Response(response=404, description="Producto no encontrado"),
      *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
      *     @OA\Response(response=422, description="Error de validación")
@@ -258,17 +196,28 @@ class ProductController extends Controller
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
-        $user = $request->user();
-
-        if ($user->type_user != 3 && $product->user_id != $user->id) {
-            return response()->json(['error' => 'Error de validación'], 403);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $product->image_path = $imagePath;
         }
 
-        $product->update($request->all());
+        $product->update($request->only([
+            'name',
+            'description',
+            'price',
+            'category_id',
+            'status',
+            'is_featured',
+            'stock'
+        ]));
 
-        return response()->json(['message' => 'Producto actualizado exitosamente', 'product' => $product]);
+        $product->save();
+
+        return response()->json([
+            'message' => 'Producto actualizado exitosamente',
+            'product' => $product
+        ]);
     }
-
 
     /**
      * @OA\Delete(
@@ -295,12 +244,6 @@ class ProductController extends Controller
             return response()->json(['message' => 'Producto no encontrado.'], 404);
         }
 
-        $user = request()->user();
-
-        if ($user->type_user != 3 && $product->user_id != $user->id) {
-            return response()->json(['error' => 'Error de autorización'], 403);
-        }
-
         $product->delete();
         return response()->json(['message' => 'Producto eliminado exitosamente.']);
     }
@@ -310,6 +253,7 @@ class ProductController extends Controller
      *     path="/products/requests/waitlist/",
      *     tags={"Products"},
      *     summary="Obtener los productos en lista de espera",
+     *     description="Este endpoint permite a un administrador listar los productos en la lista de espera.",
      *     security={{"bearerAuth": {}}},
      *     @OA\Response(response=201, description="Productos"),
      *     @OA\Response(response=403, description="No tiene permisos para acceder"),
@@ -317,15 +261,8 @@ class ProductController extends Controller
      * )
      */
 
-    public function getProductsInWaitlist(Request $request)
+    public function getProductsInWaitlist()
     {
-        $authenticatedUser = $request->user();
-
-        if ($authenticatedUser->type_user !== 3) {
-            return response()->json(['message' => 'No tienes permiso para acceder a esta página.'], 403);
-        }
-
-
         $pendingRequests = ProductRequest::where('status', 'pending')->get();
 
         return response()->json(['requests' => $pendingRequests], 200);
@@ -335,8 +272,8 @@ class ProductController extends Controller
      * @OA\Put(
      *     path="/products/requests/waitlist/{id}/approve",
      *     tags={"Products"},
-     *     summary="Aprobar un producto en la lista de espera",
-     *     description="Este endpoint permite a un administrador aprobar una solicitud de producto en la lista de espera. Solo los usuarios con el rol adecuado pueden acceder a esta acción.",
+     *     summary="Aprobar un producto en la lista de espera, se proporciona el id del producto",
+     *     description="Este endpoint permite a un administrador aprobar una solicitud de producto en la lista de espera.",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -345,26 +282,35 @@ class ProductController extends Controller
      *         description="ID de la solicitud de producto que se desea aprobar.",
      *         @OA\Schema(type="integer")
      *     ),
-     *  
-     *     @OA\Response(response=200, description="Solicitud aprobada con éxito.", 
+     *     @OA\Response(
+     *         response=200,
+     *         description="Solicitud aprobada con éxito.",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Solicitud aprobada."),
+     *             @OA\Property(
+     *                 property="request",
+     *                 ref="#/components/schemas/Product"
+     *             )
      *         )
      *     ),
-     *     @OA\Response(response=403, description="No tiene permiso para acceder a esta acción."),
-     *     @OA\Response(response=404, description="Solicitud no encontrada o ya procesada."),
-     *     @OA\Response(response=422, description="Error en la solicitud.")
+     *     @OA\Response(
+     *         response=403,
+     *         description="No tiene permiso para acceder a esta acción."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Solicitud no encontrada o ya procesada."
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error en la solicitud."
+     *     )
      * )
      */
-
 
     public function approveRequest($id, Request $request)
     {
         $authenticatedUser = $request->user();
-
-        if ($authenticatedUser->type_user !== 3) {
-            return response()->json(['message' => 'No tienes permiso para acceder a esta acción.'], 403);
-        }
 
         $requestToUpdate = ProductRequest::find($id);
 
@@ -388,7 +334,7 @@ class ProductController extends Controller
      *     path="/products/requests/waitlist/{id}/reject",
      *     tags={"Products"},
      *     summary="Rechazar un producto en la lista de espera",
-     *     description="Este endpoint permite a un administrador rechazar una solicitud de producto en la lista de espera. Solo los usuarios con el rol adecuado pueden acceder a esta acción.",
+     *     description="Este endpoint permite a un administrador rechazar una solicitud de producto en la lista de espera.",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -397,39 +343,42 @@ class ProductController extends Controller
      *         description="ID de la solicitud de producto que se desea rechazar.",
      *         @OA\Schema(type="integer")
      *     ),
-     *     
-     *     @OA\Response(response=200, description="Solicitud rechazada con éxito.", 
+     *     @OA\Response(
+     *         response=200,
+     *         description="Solicitud rechazada con éxito.",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Solicitud rechazada."),
+     *             @OA\Property(
+     *                 property="request",
+     *                 ref="#/components/schemas/Product"
+     *             )
      *         )
      *     ),
-     *     @OA\Response(response=403, description="No tiene permiso para acceder a esta acción."),
-     *     @OA\Response(response=404, description="Solicitud no encontrada o ya procesada."),
-     *     @OA\Response(response=422, description="Error en la solicitud.")
+     *     @OA\Response(
+     *         response=403,
+     *         description="No tiene permiso para acceder a esta acción."
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Solicitud no encontrada o ya procesada."
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error en la solicitud."
+     *     )
      * )
      */
 
-
     public function rejectRequest($id, Request $request)
     {
-        $authenticatedUser = $request->user();
-
-        // Verificar si el usuario tiene permisos adecuados
-        if ($authenticatedUser->type_user !== 3) {
-            return response()->json(['message' => 'No tienes permiso para acceder a esta acción.'], 403);
-        }
-
-        // Buscar la solicitud de producto por ID
         $requestToUpdate = ProductRequest::find($id);
 
-        // Verificar si la solicitud existe y está en estado 'pending'
         if (!$requestToUpdate || $requestToUpdate->status !== 'pending') {
             return response()->json(['message' => 'Solicitud no encontrada o ya procesada.'], 404);
         }
 
-        // Actualizar el estado de la solicitud a 'rejected'
         $requestToUpdate->status = 'rejected';
-        $requestToUpdate->admin_id = $authenticatedUser->id;
+        $requestToUpdate->admin_id = $request->user()->id;
         $requestToUpdate->save();
 
         return response()->json([
@@ -437,6 +386,7 @@ class ProductController extends Controller
             'request' => $requestToUpdate
         ], 200);
     }
+
 
     private function validateProduct(Request $request)
     {

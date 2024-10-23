@@ -93,20 +93,15 @@
                                         "type": "string"
                                     },
                                     "password": {
+                                        "description": "Contraseña",
                                         "type": "string"
                                     }
                                 },
                                 "type": "object"
                             },
                             "example": {
-                                "example1": {
-                                    "identifier": "example@example.com",
-                                    "password": "password"
-                                },
-                                "example2": {
-                                    "identifier": "johndoe",
-                                    "password": "password"
-                                }
+                                "identifier": "olivia.perez@gmail.com",
+                                "password": "12345678"
                             }
                         }
                     }
@@ -485,63 +480,21 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "description",
-                                    "price",
-                                    "category_id",
-                                    "status",
-                                    "stock",
-                                    "is_featured"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "description": "Nombre del producto",
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "description": "Descripción del producto",
-                                        "type": "string"
-                                    },
-                                    "price": {
-                                        "description": "Precio del producto",
-                                        "type": "number",
-                                        "format": "float"
-                                    },
-                                    "category_id": {
-                                        "description": "ID de la categoría",
-                                        "type": "integer"
-                                    },
-                                    "status": {
-                                        "description": "Estado del producto",
-                                        "type": "string"
-                                    },
-                                    "stock": {
-                                        "description": "Cantidad en stock",
-                                        "type": "integer"
-                                    },
-                                    "is_featured": {
-                                        "description": "¿Es un producto destacado?",
-                                        "type": "boolean"
-                                    }
-                                },
-                                "type": "object"
-                            },
-                            "example": {
-                                "name": "Producto Ejemplo",
-                                "description": "Descripción del producto ejemplo.",
-                                "price": 99.99,
-                                "category_id": 1,
-                                "status": "disponible",
-                                "stock": 100,
-                                "is_featured": 1
+                                "$ref": "#/components/schemas/Product"
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "Producto creado exitosamente"
+                        "description": "Producto creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Los datos ingresados son incorrectos"
@@ -558,100 +511,6 @@
             }
         },
         "/products/{id}": {
-            "put": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Actualizar producto",
-                "operationId": "1419d479f9340e30e67fe21a2ca525b7",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "description": "ID del producto a actualizar",
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "description",
-                                    "price",
-                                    "category_id",
-                                    "status",
-                                    "stock",
-                                    "is_featured"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "description": "Nombre del producto",
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "description": "Descripción del producto",
-                                        "type": "string"
-                                    },
-                                    "price": {
-                                        "description": "Precio del producto",
-                                        "type": "number",
-                                        "format": "float"
-                                    },
-                                    "category_id": {
-                                        "description": "ID de la categoría",
-                                        "type": "integer"
-                                    },
-                                    "status": {
-                                        "description": "Estado del producto",
-                                        "type": "string"
-                                    },
-                                    "stock": {
-                                        "description": "Cantidad en stock",
-                                        "type": "integer"
-                                    },
-                                    "is_featured": {
-                                        "description": "¿Es un producto destacado?",
-                                        "type": "boolean"
-                                    }
-                                },
-                                "type": "object"
-                            },
-                            "example": {
-                                "name": "Producto Actualizado",
-                                "description": "Descripción actualizada del producto.",
-                                "price": 79.99,
-                                "category_id": 2,
-                                "stock": 50
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Producto actualizado exitosamente"
-                    },
-                    "404": {
-                        "description": "Producto no encontrado"
-                    },
-                    "400": {
-                        "description": "Los datos ingresados son incorrectos"
-                    },
-                    "422": {
-                        "description": "Error de validación"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "delete": {
                 "tags": [
                     "Products"
@@ -685,6 +544,60 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "patch": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar producto",
+                "operationId": "cd5746566cbd37ef36175b7e840f6e28",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "ID del producto a actualizar",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/products/requests/waitlist/": {
@@ -693,6 +606,7 @@
                     "Products"
                 ],
                 "summary": "Obtener los productos en lista de espera",
+                "description": "Este endpoint permite a un administrador listar los productos en la lista de espera.",
                 "operationId": "cde6562739765ef5e12cbd5457168fd9",
                 "responses": {
                     "201": {
@@ -717,8 +631,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Aprobar un producto en la lista de espera",
-                "description": "Este endpoint permite a un administrador aprobar una solicitud de producto en la lista de espera. Solo los usuarios con el rol adecuado pueden acceder a esta acción.",
+                "summary": "Aprobar un producto en la lista de espera, se proporciona el id del producto",
+                "description": "Este endpoint permite a un administrador aprobar una solicitud de producto en la lista de espera.",
                 "operationId": "cadfdddc7fa2739f19440fb59f52509f",
                 "parameters": [
                     {
@@ -741,6 +655,9 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Solicitud aprobada."
+                                        },
+                                        "request": {
+                                            "$ref": "#/components/schemas/Product"
                                         }
                                     },
                                     "type": "object"
@@ -771,7 +688,7 @@
                     "Products"
                 ],
                 "summary": "Rechazar un producto en la lista de espera",
-                "description": "Este endpoint permite a un administrador rechazar una solicitud de producto en la lista de espera. Solo los usuarios con el rol adecuado pueden acceder a esta acción.",
+                "description": "Este endpoint permite a un administrador rechazar una solicitud de producto en la lista de espera.",
                 "operationId": "f2a586b96e5373e002f44aa8eeb1a310",
                 "parameters": [
                     {
@@ -794,6 +711,9 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Solicitud rechazada."
+                                        },
+                                        "request": {
+                                            "$ref": "#/components/schemas/Product"
                                         }
                                     },
                                     "type": "object"
@@ -809,6 +729,521 @@
                     },
                     "422": {
                         "description": "Error en la solicitud."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Obtener todos los roles",
+                "description": "Devuelve una lista de roles. Solo los administradores (rol id=1) pueden acceder a esta operación.",
+                "operationId": "6e28bdec08d7292bde33180ca5928718",
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Crear un nuevo rol",
+                "description": "Crea un nuevo rol en el sistema. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "b47f38c8385567ad7a473d82fb6ebf63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Role"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rol creado exitosamente"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Obtener un rol por ID",
+                "description": "Devuelve los detalles de un rol específico. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "a4b5c5aa1ac224a279b2060bab05733c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del rol"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Eliminar un rol",
+                "description": "Elimina un rol específico del sistema. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "f5117dc2943b621bdb53820fcc72b457",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Rol eliminado exitosamente"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Actualizar un rol existente",
+                "description": "Actualiza los detalles de un rol específico. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "852042c9cece9741fddbf2a40bc2535e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Role"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rol actualizado exitosamente"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    },
+                    "400": {
+                        "description": "Solicitud inválida"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart/products": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Agregar un producto al carrito",
+                "operationId": "7b18094197fb0278033a7d005defd910",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "description": "ID del producto",
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "description": "Cantidad del producto",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto añadido al carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Stock insuficiente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Eliminar un producto del carrito",
+                "operationId": "3abba5fe9fb37d322eef8640dec89cba",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "description": "ID del producto a eliminar",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado del carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado en el carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Actualizar cantidad de un producto en el carrito",
+                "operationId": "b78cf420f8f8627ebcbb0215db342b56",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "description": "ID del producto",
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "description": "Nueva cantidad del producto",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cantidad actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado en el carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Stock insuficiente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Ver productos en el carrito",
+                "operationId": "d0af7f3dc67d69cf8fbf09382808f844",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos en el carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "cartItems": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CartItem"
+                                            }
+                                        },
+                                        "totalPrice": {
+                                            "description": "Precio total del carrito",
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart/checkout": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Confirmar compra y crear un pedido",
+                "operationId": "a2ca04e6b844f8dfdba0ca974f51a791",
+                "responses": {
+                    "200": {
+                        "description": "Pedido realizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Carrito vacío o stock insuficiente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -955,7 +1390,7 @@
                             "example": {
                                 "firstname": "Antonio",
                                 "lastname": "Banderas",
-                                "type_user": 1
+                                "role_id": 1
                             }
                         }
                     }
@@ -1022,55 +1457,6 @@
                     }
                 ]
             }
-        },
-        "/users/{id}/type": {
-            "patch": {
-                "tags": [
-                    "Users"
-                ],
-                "summary": "Cambiar el tipo de usuario",
-                "operationId": "e9544a19ed44c3725875a8c0aa4ef335",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "type_user"
-                                ],
-                                "properties": {
-                                    "type_user": {
-                                        "description": "Nuevo tipo de usuario",
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Tipo de usuario actualizado"
-                    },
-                    "404": {
-                        "description": "Usuario no encontrado"
-                    },
-                    "403": {
-                        "description": "No tienes permiso para cambiar el tipo de usuario."
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -1125,6 +1511,119 @@
                     }
                 },
                 "type": "object"
+            },
+            "Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Usuario administrador"
+                    }
+                },
+                "type": "object"
+            },
+            "CartItem": {
+                "properties": {
+                    "product_id": {
+                        "description": "ID del producto",
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "description": "Cantidad del producto en el carrito",
+                        "type": "integer"
+                    },
+                    "product": {
+                        "description": "Detalles del producto",
+                        "properties": {
+                            "id": {
+                                "description": "ID del producto",
+                                "type": "integer"
+                            },
+                            "name": {
+                                "description": "Nombre del producto",
+                                "type": "string"
+                            },
+                            "price": {
+                                "description": "Precio del producto",
+                                "type": "number",
+                                "format": "float"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "phone_number": {
+                        "type": "string"
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "picture": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer"
+                    },
+                    "session": {
+                        "type": "integer"
+                    },
+                    "remember_token": {
+                        "type": "string"
+                    },
+                    "role_id": {
+                        "type": "integer"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
@@ -1148,6 +1647,14 @@
         {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "Roles",
+            "description": "Roles"
+        },
+        {
+            "name": "Cart",
+            "description": "Cart"
         },
         {
             "name": "Users",
