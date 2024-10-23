@@ -34,7 +34,6 @@
                                     "firstname",
                                     "lastname",
                                     "password",
-                                    "type_user",
                                     "phone_number",
                                     "gender",
                                     "birth_date"
@@ -176,6 +175,7 @@
                     "Categories"
                 ],
                 "summary": "Crear una nueva categoría",
+                "description": "Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
                 "operationId": "acbe4469b0ac5de3c86d5c46c280e36a",
                 "requestBody": {
                     "required": true,
@@ -261,6 +261,7 @@
                     "Categories"
                 ],
                 "summary": "Eliminar una categoría",
+                "description": "Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
                 "operationId": "d3025043e9f048647bda098aece0f84b",
                 "parameters": [
                     {
@@ -308,6 +309,7 @@
                     "Categories"
                 ],
                 "summary": "Actualizar una categoría existente",
+                "description": "Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
                 "operationId": "fad7d7ab8a8e415f1d330c72f3dd6f4e",
                 "parameters": [
                     {

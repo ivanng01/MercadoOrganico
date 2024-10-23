@@ -56,14 +56,14 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-    // Rutas de categorías (protegidas)
-    Route::prefix('categories')->group(function () {
-        Route::controller(CategoryController::class)->group(function () {
-            Route::post('/', 'create');
-            Route::patch('/{id}', 'update');
-            Route::delete('/{id}', 'delete');
-        });
+// Rutas de categorías (solo administradores)
+Route::prefix('categories')->controller(CategoryController::class)->group(function () {
+    Route::middleware('role:1')->group(function () {
+        Route::post('/', 'create'); 
+        Route::patch('/{id}', 'update'); 
+        Route::delete('/{id}', 'delete'); 
     });
+});
 
     // Rutas de productos
     Route::prefix('products')->controller(ProductController::class)->group(function () {
