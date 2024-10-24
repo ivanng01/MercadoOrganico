@@ -75,7 +75,10 @@ export default function TeamSection({
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {members.map((member) => (
-          <div key={member.id} className="border-input border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
+          <div
+            key={member.id}
+            className="border-input border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col"
+          >
             <div className="aspect-square overflow-hidden">
               <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover" />
             </div>

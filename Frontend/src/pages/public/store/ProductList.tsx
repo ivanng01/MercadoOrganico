@@ -62,25 +62,30 @@ export default function ProductList() {
   return (
     <>
       <Header title="Tienda" />
-    <section className="flex p-4 bg-foreground gap-4 w-full min-h-screen mx-auto max-w-screen-2xl lg:px-[120px]">
-      <ProductFilter onFilterChange={fetchProducts} />
-      <section className="w-full col-span-full">
-        <ResultsCounterSorter totalResults={totalResults} currentPage={currentPage} resultsPerPage={resultsPerPage} onSortChange={handleSortChange} />
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-          {loading && <p className="text-center col-span-full">Cargando productos...</p>}
-          {!loading && error && (
-            <div className="col-span-full">
-              <NoProductsFound />
-            </div>
-          )}
-          {!loading &&
-            !error &&
-            products.length > 0 &&
-            products.map((product) => <ProductCard key={product.id} product={product} onClick={() => handleProductClick(product.id)} />)}
-        </div>
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+      <section className="flex p-4 bg-foreground gap-4 w-full min-h-screen mx-auto max-w-screen-2xl lg:px-[120px]">
+        <ProductFilter onFilterChange={fetchProducts} />
+        <section className="w-full col-span-full">
+          <ResultsCounterSorter
+            totalResults={totalResults}
+            currentPage={currentPage}
+            resultsPerPage={resultsPerPage}
+            onSortChange={handleSortChange}
+          />
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {loading && <p className="text-center col-span-full">Cargando productos...</p>}
+            {!loading && error && (
+              <div className="col-span-full">
+                <NoProductsFound />
+              </div>
+            )}
+            {!loading &&
+              !error &&
+              products.length > 0 &&
+              products.map((product) => <ProductCard key={product.id} product={product} onClick={() => handleProductClick(product.id)} />)}
+          </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+        </section>
       </section>
-    </section>
     </>
   );
 }

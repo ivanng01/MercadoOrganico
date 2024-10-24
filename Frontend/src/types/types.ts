@@ -121,10 +121,10 @@ export interface PaginationProps {
 }
 
 export interface HeaderProps {
-  title?: string; 
-  backgroundImage?: string; 
-  overlayColor?: string; 
-  overlayOpacity?: number; 
+  title?: string;
+  backgroundImage?: string;
+  overlayColor?: string;
+  overlayOpacity?: number;
 }
 
 export interface Feature {
@@ -144,11 +144,10 @@ export interface AssociatedProducer {
   name: string;
 }
 
-
 export interface PartnerProps {
-title?: string;
-subtitle?: string;
-producers?: AssociatedProducer[];
+  title?: string;
+  subtitle?: string;
+  producers?: AssociatedProducer[];
 }
 
 export interface TeamMember {

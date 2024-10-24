@@ -63,9 +63,9 @@ export default function About({
           </div>
         </div>
       </div>
-      <Partner/>
-      <VideoHero/>
-      <TeamSection/>
+      <Partner />
+      <VideoHero />
+      <TeamSection />
     </>
   );
 }
