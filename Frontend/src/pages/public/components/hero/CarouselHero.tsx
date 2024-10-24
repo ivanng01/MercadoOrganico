@@ -58,7 +58,7 @@ export default function CarouselHero() {
 
   return (
     <div>
-      <Carousel setApi={setApi} className="w-full h-screen max-w-screen-2xl mx-auto">
+      <Carousel setApi={setApi} className="w-full h-screen">
         <CarouselContent>
           {slides.map(({ id, tagline, title, subtitle, image }) => (
             <CarouselItem key={id} className="relative">

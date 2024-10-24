@@ -131,11 +131,11 @@ export interface Feature {
   text: string;
 }
 
-export interface AboutProps {
-  title?: string;
-  description?: string;
-  features?: Feature[];
-  buttonText?: string;
+export interface AboutInfoProps {
+  title: string;
+  description: string;
+  features: { text: string }[];
+  buttonText: string;
 }
 
 export interface AssociatedProducer {
@@ -163,7 +163,7 @@ export interface TeamMember {
 export interface TeamSectionProps {
   title?: string;
   subtitle?: string;
-  members?: TeamMember[];
+  members: TeamMember[];
 }
 
 export interface Event {

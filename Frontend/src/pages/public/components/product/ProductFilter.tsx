@@ -38,7 +38,7 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
   };
 
   return (
-    <div className="flex flex-col gap-2 min-w-[270px] items-start justify-start rounded-lg">
+    <div className="flex flex-col gap-2 items-start justify-start rounded-lg mr-4 w-72">
       <div className="w-full">
         <div className="relative">
           <input
