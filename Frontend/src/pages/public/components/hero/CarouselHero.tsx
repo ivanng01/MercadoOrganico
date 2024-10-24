@@ -64,7 +64,7 @@ export default function CarouselHero() {
             <CarouselItem key={id} className="relative">
               <div className="absolute inset-0">
                 <img src={image} alt={title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-black bg-opacity-80" />
+                <div className="absolute inset-0 bg-black bg-opacity-70" />
               </div>
               <div className="relative z-10 flex h-screen flex-col justify-center items-start px-4 lg:px-[120px] max-w-4xl">
                 <p className="text-left mb-4 text-sm font-bold text-primary uppercase tracking-wider">{tagline}</p>
