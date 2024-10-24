@@ -165,3 +165,31 @@ export interface TeamSectionProps {
   subtitle?: string;
   members?: TeamMember[];
 }
+
+export interface Event {
+  date: {
+    day: string;
+    month: string;
+  };
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface DateInfo {
+  day: string;
+  month: string;
+}
+
+export interface Event {
+  date: DateInfo;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export interface EventSectionProps {
+  title: string;
+  subtitle: string;
+  events: Event[];
+}
