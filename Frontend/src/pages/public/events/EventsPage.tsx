@@ -10,7 +10,7 @@ export default function EventsPage() {
       <div className="min-h-screen bg-foreground px-4 lg:px-[120px]">
         <header className="flex flex-col justify-center items-center pt-8 px-4">
           <TitleDecor className="h-8 w-8 text-primary" />
-          <p className="text-primary mb-2">No Te Pierdas Nuestros Eventos</p>
+          <p className="text-primary mb-2 text-xl font-semibold">No Te Pierdas Nuestros Eventos</p>
           <h1 className="text-3xl font-bold mb-8 text-card-foreground">Participa y disfruta de nuestras actividades</h1>
         </header>
 

@@ -5,7 +5,7 @@ import { formatPrice, generateEAN8SKUFromID } from "@/lib/utils";
 
 export default function ProductCard({ product, onClick }: ProductCardProps) {
   return (
-    <div className="border border-input rounded-lg shadow-sm p-4 flex flex-col cursor-pointer min-h-[380px] max-h-[400px]" onClick={onClick}>
+    <div className="bg-card border border-input rounded-lg shadow-sm p-4 flex flex-col cursor-pointer min-h-[380px] max-h-[400px]" onClick={onClick}>
       <img src={product.image_path || "/placeholder.svg"} alt={product.name} className="w-full max-h-40 object-contain mb-4 rounded" />
       <div className="flex mb-2">
         {[...Array(5)].map((_, i) => (

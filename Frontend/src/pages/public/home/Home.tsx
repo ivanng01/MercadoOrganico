@@ -9,6 +9,7 @@ import { events } from "../data/events";
 import VideoHero from "../components/hero/VideoHero";
 import ImageCarousel from "../components/gallery/ImageCarousel";
 import TestimonialSlider from "../components/testimonial/TestimonialSlider";
+import BackToTopButton from "@/components/custom/BackToTopButton";
 
 const roles = [
   {
@@ -63,6 +64,7 @@ export default function Home() {
       <TestimonialSlider />
       <EventSection title="Nuestros próximos eventos" subtitle="Lo que viene" events={events} />
       <ImageCarousel />
+      <BackToTopButton />
     </>
   );
 }

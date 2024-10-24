@@ -21,8 +21,8 @@ export default function TestimonialSlider() {
       <div className="mx-auto max-w-screen-2xl">
         <div className="flex flex-col items-center justify-center gap-2 mb-4">
           <TitleDecor className="h-8 w-8 text-primary" />
-          <span className="text-primary text-lg">Voces Orgánicas</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-card-foreground text-center">Qué Dicen de Nuestros Productos?</h2>
+          <span className="text-primary text-xl font-semibold">Voces Orgánicas</span>
+          <h2 className="text-3xl font-bold text-card-foreground text-center">Qué Dicen de Nuestros Productos?</h2>
         </div>
 
         <Carousel className="w-full mx-auto" setApi={(api) => setApi(api as CarouselApi)}>
@@ -30,7 +30,7 @@ export default function TestimonialSlider() {
             {testimonials.map((testimonial, index) => (
               <CarouselItem
                 key={index}
-                className="relative border border-input rounded-lg p-6 flex flex-col items-center text-center text-card-foreground md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                className="bg-card relative border border-input rounded-lg p-6 flex flex-col items-center text-center text-card-foreground md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
               >
                 <div className="absolute w-40 h-40 rounded-[50px] overflow-hidden -top-1/2 border border-input">
                   <img src={testimonial.image} alt={testimonial.name} className="object-cover w-full h-full" />
