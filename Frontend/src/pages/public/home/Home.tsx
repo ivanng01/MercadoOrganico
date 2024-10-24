@@ -8,6 +8,7 @@ import EventSection from "../components/events-card/EventSection";
 import { events } from "../data/events";
 import VideoHero from "../components/hero/VideoHero";
 import ImageCarousel from "../components/gallery/ImageCarousel";
+import TestimonialSlider from "../components/testimonial/TestimonialSlider";
 
 const roles = [
   {
@@ -59,6 +60,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <TestimonialSlider />
       <EventSection title="Nuestros próximos eventos" subtitle="Lo que viene" events={events} />
       <ImageCarousel />
     </>
