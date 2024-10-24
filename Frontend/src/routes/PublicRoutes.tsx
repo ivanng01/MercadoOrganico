@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import ProductDetail from "@/pages/public/components/product/ProductDetail";
 import About from "@/pages/public/about/About";
 import EventsPage from "@/pages/public/events/EventsPage";
+import ContactPage from "@/pages/public/contact/ContactPage";
 
 export default function PublicRoutes() {
   return (
@@ -18,6 +19,8 @@ export default function PublicRoutes() {
       <Route path="about" element={<About />} />
       <Route path="product/:id" element={<ProductDetail />} />
       <Route path="events" element={<EventsPage />} />
+      <Route path="contact" element={<ContactPage />} />
+
       {/* Ruta para manejar errores 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
