@@ -58,17 +58,17 @@ export default function CarouselHero() {
 
   return (
     <div>
-      <Carousel setApi={setApi} className="w-full h-screen">
+      <Carousel setApi={setApi} className="w-full h-full mx-auto">
         <CarouselContent>
           {slides.map(({ id, tagline, title, subtitle, image }) => (
-            <CarouselItem key={id} className="relative">
+            <CarouselItem key={id} className="relative px-4 lg:px-[120px]">
               <div className="absolute inset-0">
                 <img src={image} alt={title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black bg-opacity-70" />
               </div>
-              <div className="relative z-10 flex h-screen flex-col justify-center items-start px-4 lg:px-[120px] max-w-4xl">
+              <div className="relative z-10 flex h-svh flex-col justify-center items-start max-w-screen-2xl mx-auto">
                 <p className="text-left mb-4 text-sm font-bold text-primary uppercase tracking-wider">{tagline}</p>
-                <h1 className="text-left mb-4 text-4xl font-bold text-white sm:text-5xl md:text-6xl leading-tight">{title}</h1>
+                <h1 className="max-w-lg text-left mb-4 text-4xl font-bold text-white sm:text-5xl md:text-6xl leading-tight">{title}</h1>
                 <p className="text-left mb-8 text-xl text-gray-200 italic">{subtitle}</p>
                 <Link to="/store">
                   <Button className="hover:bg-primary text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200">
