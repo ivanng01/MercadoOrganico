@@ -21,8 +21,8 @@ export default function ImageCarousel() {
       <section className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col items-center justify-center gap-2 mb-4">
           <TitleDecor className="h-8 w-8 text-primary" />
-          <span className="text-primary text-lg">Estamos en Redes Sociales</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 text-center">Síguenos en Nuestras Redes Sociales</h2>
+          <span className="text-primary text-xl font-semibold">Estamos en Redes Sociales</span>
+          <h2 className="text-3xl font-bold text-gray-800 text-center">Síguenos en Nuestras Redes Sociales</h2>
         </div>
 
         <Carousel className="w-full mx-auto pt-8" setApi={(api) => setApi(api as CarouselApi)}>

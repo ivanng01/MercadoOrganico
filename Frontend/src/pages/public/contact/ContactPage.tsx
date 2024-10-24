@@ -21,8 +21,8 @@ export default function ContactPage() {
       <div className="relative flex flex-col items-center p-4 bg-foreground text-card-foreground">
         <header className="flex flex-col justify-center items-center pt-8 px-4">
           <TitleDecor className="h-8 w-8 text-primary" />
-          <p className="text-primary mb-2">Contactános</p>
-          <h1 className="text-4xl font-bold mb-8 text-card-foreground max-w-md text-center z-20">Tu opinión es importante para nosotros</h1>
+          <p className="text-primary mb-2 text-xl font-semibold">Contactános</p>
+          <h1 className="text-3xl font-bold mb-8 text-card-foreground max-w-md text-center z-20">Tu opinión es importante para nosotros</h1>
         </header>
 
         <div className="relative w-full max-w-lg">

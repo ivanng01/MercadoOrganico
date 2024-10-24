@@ -19,10 +19,9 @@ export default function AboutInfo() {
           <img src="/shape2.svg" alt="Avocado decoration" className="absolute -bottom-20 right-1/2 w-24 h-24 object-contain" />
           <div className="grid items-center gap-1 text-primary">
             <TitleDecor className="h-8 w-8 text-primary" />
-            <span>Tu Fuente de Productos Orgánicos</span>
+            <span className="text-xl font-semibold">Tu Fuente de Productos Orgánicos</span>
           </div>
-
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">{aboutInfo.title}</h2>
+          <h2 className="text-3xl font-bold text-gray-800">{aboutInfo.title}</h2>
           <p className="text-gray-600 leading-relaxed">{aboutInfo.description}</p>
 
           <ul className="space-y-3">

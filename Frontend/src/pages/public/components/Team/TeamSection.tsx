@@ -11,16 +11,16 @@ export default function TeamSection() {
         <div className="text-center mb-12">
           <div className="flex flex-col items-center justify-center gap-2 mb-4">
             <TitleDecor className="h-8 w-8 text-primary" />
-            <span className="text-primary">{teamInfo.title}</span>
+            <span className="text-primary text-xl font-semibold">{teamInfo.title}</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">{teamInfo.subtitle}</h2>
+          <h2 className="text-3xl font-bold text-gray-800">{teamInfo.subtitle}</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {teamInfo.members.map((member) => (
             <div
               key={member.id}
-              className="border-input border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col"
+              className="bg-card border-input border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col"
             >
               <div className="aspect-square overflow-hidden">
                 <img src={member.imageUrl} alt={member.name} className="w-full h-full object-cover" />

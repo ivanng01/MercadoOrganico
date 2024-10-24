@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import SearchModal from "./SearchModal";
 import SocialMediaNavbar from "./SocialMediaNavbar";
 import LogoBrand from "./LogoBrand";
+import { handleUpClick } from "@/lib/utils";
 
 export default function PublicNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,19 +31,29 @@ export default function PublicNavbar() {
 
           <nav className="hidden md:flex items-center space-x-4">
             <Button variant="link" asChild>
-              <Link to="/">Inicio</Link>
+              <Link to="/" onClick={handleUpClick}>
+                Inicio
+              </Link>
             </Button>
             <Button variant="link" asChild>
-              <Link to="/about">Sobre Nosotros</Link>
+              <Link to="/about" onClick={handleUpClick}>
+                Sobre Nosotros
+              </Link>
             </Button>
             <Button variant="link" asChild>
-              <Link to="/store">Tienda</Link>
+              <Link to="/store" onClick={handleUpClick}>
+                Tienda
+              </Link>
             </Button>
             <Button variant="link" asChild>
-              <Link to="/events">Eventos</Link>
+              <Link to="/events" onClick={handleUpClick}>
+                Eventos
+              </Link>
             </Button>
             <Button variant="link" asChild>
-              <Link to="/contact">Contacto</Link>
+              <Link to="/contact" onClick={handleUpClick}>
+                Contacto
+              </Link>
             </Button>
           </nav>
 

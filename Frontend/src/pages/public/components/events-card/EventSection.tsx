@@ -12,7 +12,7 @@ export default function EventSection({ title, subtitle, events }: EventSectionPr
     <div className="bg-foreground px-4 lg:px-[120px]">
       <header className="flex flex-col justify-center items-center pt-8 px-4">
         <TitleDecor className="h-8 w-8 text-primary" />
-        <p className="text-primary mb-2">{subtitle}</p>
+        <p className="text-primary mb-2 font-semibold text-xl">{subtitle}</p>
         <h1 className="text-3xl font-bold mb-8 text-card-foreground">{title}</h1>
       </header>
 

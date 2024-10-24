@@ -17,9 +17,9 @@ export default function Partner({
       <div className="text-center mb-12 space-y-4">
         <div className="flex flex-col items-center justify-center gap-2">
           <TitleDecor className="h-8 w-8 text-primary" />
-          <span className="text-green-500 text-lg">{title}</span>
+          <span className="text-green-500 text-xl font-semibold">{title}</span>
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 px-4">{subtitle}</h2>
+        <h2 className="text-3xl font-bold text-gray-800 px-4">{subtitle}</h2>
       </div>
 
       <div className="relative w-full overflow-hidden">
