@@ -193,3 +193,9 @@ export interface EventSectionProps {
   subtitle: string;
   events: Event[];
 }
+
+export interface VideoHeroProps {
+  title?: string;
+  subtitle?: string;
+  videoUrl?: string;
+}

@@ -6,6 +6,8 @@ import ProductCategories from "../components/category/ProductCategories";
 import FeaturedProducts from "../components/product/FeaturedProducts";
 import EventSection from "../components/events-card/EventSection";
 import { events } from "../data/events";
+import VideoHero from "../components/hero/VideoHero";
+import ImageCarousel from "../components/gallery/ImageCarousel";
 
 const roles = [
   {
@@ -34,6 +36,7 @@ export default function Home() {
       <CarouselHero />
       <ProductCategories />
       <FeaturedProducts />
+      <VideoHero />
       <div className="min-h-screen p-8 text-center w-full">
         <h1 className="text-4xl font-bold mb-6">Bienvenido a Raices Orgánicas</h1>
         <p className="p-6">La mejor tienda de productos 100% orgánicos</p>
@@ -57,6 +60,7 @@ export default function Home() {
         </div>
       </div>
       <EventSection title="Nuestros próximos eventos" subtitle="Lo que viene" events={events} />
+      <ImageCarousel />
     </>
   );
 }
