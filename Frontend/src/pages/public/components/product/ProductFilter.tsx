@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Search, Plus, Minus } from "lucide-react";
 import SliderwithNumberInput from "@/components/custom/SliderwithNumberInput";
-import { getCategories } from "../services/categorieService";
-import CategoriesSidebar from "../components/category/CategoriesSidebar";
+import { getCategories } from "../../services/categorieService";
+import CategoriesSidebar from "../category/CategoriesSidebar";
 import { ProductFilterProps } from "@/types/types";
 
 export default function ProductFilter({ onFilterChange }: ProductFilterProps) {

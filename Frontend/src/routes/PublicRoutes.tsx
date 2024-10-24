@@ -1,10 +1,11 @@
 import NotFound from "@/pages/public/error/NotFound";
 import Home from "@/pages/public/home/Home";
 import Login from "@/pages/public/login/Login";
-import ProductDetail from "@/pages/public/product/ProductDetail";
-import ProductList from "@/pages/public/product/ProductList";
+import ProductList from "@/pages/public/store/ProductList";
 import Register from "@/pages/public/register/Register";
 import { Route, Routes } from "react-router-dom";
+import ProductDetail from "@/pages/public/components/product/ProductDetail";
+import About from "@/pages/public/about/About";
 
 export default function PublicRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function PublicRoutes() {
       <Route path="store" element={<ProductList />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
+      <Route path="about" element={<About />} />
       <Route path="product/:id" element={<ProductDetail />} />
       {/* Ruta para manejar errores 404 */}
       <Route path="*" element={<NotFound />} />
