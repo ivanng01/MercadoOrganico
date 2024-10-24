@@ -5,8 +5,8 @@ import { Separator } from "@/components/ui/separator";
 export default function SocialMediaNavbar() {
   return (
     <>
-      <nav className="p-4">
-        <div className="container mx-auto flex justify-between items-center max-w-screen-2xl lg:px-[120px] text-foreground">
+      <nav className="p-4 lg:px-[120px]">
+        <div className="container mx-auto flex justify-between items-center max-w-screen-2xl text-foreground">
           <div className="flex space-x-4">
             <a href="#" aria-label="Twitter">
               <Twitter className="h-5 w-5 hover:text-primary" />
@@ -35,7 +35,7 @@ export default function SocialMediaNavbar() {
         </div>
       </nav>
 
-      <Separator className="my-4 mx-auto w-full max-w-screen-2xl lg:px-[120px]" />
+      <Separator className="my-4 mx-auto w-full lg:px-[120px]" />
     </>
   );
 }

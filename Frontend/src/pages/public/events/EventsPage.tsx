@@ -7,7 +7,7 @@ export default function EventsPage() {
   return (
     <>
       <Header title="Eventos" />
-      <div className="min-h-screen bg-foreground lg:px-[120px]">
+      <div className="min-h-screen bg-foreground px-4 lg:px-[120px]">
         <header className="flex flex-col justify-center items-center pt-8 px-4">
           <TitleDecor className="h-8 w-8 text-primary" />
           <p className="text-primary mb-2">No Te Pierdas Nuestros Eventos</p>

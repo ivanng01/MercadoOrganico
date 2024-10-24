@@ -24,8 +24,8 @@ export default function PublicNavbar() {
     <>
       {!isAuthRoute && <SocialMediaNavbar />}
 
-      <header className={`sticky top-0 z-50 w-full px-4 max-w-screen-2xl mx-auto lg:px-[120px] bg-background py-2 ${isScrolled ? "shadow-lg" : ""}`}>
-        <div className="flex h-16 items-center justify-between">
+      <header className={`sticky top-0 z-50 w-full px-4 lg:px-[120px] bg-background py-2 ${isScrolled ? "shadow-lg" : ""}`}>
+        <div className="flex h-16 items-center justify-between max-w-screen-2xl mx-auto">
           <LogoBrand variant="small" />
 
           <nav className="hidden md:flex items-center space-x-4">
@@ -70,6 +70,9 @@ export default function PublicNavbar() {
                   </Button>
                   <Button variant="link" asChild>
                     <Link to="/store">Tienda</Link>
+                  </Button>
+                  <Button variant="link" asChild>
+                    <Link to="/events">Eventos</Link>
                   </Button>
                   <Button variant="link" asChild>
                     <Link to="/contact">Contacto</Link>
