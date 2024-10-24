@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import CarouselHero from "../components/hero/CarouselHero";
 import ProductCategories from "../components/category/ProductCategories";
 import FeaturedProducts from "../components/product/FeaturedProducts";
+import EventSection from "../components/events-card/EventSection";
+import { events } from "../data/events";
 
 const roles = [
   {
@@ -54,6 +56,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <EventSection title="Nuestros próximos eventos" subtitle="Lo que viene" events={events} />
     </>
   );
 }
