@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Product, ProductFilters } from "@/types/types";
-import ProductCard from "./ProductCard";
+import ProductCard from "../components/product/ProductCard";
 import { getProducts } from "../services/productService";
-import ProductFilter from "./ProductFilter";
-import NoProductsFound from "./NoProductsFound";
-import ResultsCounterSorter from "./ResultsCounterSorter";
+import ProductFilter from "../components/product/ProductFilter";
+import NoProductsFound from "../components/product/NoProductsFound";
+import ResultsCounterSorter from "../components/product/ResultsCounterSorter";
 import { useNavigate } from "react-router-dom";
 import { handleUpClick } from "@/lib/utils";
 import { AxiosError } from "axios";
 import Pagination from "@/components/custom/Pagination";
+import Header from "../components/header/Header";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -59,6 +60,8 @@ export default function ProductList() {
   const totalPages = Math.ceil(totalResults / resultsPerPage);
 
   return (
+    <>
+      <Header title="Tienda" />
     <section className="flex p-4 bg-foreground gap-4 w-full min-h-screen mx-auto max-w-screen-2xl lg:px-[120px]">
       <ProductFilter onFilterChange={fetchProducts} />
       <section className="w-full col-span-full">
@@ -78,5 +81,6 @@ export default function ProductList() {
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </section>
     </section>
+    </>
   );
 }

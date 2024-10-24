@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { TitleDecor } from "@/lib/iconsCustom";
 import { Product } from "@/types/types";
-import { getProducts } from "../services/productService";
 import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
 import { handleUpClick } from "@/lib/utils";
+import { getProducts } from "../../services/productService";
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);

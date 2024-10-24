@@ -119,3 +119,50 @@ export interface PaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
+
+export interface HeaderProps {
+  title?: string; 
+  backgroundImage?: string; 
+  overlayColor?: string; 
+  overlayOpacity?: number; 
+}
+
+export interface Feature {
+  text: string;
+}
+
+export interface AboutProps {
+  title?: string;
+  description?: string;
+  features?: Feature[];
+  buttonText?: string;
+}
+
+export interface AssociatedProducer {
+  id: number;
+  logoUrl: string;
+  name: string;
+}
+
+
+export interface PartnerProps {
+title?: string;
+subtitle?: string;
+producers?: AssociatedProducer[];
+}
+
+export interface TeamMember {
+  id: number;
+  name: string;
+  role: string;
+  roleColor?: string;
+  imageUrl: string;
+  bio: string;
+  linkedinUrl?: string;
+}
+
+export interface TeamSectionProps {
+  title?: string;
+  subtitle?: string;
+  members?: TeamMember[];
+}

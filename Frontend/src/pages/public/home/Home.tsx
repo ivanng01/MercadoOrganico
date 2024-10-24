@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CarouselHero from "../components/hero/CarouselHero";
 import ProductCategories from "../components/category/ProductCategories";
-import FeaturedProducts from "../product/FeaturedProducts";
+import FeaturedProducts from "../components/product/FeaturedProducts";
 
 const roles = [
   {
