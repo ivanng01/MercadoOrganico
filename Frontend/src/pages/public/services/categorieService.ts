@@ -5,7 +5,6 @@ export const getCategories = async () => {
   return api
     .get("/categories")
     .then((response) => {
-      console.log("Categorías obtenidas con éxito:", response.data);
       return response.data.data.categories.data;
     })
     .catch((error: AxiosError) => {

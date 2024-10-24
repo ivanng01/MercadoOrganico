@@ -66,6 +66,7 @@ export default function Login() {
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   className={`transition duration-200 ${identifierError ? "border-red-500" : identifier ? "border-primary" : "border-input"}`}
+                  autoComplete="username"
                 />
                 {identifierError && <p className="text-red-500 text-sm">{identifierError}</p>}
               </div>
@@ -81,6 +82,7 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={`transition duration-200 ${passwordError ? "border-red-500" : password ? "border-primary" : "border-input"}`}
+                    autoComplete="current-password"
                   />
                   <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 flex items-center pr-3">
                     {showPassword ? <EyeOff className="h-6 w-6" /> : <Eye className="h-6 w-6" />}
