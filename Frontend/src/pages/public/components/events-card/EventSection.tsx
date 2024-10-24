@@ -9,7 +9,7 @@ export default function EventSection({ title, subtitle, events }: EventSectionPr
   const firstThreeEvents = events.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-foreground px-4 lg:px-[120px]">
+    <div className="bg-foreground px-4 lg:px-[120px]">
       <header className="flex flex-col justify-center items-center pt-8 px-4">
         <TitleDecor className="h-8 w-8 text-primary" />
         <p className="text-primary mb-2">{subtitle}</p>

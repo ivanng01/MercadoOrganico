@@ -7,7 +7,7 @@ export default function VideoHero({
   videoUrl = "/hero_video.webp",
 }: VideoHeroProps) {
   return (
-    <div className="relative w-full h-screen min-h-[600px] overflow-hidden">
+    <div className="relative w-full h-[651px] overflow-hidden">
       <div className="absolute inset-0">
         <img src={videoUrl} alt="Background" className="w-full h-full object-cover" />
 

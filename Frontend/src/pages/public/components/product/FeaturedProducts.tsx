@@ -48,32 +48,34 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <div className="bg-foreground py-12 px-4 lg:px-[120px]">
-      <div className="text-center mb-12">
-        <TitleDecor className="h-8 w-8 text-primary mx-auto mb-2" />
-        <p className="text-primary font-medium mb-4">Sabor y Salud en Cada Bocado</p>
-        <h2 className="text-3xl font-bold text-card-foreground sm:text-4xl mb-4">Nuestros productos destacados</h2>
-      </div>
+    <section className="px-4 lg:px-[120px] bg-foreground mx-auto">
+      <div className="py-12 max-w-screen-2xl mx-auto">
+        <div className="text-center mb-12">
+          <TitleDecor className="h-8 w-8 text-primary mx-auto mb-2" />
+          <p className="text-primary font-medium mb-4">Sabor y Salud en Cada Bocado</p>
+          <h2 className="text-3xl font-bold text-card-foreground sm:text-4xl mb-4">Nuestros productos destacados</h2>
+        </div>
 
-      <Carousel className="w-full mx-auto" setApi={(api) => setApi(api as CarouselApi)}>
-        <CarouselContent className="gap-4">
-          {products.map((product) => (
-            <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4 2xl:basis-1/5">
-              <ProductCard product={product} onClick={() => handleProductClick(product.id)} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+        <Carousel className="w-full mx-auto" setApi={(api) => setApi(api as CarouselApi)}>
+          <CarouselContent className="gap-4">
+            {products.map((product) => (
+              <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4 2xl:basis-1/5">
+                <ProductCard product={product} onClick={() => handleProductClick(product.id)} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
 
-      <div className="text-center mt-8">
-        <Link to="/store">
-          <Button variant="outline" className="bg-primary text-white px-8 py-2">
-            Ver más productos
-          </Button>
-        </Link>
+        <div className="text-center mt-8">
+          <Link to="/store">
+            <Button variant="outline" className="bg-primary text-white px-8 py-2">
+              Ver más productos
+            </Button>
+          </Link>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
