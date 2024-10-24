@@ -52,13 +52,13 @@ export default function FeaturedProducts() {
       <div className="text-center mb-12">
         <TitleDecor className="h-8 w-8 text-primary mx-auto mb-2" />
         <p className="text-primary font-medium mb-4">Sabor y Salud en Cada Bocado</p>
-        <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">Nuestros productos destacados</h2>
+        <h2 className="text-3xl font-bold text-card-foreground sm:text-4xl mb-4">Nuestros productos destacados</h2>
       </div>
 
       <Carousel className="w-full mx-auto" setApi={(api) => setApi(api as CarouselApi)}>
         <CarouselContent className="gap-4">
           {products.map((product) => (
-            <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4">
+            <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4 2xl:basis-1/5">
               <ProductCard product={product} onClick={() => handleProductClick(product.id)} />
             </CarouselItem>
           ))}
