@@ -35,7 +35,7 @@ class ProductController extends Controller
      * @OA\Get(
      *     path="/products",
      *     tags={"Products"},
-     *     summary="Obtener lista de productos con filtros opcionales",
+     *     summary="Obtener lista de productos con filtros opcionales y ordenamiento",
      *     @OA\Parameter(
      *         name="category_id",
      *         in="query",
@@ -103,6 +103,16 @@ class ProductController extends Controller
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
+     *     @OA\Parameter(
+     *         name="sort",
+     *         in="query",
+     *         description="Ordenamiento de productos. Ejemplos: price_asc, price_desc, alpha_asc, alpha_desc",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"price_asc", "price_desc", "alpha_asc", "alpha_desc"}
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Lista de productos obtenida exitosamente",
@@ -111,7 +121,7 @@ class ProductController extends Controller
      *             @OA\Items(ref="#/components/schemas/Product")
      *         )
      *     ),
-     *     @OA\Response(response=404, description="No se encontraron productos")
+     *     @OA\Response(response=404, description="No se encontraron productos con los criterios.")
      * )
      */
 
@@ -128,6 +138,7 @@ class ProductController extends Controller
                 'limit' => 'nullable|integer|min:1|max:100',
                 'page' => 'nullable|integer|min:1',
                 'search' => 'nullable|string',
+                'sort' => 'nullable|string|in:price_asc,price_desc,alpha_asc,alpha_desc',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
@@ -150,16 +161,37 @@ class ProductController extends Controller
             ->when($validatedData['search'] ?? null, fn($q, $searchTerm) => $q->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', "%{$searchTerm}%")
                     ->orWhere('description', 'like', "%{$searchTerm}%");
-            }));
+            }))
+            ->when($validatedData['sort'] ?? null, function ($q, $sort) {
+                switch ($sort) {
+                    case 'price_asc':
+                        $q->orderBy('price', 'asc');
+                        break;
+                    case 'price_desc':
+                        $q->orderBy('price', 'desc');
+                        break;
+                    case 'alpha_asc':
+                        $q->orderBy('name', 'asc');
+                        break;
+                    case 'alpha_desc':
+                        $q->orderBy('name', 'desc');
+                        break;
+                }
+            });
 
         $products = $query->paginate($limit, ['*'], 'page', $page);
 
+        $queryParams = http_build_query(array_filter($validatedData, function ($key) {
+            return !in_array($key, ['page', 'limit']);
+        }, ARRAY_FILTER_USE_KEY));
+
         $links = [
-            'first' => $products->url(1) . '&limit=' . $limit,
-            'last' => $products->url($products->lastPage()) . '&limit=' . $limit,
-            'prev' => $products->previousPageUrl() . '&limit=' . $limit,
-            'next' => $products->nextPageUrl() . '&limit=' . $limit,
+            'first' => $products->url(1) . '&limit=' . $limit . ($queryParams ? "&$queryParams" : ''),
+            'last' => $products->url($products->lastPage()) . '&limit=' . $limit . ($queryParams ? "&$queryParams" : ''),
+            'prev' => $products->previousPageUrl() ? $products->previousPageUrl() . '&limit=' . $limit . ($queryParams ? "&$queryParams" : '') : null,
+            'next' => $products->nextPageUrl() ? $products->nextPageUrl() . '&limit=' . $limit . ($queryParams ? "&$queryParams" : '') : null,
         ];
+
         if ($products->isEmpty()) {
             return response()->json(['message' => 'No se encontraron productos con los criterios.'], 404);
         }
@@ -250,6 +282,7 @@ class ProductController extends Controller
      *     @OA\Response(response=404, description="Producto no encontrado")
      * )
      */
+
     public function show($id)
     {
         $product = Product::find($id);
@@ -338,7 +371,6 @@ class ProductController extends Controller
      * )
      */
 
-
     public function delete($id)
     {
         $product = Product::find($id);
@@ -382,8 +414,6 @@ class ProductController extends Controller
         $product->restore();
         return response()->json(['message' => 'Producto restaurado exitosamente.']);
     }
-
-
 
     /**
      * @OA\Get(
@@ -464,7 +494,6 @@ class ProductController extends Controller
             'request' => $requestToUpdate
         ], 200);
     }
-
 
     /**
      * @OA\Put(

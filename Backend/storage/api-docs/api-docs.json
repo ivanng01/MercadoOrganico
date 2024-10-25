@@ -405,7 +405,7 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Obtener lista de productos con filtros opcionales",
+                "summary": "Obtener lista de productos con filtros opcionales y ordenamiento",
                 "operationId": "c1ff6f862214e1896c59cfe0491ce0e8",
                 "parameters": [
                     {
@@ -496,6 +496,21 @@
                         "required": false,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Ordenamiento de productos. Ejemplos: price_asc, price_desc, alpha_asc, alpha_desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "price_asc",
+                                "price_desc",
+                                "alpha_asc",
+                                "alpha_desc"
+                            ]
                         }
                     }
                 ],
