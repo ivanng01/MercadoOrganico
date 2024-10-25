@@ -55,6 +55,34 @@ class ProductController extends Controller
      *         )
      *     ),
      *     @OA\Parameter(
+     *         name="user_id",
+     *         in="query",
+     *         description="ID del usuario que creó el producto",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="is_featured",
+     *         in="query",
+     *         description="Filtrar productos destacados (1 para sí, 0 para no)",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="min_price",
+     *         in="query",
+     *         description="Precio mínimo del producto",
+     *         required=false,
+     *         @OA\Schema(type="number", format="float")
+     *     ),
+     *     @OA\Parameter(
+     *         name="max_price",
+     *         in="query",
+     *         description="Precio máximo del producto",
+     *         required=false,
+     *         @OA\Schema(type="number", format="float")
+     *     ),
+     *     @OA\Parameter(
      *         name="page",
      *         in="query",
      *         description="Número de página para paginación",
@@ -80,10 +108,15 @@ class ProductController extends Controller
      * )
      */
 
+
     public function index(Request $request)
     {
         $category_id = $request->query('category_id');
         $status = $request->query('status');
+        $user_id = $request->query('user_id');
+        $is_featured = $request->query('is_featured');
+        $min_price = $request->query('min_price');
+        $max_price = $request->query('max_price');
         $limit = $request->query('limit', 10);
         $page = $request->query('page', 1);
 
@@ -91,12 +124,29 @@ class ProductController extends Controller
 
         $query = Product::whereIn('request_id', $approvedRequestIds);
 
+        // Filtrado por parámetros
         if ($category_id) {
             $query->where('category_id', $category_id);
         }
 
         if ($status) {
             $query->where('status', $status);
+        }
+
+        if ($user_id) {
+            $query->where('user_id', $user_id);
+        }
+
+        if ($is_featured !== null) {
+            $query->where('is_featured', $is_featured);
+        }
+
+        if ($min_price) {
+            $query->where('price', '>=', $min_price);
+        }
+
+        if ($max_price) {
+            $query->where('price', '<=', $max_price);
         }
 
         $products = $query->paginate($limit, ['*'], 'page', $page);
@@ -107,6 +157,7 @@ class ProductController extends Controller
 
         return response()->json($products, 200);
     }
+
 
 
     /**
