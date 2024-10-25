@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('product_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->text('description')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');

@@ -333,9 +333,14 @@ class ProductController extends Controller
             return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
+
+        $imagePath = $product->image_path; 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-            $product->image_path = $imagePath;
+
+            $cloudinary = new Cloudinary();
+            
+            $uploadedFile = $cloudinary->uploadApi()->upload($request->file('image')->getRealPath());
+            $imagePath = $uploadedFile['secure_url']; 
         }
 
         $product->update($request->only([
@@ -345,7 +350,8 @@ class ProductController extends Controller
             'category_id',
             'status',
             'is_featured',
-            'stock'
+            'stock',
+            'image_path' => $imagePath,
         ]));
 
         $product->save();
