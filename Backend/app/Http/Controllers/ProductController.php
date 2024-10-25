@@ -334,7 +334,8 @@ class ProductController extends Controller
      * @OA\Delete(
      *     path="/products/{id}",
      *     tags={"Products"},
-     *     summary="Eliminar producto",
+     *     summary="Eliminar producto (Soft Delete)",
+     *     description="Marca un producto como eliminado sin borrarlo permanentemente.",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
@@ -348,6 +349,7 @@ class ProductController extends Controller
      * )
      */
 
+
     public function delete($id)
     {
         $product = Product::find($id);
@@ -357,8 +359,42 @@ class ProductController extends Controller
         }
 
         $product->delete();
+
         return response()->json(['message' => 'Producto eliminado exitosamente.']);
     }
+
+    /**
+     * @OA\Put(
+     *     path="/products/{id}/restore",
+     *     tags={"Products"},
+     *     summary="Restaurar producto eliminado",
+     *     description="Restaura un producto que ha sido eliminado con Soft Delete.",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", description="ID del producto a restaurar")
+     *     ),
+     *     @OA\Response(response=200, description="Producto restaurado exitosamente"),
+     *     @OA\Response(response=404, description="Producto no encontrado"),
+     *     @OA\Response(response=400, description="Error en la solicitud")
+     * )
+     */
+
+    public function restore($id)
+    {
+        $product = Product::withTrashed()->find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Producto no encontrado.'], 404);
+        }
+
+        $product->restore();
+        return response()->json(['message' => 'Producto restaurado exitosamente.']);
+    }
+
+
 
     /**
      * @OA\Get(
