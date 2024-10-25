@@ -588,7 +588,8 @@
                 "tags": [
                     "Products"
                 ],
-                "summary": "Eliminar producto",
+                "summary": "Eliminar producto (Soft Delete)",
+                "description": "Marca un producto como eliminado sin borrarlo permanentemente.",
                 "operationId": "6e239d36b1092f33c2e4c1f10ef36f3f",
                 "parameters": [
                     {
@@ -664,6 +665,43 @@
                     },
                     "422": {
                         "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{id}/restore": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Restaurar producto eliminado",
+                "description": "Restaura un producto que ha sido eliminado con Soft Delete.",
+                "operationId": "13d9daa7f04ca483f28ca7008c2ee049",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "ID del producto a restaurar",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto restaurado exitosamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "400": {
+                        "description": "Error en la solicitud"
                     }
                 },
                 "security": [

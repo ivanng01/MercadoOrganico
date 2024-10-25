@@ -57,14 +57,14 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
-// Rutas de categorías (solo administradores)
-Route::prefix('categories')->controller(CategoryController::class)->group(function () {
-    Route::middleware('role:1')->group(function () {
-        Route::post('/', 'create'); 
-        Route::patch('/{id}', 'update'); 
-        Route::delete('/{id}', 'delete'); 
+    // Rutas de categorías (solo administradores)
+    Route::prefix('categories')->controller(CategoryController::class)->group(function () {
+        Route::middleware('role:1')->group(function () {
+            Route::post('/', 'create');
+            Route::patch('/{id}', 'update');
+            Route::delete('/{id}', 'delete');
+        });
     });
-});
 
     // Rutas de productos
     Route::prefix('products')->controller(ProductController::class)->group(function () {
@@ -72,6 +72,7 @@ Route::prefix('categories')->controller(CategoryController::class)->group(functi
             Route::post('/', 'create');
             Route::patch('/{id}', 'update');
             Route::delete('/{id}', 'delete');
+            Route::put('/{id}/restore', 'restore');
 
             // Solo Administradores
             Route::middleware('role:1')->group(function () {
