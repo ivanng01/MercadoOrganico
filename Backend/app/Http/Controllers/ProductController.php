@@ -108,56 +108,81 @@ class ProductController extends Controller
      * )
      */
 
-
     public function index(Request $request)
     {
-        $category_id = $request->query('category_id');
-        $status = $request->query('status');
-        $user_id = $request->query('user_id');
-        $is_featured = $request->query('is_featured');
-        $min_price = $request->query('min_price');
-        $max_price = $request->query('max_price');
-        $limit = $request->query('limit', 10);
-        $page = $request->query('page', 1);
+        try {
+            $validatedData = $request->validate([
+                'category_id' => 'nullable|integer',
+                'status' => 'nullable|string',
+                'user_id' => 'nullable|integer',
+                'is_featured' => 'nullable|numeric',
+                'min_price' => 'nullable|numeric|min:0',
+                'max_price' => 'nullable|numeric|min:0',
+                'limit' => 'nullable|integer|min:1|max:100',
+                'page' => 'nullable|integer|min:1',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Error de validación',
+                'errors' => $e->validator->errors(),
+            ], 422);
+        }
+
+        $limit = $validatedData['limit'] ?? 15;
+        $page = $validatedData['page'] ?? 1;
 
         $approvedRequestIds = ProductRequest::where('status', 'approved')->pluck('id');
 
         $query = Product::whereIn('request_id', $approvedRequestIds);
 
-        // Filtrado por parámetros
-        if ($category_id) {
-            $query->where('category_id', $category_id);
+        if (isset($validatedData['category_id'])) {
+            $query->where('category_id', $validatedData['category_id']);
         }
 
-        if ($status) {
-            $query->where('status', $status);
+        if (isset($validatedData['status'])) {
+            $query->where('status', $validatedData['status']);
         }
 
-        if ($user_id) {
-            $query->where('user_id', $user_id);
+        if (isset($validatedData['user_id'])) {
+            $query->where('user_id', $validatedData['user_id']);
         }
 
-        if ($is_featured !== null) {
-            $query->where('is_featured', $is_featured);
+        if (array_key_exists('is_featured', $validatedData)) {
+            $query->where('is_featured', $validatedData['is_featured']);
         }
 
-        if ($min_price) {
-            $query->where('price', '>=', $min_price);
+        if (isset($validatedData['min_price'])) {
+            $query->where('price', '>=', $validatedData['min_price']);
         }
 
-        if ($max_price) {
-            $query->where('price', '<=', $max_price);
+        if (isset($validatedData['max_price'])) {
+            $query->where('price', '<=', $validatedData['max_price']);
         }
 
         $products = $query->paginate($limit, ['*'], 'page', $page);
 
-        if ($products->isEmpty()) {
-            return response()->json(['message' => 'No products found'], 404);
+        $links = [
+            'first' => $products->url(1) . '&limit=' . $limit,
+            'last' => $products->url($products->lastPage()) . '&limit=' . $limit,
+            'prev' => $products->previousPageUrl() . '&limit=' . $limit,
+            'next' => $products->nextPageUrl() . '&limit=' . $limit,
+        ];
+
+        if ($products->total() === 0) {
+            return response()->json([
+                'message' => 'No se encontraron productos.',
+            ], 404);
         }
 
-        return response()->json($products, 200);
+        return response()->json([
+            'current_page' => $products->currentPage(),
+            'last_page' => $products->lastPage(),
+            'per_page' => $products->perPage(),
+            'total' => $products->total(),
+            'data' => $products->items(),
+            'links' => $links,
+        ], 200);
     }
-
 
 
     /**
@@ -322,6 +347,7 @@ class ProductController extends Controller
      *     @OA\Response(response=400, description="Error en la solicitud")
      * )
      */
+
     public function delete($id)
     {
         $product = Product::find($id);
