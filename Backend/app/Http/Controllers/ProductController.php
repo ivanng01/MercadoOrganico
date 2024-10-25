@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductRequest;
+use Cloudinary\Cloudinary;
 
 /**
  * 
@@ -21,7 +22,7 @@ use App\Models\ProductRequest;
  *     @OA\Property(property="price", type="number", format="float"),
  *     @OA\Property(property="category_id", type="integer"),
  *     @OA\Property(property="stock", type="integer"),
- *     @OA\Property(property="image_path", type="string"),
+ *     @OA\Property(property="image", type="string"),
  *     @OA\Property(property="is_featured", type="boolean"),
  * )
  */
@@ -224,45 +225,48 @@ class ProductController extends Controller
      * )
      */
 
-    public function create(Request $request)
-    {
-        try {
-            $this->validateProduct($request);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['error' => $e->validator->errors()], 422);
-        }
-
-        $user = $request->user();
-
-        $productRequest = ProductRequest::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'user_id' => $user->id,
-            'status' => 'pending',
-        ]);
-
-        $status = $request->input('stock') > 0 ? 'available' : 'unavailable';
-
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
-        }
-
-        $product = Product::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-            'category_id' => $request->input('category_id'),
-            'status' => $status,
-            'stock' => $request->input('stock'),
-            'is_featured' => $request->input('is_featured', false),
-            'user_id' => $user->id,
-            'request_id' => $productRequest->id,
-            'image_path' => $imagePath,
-        ]);
-
-        return response()->json($product, 201);
-    }
+     public function create(Request $request)
+     {
+         try {
+             $this->validateProduct($request);
+         } catch (\Illuminate\Validation\ValidationException $e) {
+             return response()->json(['error' => $e->validator->errors()], 422);
+         }
+     
+         $user = $request->user();
+     
+         $productRequest = ProductRequest::create([
+             'name' => $request->input('name'),
+             'description' => $request->input('description'),
+             'user_id' => $user->id,
+             'status' => 'pending',
+         ]);
+     
+         $status = $request->input('stock') > 0 ? 'available' : 'unavailable';
+     
+         $imagePath = null;
+         if ($request->hasFile('image')) {
+             
+             $cloudinary = new Cloudinary();
+             $uploadedFile = $cloudinary->uploadApi()->upload($request->file('image')->getRealPath());
+             $imagePath = $uploadedFile['secure_url']; // Obtiene la URL de la imagen subida
+         }
+     
+         $product = Product::create([
+             'name' => $request->input('name'),
+             'description' => $request->input('description'),
+             'price' => $request->input('price'),
+             'category_id' => $request->input('category_id'),
+             'status' => $status,
+             'stock' => $request->input('stock'),
+             'is_featured' => $request->input('is_featured', false),
+             'user_id' => $user->id,
+             'request_id' => $productRequest->id,
+             'image_path' => $imagePath,
+         ]);
+     
+         return response()->json($product, 201);
+     }
 
     /**
      * @OA\Get(

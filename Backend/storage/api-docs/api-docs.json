@@ -529,7 +529,7 @@
                         }
                     },
                     "404": {
-                        "description": "No se encontraron productos"
+                        "description": "No se encontraron productos con los criterios."
                     }
                 }
             },
@@ -1638,7 +1638,7 @@
                     "stock": {
                         "type": "integer"
                     },
-                    "image_path": {
+                    "image": {
                         "type": "string"
                     },
                     "is_featured": {
