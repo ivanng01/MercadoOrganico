@@ -679,7 +679,7 @@ class ProductSeeder extends Seeder
             'stock' => 75,
             'category_id' => 1,
             'user_id' => 2,
-            'request_id' => 8,
+            'request_id' => 1,
             'image_path' => '/pan_integral.webp',
             'is_featured' => 1,
         ]);
