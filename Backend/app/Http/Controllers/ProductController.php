@@ -96,6 +96,13 @@ class ProductController extends Controller
      *         required=false,
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Palabra clave para buscar en el nombre o descripción del producto",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Lista de productos obtenida exitosamente",
@@ -120,6 +127,7 @@ class ProductController extends Controller
                 'max_price' => 'nullable|numeric|min:0',
                 'limit' => 'nullable|integer|min:1|max:100',
                 'page' => 'nullable|integer|min:1',
+                'search' => 'nullable|string',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
@@ -130,34 +138,19 @@ class ProductController extends Controller
 
         $limit = $validatedData['limit'] ?? 15;
         $page = $validatedData['page'] ?? 1;
-
         $approvedRequestIds = ProductRequest::where('status', 'approved')->pluck('id');
 
-        $query = Product::whereIn('request_id', $approvedRequestIds);
-
-        if (isset($validatedData['category_id'])) {
-            $query->where('category_id', $validatedData['category_id']);
-        }
-
-        if (isset($validatedData['status'])) {
-            $query->where('status', $validatedData['status']);
-        }
-
-        if (isset($validatedData['user_id'])) {
-            $query->where('user_id', $validatedData['user_id']);
-        }
-
-        if (array_key_exists('is_featured', $validatedData)) {
-            $query->where('is_featured', $validatedData['is_featured']);
-        }
-
-        if (isset($validatedData['min_price'])) {
-            $query->where('price', '>=', $validatedData['min_price']);
-        }
-
-        if (isset($validatedData['max_price'])) {
-            $query->where('price', '<=', $validatedData['max_price']);
-        }
+        $query = Product::whereIn('request_id', $approvedRequestIds)
+            ->when($validatedData['category_id'] ?? null, fn($q, $id) => $q->where('category_id', $id))
+            ->when($validatedData['status'] ?? null, fn($q, $status) => $q->where('status', $status))
+            ->when($validatedData['user_id'] ?? null, fn($q, $user) => $q->where('user_id', $user))
+            ->when(array_key_exists('is_featured', $validatedData), fn($q) => $q->where('is_featured', $validatedData['is_featured']))
+            ->when($validatedData['min_price'] ?? null, fn($q, $min) => $q->where('price', '>=', $min))
+            ->when($validatedData['max_price'] ?? null, fn($q, $max) => $q->where('price', '<=', $max))
+            ->when($validatedData['search'] ?? null, fn($q, $searchTerm) => $q->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%");
+            }));
 
         $products = $query->paginate($limit, ['*'], 'page', $page);
 
@@ -167,11 +160,8 @@ class ProductController extends Controller
             'prev' => $products->previousPageUrl() . '&limit=' . $limit,
             'next' => $products->nextPageUrl() . '&limit=' . $limit,
         ];
-
-        if ($products->total() === 0) {
-            return response()->json([
-                'message' => 'No se encontraron productos.',
-            ], 404);
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron productos con los criterios.'], 404);
         }
 
         return response()->json([
@@ -183,7 +173,6 @@ class ProductController extends Controller
             'links' => $links,
         ], 200);
     }
-
 
     /**
      * @OA\Post(
