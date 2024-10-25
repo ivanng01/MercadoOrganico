@@ -488,6 +488,15 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Palabra clave para buscar en el nombre o descripción del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
