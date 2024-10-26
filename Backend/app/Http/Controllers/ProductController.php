@@ -13,6 +13,7 @@ use Cloudinary\Cloudinary;
  *     name="Products",
  *     description="Para todos los usuarios (Con restricciones)"
  * )
+ *
  * @OA\Schema(
  *     schema="Product",
  *     type="object",
@@ -215,13 +216,68 @@ class ProductController extends Controller
      *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
+     *         description="Datos del producto a crear. Todos los campos son obligatorios.",
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 required={"name", "description", "price", "category_id", "stock"},
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string",
+     *                     example="Café Orgánico de Oaxaca x 500 gr"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="description",
+     *                     type="string",
+     *                     example="Café 100% orgánico cultivado en las montañas de Oaxaca, sin pesticidas ni fertilizantes sintéticos, garantizando un sabor auténtico y rico."
+     *                 ),
+     *                 @OA\Property(
+     *                     property="price",
+     *                     type="number",
+     *                     format="float",
+     *                     example=25.00
+     *                 ),
+     *                 @OA\Property(
+     *                     property="category_id", 
+     *                     type="integer", 
+     *                     description="ID de la categoría del producto. Posibles valores: 1 (Huevos), 2 (Verduras), 3 (Lácteos y Sustitutos), 4 (Condimentos y Salsas), 5 (Carnes y Sustitutos), 6 (Miel y Edulcorantes), 7 (Bebidas), 8 (Productos de Panadería), 9 (Frutas), 10 (Granos y Legumbres).",
+     *                     enum={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+     *                     example=10
+     *                 ),
+     *                 @OA\Property(
+     *                     property="stock",
+     *                     type="integer",
+     *                     example=100
+     *                 ),
+     *                 @OA\Property(
+     *                     property="is_featured",
+     *                     type="numeric",
+     *                     example=0,
+     *                     description="Indica si el producto es destacado (0=false):(1=true)"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="image",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Imagen del producto. Se debe enviar como un archivo."
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Producto creado exitosamente.",
      *         @OA\JsonContent(ref="#/components/schemas/Product")
      *     ),
-     *     @OA\Response(response=201, description="Producto creado exitosamente", 
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     @OA\Response(
+     *         response=400,
+     *         description="Los datos ingresados son incorrectos."
      *     ),
-     *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
-     *     @OA\Response(response=422, description="Error de validación")
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación."
+     *     )
      * )
      */
 
@@ -624,7 +680,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'category_id' => 'required|numeric',
             'stock' => 'required|numeric',
-            'is_featured' => 'nullable|boolean',
+            'is_featured' => 'nullable|numeric',
             'image' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
     }
