@@ -540,18 +540,72 @@
                 "summary": "Crear producto",
                 "operationId": "fc6b0c9d45a547228d52dd3ee292ddc4",
                 "requestBody": {
+                    "description": "Datos del producto a crear. Todos los campos son obligatorios.",
                     "required": true,
                     "content": {
-                        "application/json": {
+                        "multipart/form-data": {
                             "schema": {
-                                "$ref": "#/components/schemas/Product"
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "price",
+                                    "category_id",
+                                    "stock"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Café Orgánico de Oaxaca x 500 gr"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Café 100% orgánico cultivado en las montañas de Oaxaca, sin pesticidas ni fertilizantes sintéticos, garantizando un sabor auténtico y rico."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25
+                                    },
+                                    "category_id": {
+                                        "description": "ID de la categoría del producto. Posibles valores: 1 (Huevos), 2 (Verduras), 3 (Lácteos y Sustitutos), 4 (Condimentos y Salsas), 5 (Carnes y Sustitutos), 6 (Miel y Edulcorantes), 7 (Bebidas), 8 (Productos de Panadería), 9 (Frutas), 10 (Granos y Legumbres).",
+                                        "type": "integer",
+                                        "enum": [
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5,
+                                            6,
+                                            7,
+                                            8,
+                                            9,
+                                            10
+                                        ],
+                                        "example": 10
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "is_featured": {
+                                        "description": "Indica si el producto es destacado (0=false):(1=true)",
+                                        "type": "numeric",
+                                        "example": 0
+                                    },
+                                    "image": {
+                                        "description": "Imagen del producto. Se debe enviar como un archivo.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "Producto creado exitosamente",
+                        "description": "Producto creado exitosamente.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -561,10 +615,10 @@
                         }
                     },
                     "400": {
-                        "description": "Los datos ingresados son incorrectos"
+                        "description": "Los datos ingresados son incorrectos."
                     },
                     "422": {
-                        "description": "Error de validación"
+                        "description": "Error de validación."
                     }
                 },
                 "security": [
