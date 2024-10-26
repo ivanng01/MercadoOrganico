@@ -24,7 +24,6 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->integer('stock');
             $table->foreignId('request_id')->nullable()->constrained('product_requests')->onDelete('set null');
-            $table->foreignId('measurement_unit_id')->constrained('measurement_unit')->onDelete('cascade');
             $table->string('image_path')->nullable();
             $table->timestamps();
         });
@@ -37,10 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign(['measurement_unit_id']); // Eliminar la clave foránea
-            $table->dropColumn('measurement_unit_id'); // Eliminar la columna
-        });
         Schema::dropIfExists('products');
     }
 };

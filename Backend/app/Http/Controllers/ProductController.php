@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductRequest;
+use App\Models\MeasurementUnit;
 use Cloudinary\Cloudinary;
 
 /**
@@ -23,6 +24,7 @@ use Cloudinary\Cloudinary;
  *     @OA\Property(property="category_id", type="integer"),
  *     @OA\Property(property="stock", type="integer"),
  *     @OA\Property(property="image", type="string"),
+ *     @OA\Property(property="measurement_unit_id", type="int"),
  *     @OA\Property(property="is_featured", type="boolean"),
  * )
  */
@@ -227,6 +229,9 @@ class ProductController extends Controller
 
      public function create(Request $request)
      {
+        $request->validate([
+            'measurement_unit_id' => 'required|exists:measurement_unit,id', 
+        ]);
          try {
              $this->validateProduct($request);
          } catch (\Illuminate\Validation\ValidationException $e) {
@@ -262,7 +267,8 @@ class ProductController extends Controller
              'is_featured' => $request->input('is_featured', false),
              'user_id' => $user->id,
              'request_id' => $productRequest->id,
-             'image_path' => $imagePath,
+             'measurement_unit_id' => $request->input('measurement_unit_id'),
+             'image_path' => $imagePath,   
          ]);
      
          return response()->json($product, 201);
@@ -352,6 +358,7 @@ class ProductController extends Controller
             'is_featured',
             'stock',
             'image_path' => $imagePath,
+            'measurement_unit_id',
         ]));
 
         $product->save();
