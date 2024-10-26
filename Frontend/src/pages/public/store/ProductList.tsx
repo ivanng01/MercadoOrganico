@@ -15,17 +15,16 @@ export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sortOption, setSortOption] = useState<string>("Relevancia");
+  const [filters, setFilters] = useState<ProductFilters>({ page: 1 });
   const [totalResults, setTotalResults] = useState<number>(0);
-  const resultsPerPage = 3;
+  const resultsPerPage = 15;
   const navigate = useNavigate();
 
-  const fetchProducts = async (filters: ProductFilters = {}, page: number = 1) => {
+  const fetchProducts = async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await getProducts({ ...filters, sort: sortOption, page });
+      const data = await getProducts(filters);
       setProducts(data.data);
       setTotalResults(data.meta.total);
     } catch (error: unknown) {
@@ -41,20 +40,28 @@ export default function ProductList() {
   };
 
   useEffect(() => {
-    fetchProducts({}, currentPage);
-  }, [currentPage, sortOption]);
+    fetchProducts();
+  }, [filters]);
 
   const handleSortChange = (option: string) => {
-    setSortOption(option);
-  };
-
-  const handleProductClick = (id: number) => {
-    navigate(`/product/${id}`);
-    handleUpClick();
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      sort: option,
+      page: 1,
+    }));
   };
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      page: newPage,
+    }));
+  };
+
+  // Handle product click navigation
+  const handleProductClick = (id: number) => {
+    navigate(`/product/${id}`);
+    handleUpClick();
   };
 
   const totalPages = Math.ceil(totalResults / resultsPerPage);
@@ -62,17 +69,17 @@ export default function ProductList() {
   return (
     <>
       <Header title="Tienda" />
-      <section className="p-4 lg:px-[120px] bg-foreground gap-4 w-full min-h-screen">
-        <section className="flex max-w-screen-2xl mx-auto">
-          <ProductFilter onFilterChange={fetchProducts} />
-          <section className="w-full col-span-full">
+      <section className="p-4 lg:px-[120px] bg-foreground gap-4 w-full min-h-screen flex flex-col">
+        <section className="flex max-w-screen-2xl mx-auto flex-1">
+          <ProductFilter onFilterChange={(newFilters) => setFilters({ ...filters, ...newFilters, page: 1 })} />
+          <section className="w-full col-span-full flex flex-col">
             <ResultsCounterSorter
               totalResults={totalResults}
-              currentPage={currentPage}
+              currentPage={filters.page || 1}
               resultsPerPage={resultsPerPage}
               onSortChange={handleSortChange}
             />
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 flex-1">
               {loading && <p className="text-center col-span-full">Cargando productos...</p>}
               {!loading && error && (
                 <div className="col-span-full">
@@ -84,7 +91,9 @@ export default function ProductList() {
                 products.length > 0 &&
                 products.map((product) => <ProductCard key={product.id} product={product} onClick={() => handleProductClick(product.id)} />)}
             </div>
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+            <section className="mt-4">
+              <Pagination currentPage={filters.page || 1} totalPages={totalPages} onPageChange={handlePageChange} />
+            </section>
           </section>
         </section>
       </section>

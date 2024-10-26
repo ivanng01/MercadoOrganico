@@ -10,8 +10,16 @@ interface ResultsCounterSorterProps {
   onSortChange: (sortOption: string) => void;
 }
 
+const sortOptionsText: { [key: string]: string } = {
+  "": "Predeterminado",
+  alpha_asc: "Alfabético: A-Z",
+  alpha_desc: "Alfabético: Z-A",
+  price_asc: "Precio: Menor a Mayor",
+  price_desc: "Precio: Mayor a Menor",
+};
+
 export default function ResultsCounterSorter({ totalResults, currentPage, resultsPerPage, onSortChange }: ResultsCounterSorterProps) {
-  const [sortOption, setSortOption] = useState("Relevancia");
+  const [sortOption, setSortOption] = useState("");
   const startResult = (currentPage - 1) * resultsPerPage + 1;
   const endResult = Math.min(currentPage * resultsPerPage, totalResults);
 
@@ -28,14 +36,15 @@ export default function ResultsCounterSorter({ totalResults, currentPage, result
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="secondary">
-            Ordenar por: {sortOption} <ChevronDown className="ml-2 h-4 w-4" />
+            Ordenar por {sortOptionsText[sortOption]} <ChevronDown className="ml-2 h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
-          <DropdownMenuItem onClick={() => handleSortChange("Relevancia")}>Relevancia</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSortChange("Precio: Menor a Mayor")}>Precio: Menor a Mayor</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSortChange("Precio: Mayor a Menor")}>Precio: Mayor a Menor</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleSortChange("Más Reciente")}>Más Reciente</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("")}>Predeterminado</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("alpha_asc")}>Alfabético: A-Z</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("alpha_desc")}>Alfabético: Z-A</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("price_asc")}>Precio: Menor a Mayor</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleSortChange("price_desc")}>Precio: Mayor a Menor</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

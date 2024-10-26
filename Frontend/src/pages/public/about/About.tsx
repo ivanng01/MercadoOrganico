@@ -1,7 +1,7 @@
 import Header from "../components/header/Header";
 import Partner from "../components/partner/Partner";
 import VideoHero from "../components/hero/VideoHero";
-import TeamSection from "../components/Team/TeamSection";
+import TeamSection from "../components/team/TeamSection";
 import AboutInfo from "../components/about/AboutInfo";
 
 export default function About() {
