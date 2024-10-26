@@ -608,6 +608,139 @@
                     }
                 }
             },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar un producto existente por ID",
+                "description": "Permite actualizar los datos de un producto. Solo se modificarán los campos proporcionados. Utiliza _method=PATCH en los parámetros de consulta para simular el método PATCH.",
+                "operationId": "1c52fc58e33d71677ba74cb346470913",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "_method",
+                        "in": "query",
+                        "description": "Método para simular el PATCH. Debe enviarse como un parámetro en la consulta.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "PATCH"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos del producto que se desea actualizar. Solo se actualizarán los campos enviados.",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre del producto",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción detallada del producto",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Precio del producto",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "description": "ID de la categoría asociada",
+                                        "type": "integer"
+                                    },
+                                    "is_featured": {
+                                        "description": "Indica si el producto es destacado",
+                                        "type": "boolean"
+                                    },
+                                    "image": {
+                                        "description": "Archivo de imagen del producto en formato JPEG, PNG o WEBP",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en la solicitud"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se proporcionaron datos para actualizar."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
             "delete": {
                 "tags": [
                     "Products"
@@ -635,60 +768,6 @@
                     },
                     "400": {
                         "description": "Error en la solicitud"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "patch": {
-                "tags": [
-                    "Products"
-                ],
-                "summary": "Actualizar producto",
-                "operationId": "cd5746566cbd37ef36175b7e840f6e28",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "description": "ID del producto a actualizar",
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Product"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Producto actualizado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Product"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Producto no encontrado"
-                    },
-                    "400": {
-                        "description": "Los datos ingresados son incorrectos"
-                    },
-                    "422": {
-                        "description": "Error de validación"
                     }
                 },
                 "security": [

@@ -225,48 +225,48 @@ class ProductController extends Controller
      * )
      */
 
-     public function create(Request $request)
-     {
-         try {
-             $this->validateProduct($request);
-         } catch (\Illuminate\Validation\ValidationException $e) {
-             return response()->json(['error' => $e->validator->errors()], 422);
-         }
-     
-         $user = $request->user();
-     
-         $productRequest = ProductRequest::create([
-             'name' => $request->input('name'),
-             'description' => $request->input('description'),
-             'user_id' => $user->id,
-             'status' => 'pending',
-         ]);
-     
-         $status = $request->input('stock') > 0 ? 'available' : 'unavailable';
-     
-         $imagePath = null;
-         if ($request->hasFile('image')) {
-             
-             $cloudinary = new Cloudinary();
-             $uploadedFile = $cloudinary->uploadApi()->upload($request->file('image')->getRealPath());
-             $imagePath = $uploadedFile['secure_url']; // Obtiene la URL de la imagen subida
-         }
-     
-         $product = Product::create([
-             'name' => $request->input('name'),
-             'description' => $request->input('description'),
-             'price' => $request->input('price'),
-             'category_id' => $request->input('category_id'),
-             'status' => $status,
-             'stock' => $request->input('stock'),
-             'is_featured' => $request->input('is_featured', false),
-             'user_id' => $user->id,
-             'request_id' => $productRequest->id,
-             'image_path' => $imagePath,
-         ]);
-     
-         return response()->json($product, 201);
-     }
+    public function create(Request $request)
+    {
+        try {
+            $this->validateProduct($request);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => $e->validator->errors()], 422);
+        }
+
+        $user = $request->user();
+
+        $productRequest = ProductRequest::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'user_id' => $user->id,
+            'status' => 'pending',
+        ]);
+
+        $status = $request->input('stock') > 0 ? 'available' : 'unavailable';
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+
+            $cloudinary = new Cloudinary();
+            $uploadedFile = $cloudinary->uploadApi()->upload($request->file('image')->getRealPath());
+            $imagePath = $uploadedFile['secure_url'];
+        }
+
+        $product = Product::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'category_id' => $request->input('category_id'),
+            'status' => $status,
+            'stock' => $request->input('stock'),
+            'is_featured' => $request->input('is_featured', false),
+            'user_id' => $user->id,
+            'request_id' => $productRequest->id,
+            'image_path' => $imagePath,
+        ]);
+
+        return response()->json($product, 201);
+    }
 
     /**
      * @OA\Get(
@@ -299,68 +299,120 @@ class ProductController extends Controller
     }
 
     /**
-     * @OA\Patch(
+     * @OA\Post(
      *     path="/products/{id}",
      *     tags={"Products"},
-     *     summary="Actualizar producto",
+     *     summary="Actualizar un producto existente por ID",
+     *     description="Permite actualizar los datos de un producto. Solo se modificarán los campos proporcionados. Utiliza _method=PATCH en los parámetros de consulta para simular el método PATCH.",
      *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         @OA\Schema(type="integer", description="ID del producto a actualizar")
+     *         description="ID del producto a actualizar",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="_method",
+     *         in="query",
+     *         required=true,
+     *         description="Método para simular el PATCH. Debe enviarse como un parámetro en la consulta.",
+     *         @OA\Schema(type="string", example="PATCH")
      *     ),
      *     @OA\RequestBody(
      *         required=true,
+     *         description="Datos del producto que se desea actualizar. Solo se actualizarán los campos enviados.",
+     *         @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *             @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(property="name", type="string", description="Nombre del producto"),
+     *                 @OA\Property(property="description", type="string", description="Descripción detallada del producto"),
+     *                 @OA\Property(property="price", type="number", format="float", description="Precio del producto"),
+     *                 @OA\Property(property="category_id", type="integer", description="ID de la categoría asociada"),
+     *                 @OA\Property(property="is_featured", type="boolean", description="Indica si el producto es destacado"),
+     *                 @OA\Property(
+     *                     property="image",
+     *                     type="string",
+     *                     format="binary",
+     *                     description="Archivo de imagen del producto en formato JPEG, PNG o WEBP"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Producto actualizado exitosamente",
      *         @OA\JsonContent(ref="#/components/schemas/Product")
      *     ),
-     *     @OA\Response(response=200, description="Producto actualizado exitosamente", 
-     *         @OA\JsonContent(ref="#/components/schemas/Product")
+     *     @OA\Response(
+     *         response=404,
+     *         description="Producto no encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Producto no encontrado")
+     *         )
      *     ),
-     *     @OA\Response(response=404, description="Producto no encontrado"),
-     *     @OA\Response(response=400, description="Los datos ingresados son incorrectos"),
-     *     @OA\Response(response=422, description="Error de validación")
+     *     @OA\Response(
+     *         response=400,
+     *         description="Los datos ingresados son incorrectos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error en la solicitud")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No se proporcionaron datos para actualizar.")
+     *         )
+     *     )
      * )
      */
 
+
     public function update(Request $request, $id)
     {
-        $this->validateProduct($request);
-
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
-        }
-
-
-        $imagePath = $product->image_path; 
-        if ($request->hasFile('image')) {
-
-            $cloudinary = new Cloudinary();
-            
-            $uploadedFile = $cloudinary->uploadApi()->upload($request->file('image')->getRealPath());
-            $imagePath = $uploadedFile['secure_url']; 
-        }
-
-        $product->update($request->only([
+        $allowedFields = [
             'name',
             'description',
             'price',
             'category_id',
             'status',
             'is_featured',
-            'stock',
-            'image_path' => $imagePath,
-        ]));
+            'image'
+        ];
 
-        $product->save();
+        $dataToUpdate = collect($request->only($allowedFields))->filter(function ($value) {
+            return !is_null($value);
+        });
 
-        return response()->json([
-            'message' => 'Producto actualizado exitosamente',
-            'product' => $product
-        ]);
+        if ($dataToUpdate->isEmpty()) {
+            return response()->json(['message' => 'No se proporcionaron datos para actualizar.'], 422);
+        }
+
+        try {
+            $product = Product::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                $cloudinaryImage = $request->file('image')->storeOnCloudinary('products');
+                $dataToUpdate['image_path'] = $cloudinaryImage->getSecurePath();
+            }
+
+            $product->update($dataToUpdate->toArray());
+            $product->refresh();
+
+            return response()->json([
+                'message' => 'Producto actualizado exitosamente',
+                'product' => $product
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al actualizar el producto',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+
 
     /**
      * @OA\Delete(
@@ -573,6 +625,7 @@ class ProductController extends Controller
             'category_id' => 'required|numeric',
             'stock' => 'required|numeric',
             'is_featured' => 'nullable|boolean',
+            'image' => 'required|file|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
     }
 }
