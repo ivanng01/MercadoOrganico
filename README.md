@@ -188,39 +188,6 @@ Vercel*
         <div style='display: flex; flex-direction: column'>
           <a href="https://www.linkedin.com/in/ivandgonzalez/" target="_blank">
             <img style='width:8rem' src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white="/>
-          </a>
-        </div>
-      </div>
-    </td>
-  </tr>
-</table>
-<table align='center'>
-  <tr>
-    <td align='center'>
-      <div>
-       <h4>Tester QA</h4>
-       <a href="https://github.com/NoeliaCeciliaBelen" target="_blank" rel="author">
-          <img width="139" src="https://avatars.githubusercontent.com/u/179181311?v=4"/>
-        </a>
-          <h4 style="margin-top: 1rem;"> Noelia <br> Aguilar</h4>
-        <div style='display: flex; flex-direction: column'>
-          <a href="https://www.linkedin.com/in/noelia-cecilia-belén-aguilar/" target="_blank">
-            <img style='width:8rem' src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white="/>
-          </a>
-        </div>
-      </div>
-    </td>
-    <td align='center'>
-      <div>
-       <h4>Tester QA</h4>
-        <a href="https://www.linkedin.com/in/gladys-ferreira/" target="_blank" rel="author">
-          <img width="110" src="https://github.com/user-attachments/assets/90c5319c-2203-4ca0-87f4-70a1f731bd17"/>
-        </a>
-          <h4 style="margin-top: 1rem;">Gladys <br> Ferreira</h4>
-        <div style='display: flex; flex-direction: column'>
-          <a href="https://www.linkedin.com/in/gladys-ferreira/" target="_blank">
-            <img style='width:8rem' src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white="/>
-          </a>
         </div>
       </div>
     </td>
@@ -228,7 +195,7 @@ Vercel*
       <div>
        <h4>Tester QA</h4>
         <a href="https://www.linkedin.com/in/giselalago/" target="_blank" rel="author">
-          <img width="110" src="https://github.com/user-attachments/assets/4d6f9204-8958-452a-b2b7-44098d9f357e"/>
+          <img width="95" src="https://github.com/user-attachments/assets/4d6f9204-8958-452a-b2b7-44098d9f357e"/>
         </a>
           <h4 style="margin-top: 1rem;">Gisela <br> Lago</h4>
         <div style='display: flex; flex-direction: column'>
@@ -242,7 +209,7 @@ Vercel*
       <div>
        <h4>Team Leader</h4>
         <a href="https://app.slack.com/client/T02KS88FB0E/D07Q8843NTF" target="_blank" rel="author">
-          <img width="110" height="140" src="https://www.linkedin.com/in/veronica-bravo-rrhh-dw/overlay/photo/"/>
+          <img width="95" height="140" src="https://www.linkedin.com/in/veronica-bravo-rrhh-dw/overlay/photo/"/>
         </a>
           <h4 style="margin-top: 1rem;">Veronica<br> Bravo</h4>
         <div style='display: flex; flex-direction: column'>
