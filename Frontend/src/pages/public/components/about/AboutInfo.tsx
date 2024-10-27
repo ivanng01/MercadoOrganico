@@ -10,13 +10,11 @@ export default function AboutInfo() {
       <div className="flex flex-col md:flex-row items-center gap-8 max-w-screen-2xl mx-auto">
         <div className="w-full md:w-1/2 relative">
           <div className="relative w-full aspect-square">
-            <img src="/[call-to-action-two__image].png" alt="Fresh vegetables in heart shape" className="w-full h-full object-contain" />
+            <img src="/[call-to-action-two__image].webp" alt="Fresh vegetables in heart shape" className="w-full h-full object-contain" />
           </div>
         </div>
 
         <div className="relative w-full md:w-1/2 space-y-6">
-          <img src="/shape1.svg" alt="Avocado decoration" className="absolute top-0 right-0 w-40 h-40 object-contain" />
-          <img src="/shape2.svg" alt="Avocado decoration" className="absolute -bottom-20 right-1/2 w-24 h-24 object-contain" />
           <div className="grid items-center gap-1 text-primary">
             <TitleDecor className="h-8 w-8 text-primary" />
             <span className="text-xl font-semibold">Tu Fuente de Productos Orgánicos</span>
