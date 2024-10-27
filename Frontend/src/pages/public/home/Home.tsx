@@ -10,6 +10,7 @@ import VideoHero from "../components/hero/VideoHero";
 import ImageCarousel from "../components/gallery/ImageCarousel";
 import TestimonialSlider from "../components/testimonial/TestimonialSlider";
 import BackToTopButton from "@/components/custom/BackToTopButton";
+import AdvertisementOrganic from "../components/advertisement/AdvertisementOrganic";
 
 const roles = [
   {
@@ -39,7 +40,8 @@ export default function Home() {
       <ProductCategories />
       <FeaturedProducts />
       <VideoHero />
-      <div className="min-h-screen p-8 text-center w-full">
+      <AdvertisementOrganic />
+      <div className="px-4 lg:px-[120px] text-center w-full max-w-screen-2xl mx-auto py-6">
         <h1 className="text-4xl font-bold mb-6">Bienvenido a Raices Orgánicas</h1>
         <p className="p-6">La mejor tienda de productos 100% orgánicos</p>
         <h2 className="pb-4 font-semibold">Elige un rol para continuar:</h2>
