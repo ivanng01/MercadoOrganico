@@ -50,7 +50,7 @@ export default function SliderwithNumberInput() {
         </div>
       </div>
       <div className="flex justify-end">
-        <Button variant="default" onClick={handleFilter}>
+        <Button variant="default" onClick={handleFilter} className="hover:bg-green-500">
           Filtrar Productos
         </Button>
       </div>

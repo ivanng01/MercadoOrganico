@@ -18,12 +18,12 @@ export default function CategoriesSidebar({ categories, loading, error, onCatego
         <ul>
           <li className="flex justify-between items-center py-2 px-4 cursor-pointer" onClick={() => onCategoryChange("Todos")}>
             <span>Todos</span>
-            <ChevronRight className="h-5 w-5 text-primary" />
+            <ChevronRight className="h-5 w-5" />
           </li>
           {categories.map((category) => (
             <li key={category.id} className="flex justify-between items-center p-4 cursor-pointer" onClick={() => onCategoryChange(category)}>
               <span>{category.name}</span>
-              <ChevronRight className="h-5 w-5 text-primary" />
+              <ChevronRight className="h-5 w-5" />
             </li>
           ))}
         </ul>

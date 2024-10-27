@@ -4,10 +4,10 @@ import { Separator } from "./separator";
 
 export default function SiteFooter() {
   return (
-    <section className="px-4 lg:px-[120px]">
-      <footer className="relative text-white py-12 mx-auto max-h-[474px] max-w-screen-2xl">
-        <img src="/Image [site-footer__shape-1].svg" alt="" className="absolute top-0 right-0 w-[150px] lg:w-1/2 lg:h-auto" />
-        <img src="/Image [site-footer__shape-2].svg" alt="" className="absolute -bottom-1/4 left-0 w-[150px] lg:w-1/2 lg:h-auto" />
+    <section className="px-4 lg:px-[120px] overflow-hidden">
+      <footer className="relative py-12 mx-auto max-h-[474px] max-w-screen-2xl pb-60">
+        <img src="/Image [site-footer__shape-1].svg" alt="" className="absolute top-0 -right-[4%] w-[150px] lg:w-1/2 lg:h-auto" />
+        <img src="/Image [site-footer__shape-2].svg" alt="" className="absolute bottom-0 -left-[4%] w-[250px] lg:w-1/2 lg:h-auto" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
           <div className="space-y-4">
@@ -115,7 +115,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="mt-12 pt-8 text-sm text-center">
-          <Separator className="my-4 mx-auto w-full max-w-7xl" />© Copyright 2024 Todos los derechos reservados - s18-13-n-php-react
+          <Separator className="my-4 mx-auto w-full" />© Copyright 2024 Todos los derechos reservados - s18-13-n-php-react
         </div>
       </footer>
     </section>
