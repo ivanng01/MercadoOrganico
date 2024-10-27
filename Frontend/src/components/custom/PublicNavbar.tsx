@@ -7,11 +7,19 @@ import SearchModal from "./SearchModal";
 import SocialMediaNavbar from "./SocialMediaNavbar";
 import LogoBrand from "./LogoBrand";
 import { handleUpClick } from "@/lib/utils";
+import useCartStore from "@/store/cartStore";
 
 export default function PublicNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const location = useLocation();
+
+  const { getTotalQuantity, initializeCart } = useCartStore();
+  const totalQuantity = getTotalQuantity();
+
+  useEffect(() => {
+    initializeCart();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0);
@@ -61,8 +69,9 @@ export default function PublicNavbar() {
             <button className="text-button" aria-label="Buscar" onClick={() => setSearchModalOpen(true)}>
               <Search className="h-5 w-5" />
             </button>
-            <Link to="/cart" aria-label="Carrito">
-              <ShoppingCart className="h-5 w-5" />
+            <Link to="/cart" aria-label="Carrito" className="relative">
+              <ShoppingCart className="h-5 w-5" onClick={handleUpClick} />
+              {totalQuantity > 0 && <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1">{totalQuantity}</span>}
             </Link>
 
             <Sheet>

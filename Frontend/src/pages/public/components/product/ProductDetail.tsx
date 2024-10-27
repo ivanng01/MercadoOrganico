@@ -8,18 +8,21 @@ import { getProductById } from "../../services/productService";
 import Header from "../header/Header";
 
 export default function ProductDetail() {
-  const { id } = useParams<{ id: string | undefined }>();
+  const { id } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
       if (id) {
         try {
-          const data = await getProductById(id);
+          const data = await getProductById(Number(id));
           setProduct(data);
         } catch (error) {
           console.error("Error fetching product:", error);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -31,8 +34,12 @@ export default function ProductDetail() {
     setQuantity((prev) => Math.max(1, prev + amount));
   };
 
+  if (loading) {
+    return <div>Cargando el producto...</div>;
+  }
+
   if (!product) {
-    return <div>Cargando...</div>;
+    return <div>Producto no encontrado</div>;
   }
 
   return (
@@ -71,13 +78,13 @@ export default function ProductDetail() {
           <div>
             <h3 className="font-semibold mb-2">Comparte este producto</h3>
             <div className="flex gap-4">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Compartir en Facebook">
                 <Facebook className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Compartir en Twitter">
                 <Twitter className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Compartir en Instagram">
                 <Instagram className="h-4 w-4" />
               </Button>
             </div>

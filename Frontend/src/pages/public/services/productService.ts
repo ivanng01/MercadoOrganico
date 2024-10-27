@@ -21,7 +21,7 @@ export const getProducts = async (filters?: ProductFilters) => {
   }
 };
 
-export const getProductById = async (id: string): Promise<ProductData> => {
+export const getProductById = async (id: number): Promise<ProductData> => {
   return api
     .get<{ status: string; code: number; message: string; data: ProductData }>(`/products/${id}`)
     .then((response) => {

@@ -6,7 +6,7 @@ export interface Product {
   category_id: number;
   status: string;
   user_id: number;
-  is_featured: number;
+  is_featured?: number;
   stock: number;
   image_path: string | null;
   created_at: string;
@@ -21,7 +21,12 @@ export interface ProductData {
   is_featured?: number;
   description: string;
   price: number;
-  image: string;
+  category_id: number;
+  status: string;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
+  product_picture: string;
   stock: number;
   image_path: string;
 }
@@ -100,7 +105,7 @@ export interface ProductsApiResponse {
 export interface ProductFilterProps {
   category_id?: number;
   sort?: string;
-  onFilterChange: (filters: Record<string, unknown>) => void;
+  onFilterChange: (filters: { category_id?: number; [key: string]: unknown }) => void;
 }
 
 export interface ProductCardProps {
@@ -199,4 +204,10 @@ export interface VideoHeroProps {
   title?: string;
   subtitle?: string;
   videoUrl?: string;
+}
+
+export interface ProductStore {
+  products: Record<number, Product>;
+  setProducts: (newProducts: Record<number, Product>) => void;
+  addProduct: (id: number, productData: Product) => void;
 }
