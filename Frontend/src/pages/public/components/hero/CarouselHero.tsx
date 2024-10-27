@@ -40,7 +40,7 @@ export default function CarouselHero() {
       setCurrent(selectedIndex);
 
       if (selectedIndex === slides.length - 1) {
-        setTimeout(() => api.scrollTo(0), 5000);
+        setTimeout(() => api.scrollTo(0), 8000);
       }
     };
 
@@ -48,7 +48,7 @@ export default function CarouselHero() {
 
     const autoScrollInterval = setInterval(() => {
       api.scrollNext();
-    }, 5000);
+    }, 8000);
 
     return () => {
       clearInterval(autoScrollInterval);

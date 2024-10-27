@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { handleUpClick } from "@/lib/utils";
 import { AxiosError } from "axios";
 import Pagination from "@/components/custom/Pagination";
-import ShoppingCartSpinner from "@/components/custom/ShoppingCartSpinner";
 import { X, ListFilter, SlidersHorizontal } from "lucide-react";
 import SearchBar from "@/components/custom/SearchBar";
 import LogoBrand from "@/components/custom/LogoBrand";
+import SpinnerProducts from "@/components/custom/SpinnerProducts";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -106,7 +106,7 @@ export default function ProductList() {
     <>
       <section className="p-4 lg:px-[120px] bg-foreground gap-4 w-full min-h-screen flex flex-col">
         <div className="relative flex flex-col max-w-screen-2xl mx-auto gap-4">
-          <div className="sticky top-20 flex justify-between items-center bg-primary p-4 text-white rounded-lg">
+          <div className="sticky top-20 flex justify-between items-center bg-white text-card-foreground p-4 py-4 rounded-lg border border-input">
             <SearchBar placeholder="Buscar productos..." value={searchTerm} onChange={handleSearchChange} />
             <button onClick={toggleFilter}>{isFilterOpen ? <ListFilter /> : <SlidersHorizontal />}</button>
           </div>
@@ -145,7 +145,7 @@ export default function ProductList() {
               <div className="container grid gap-4 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 w-full min-h-[200px] flex-1">
                 {loading ? (
                   <div className="container flex items-center justify-center col-span-full">
-                    <ShoppingCartSpinner />
+                    <SpinnerProducts />
                   </div>
                 ) : error ? (
                   <div className="container flex items-center justify-start col-span-full">

@@ -1,6 +1,3 @@
-import { Link } from "react-router-dom";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import CarouselHero from "../components/hero/CarouselHero";
 import ProductCategories from "../components/category/ProductCategories";
 import FeaturedProducts from "../components/product/FeaturedProducts";
@@ -11,61 +8,41 @@ import ImageCarousel from "../components/gallery/ImageCarousel";
 import TestimonialSlider from "../components/testimonial/TestimonialSlider";
 import BackToTopButton from "@/components/custom/BackToTopButton";
 import AdvertisementOrganic from "../components/advertisement/AdvertisementOrganic";
+import { motion } from "framer-motion";
 
-const roles = [
-  {
-    title: "Admin",
-    description: "Gestiona el sistema y los usuarios.",
-    link: "/admin/dashboard",
-    ariaLabel: "Ingresar como Administrador",
-  },
-  {
-    title: "Cliente",
-    description: "Accede a tu cuenta y gestiona tus pedidos.",
-    link: "/client/dashboard",
-    ariaLabel: "Ingresar como Cliente",
-  },
-  {
-    title: "Productor",
-    description: "Gestiona tus productos y ventas.",
-    link: "/producer/dashboard",
-    ariaLabel: "Ingresar como Productor",
-  },
-];
+const fadeInScale = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+const fadeInDiagonal = {
+  hidden: { opacity: 0, x: -50, y: 20 },
+  visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.9, ease: "easeOut" } },
+};
 
 export default function Home() {
   return (
     <>
-      <CarouselHero />
+      <motion.div initial="hidden" whileInView="visible" variants={fadeInScale} viewport={{ once: false }}>
+        <CarouselHero />
+      </motion.div>
+
       <ProductCategories />
+
       <FeaturedProducts />
-      <VideoHero />
+
+      <motion.div initial="hidden" whileInView="visible" variants={fadeInDiagonal} viewport={{ once: false }}>
+        <VideoHero />
+      </motion.div>
+
       <AdvertisementOrganic />
-      <div className="px-4 lg:px-[120px] text-center w-full max-w-screen-2xl mx-auto py-6">
-        <h1 className="text-4xl font-bold mb-6">Bienvenido a Raices Orgánicas</h1>
-        <p className="p-6">La mejor tienda de productos 100% orgánicos</p>
-        <h2 className="pb-4 font-semibold">Elige un rol para continuar:</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {roles.map((role) => (
-            <Card key={role.title}>
-              <CardHeader>
-                <CardTitle className="text-xl font-semibold">{role.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="mb-4">{role.description}</p>
-                <Link to={role.link}>
-                  <Button aria-label={role.ariaLabel} className="w-full">
-                    Ingresar como {role.title}
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+
       <TestimonialSlider />
+
       <EventSection title="Nuestros próximos eventos" subtitle="Lo que viene" events={events} />
+
       <ImageCarousel />
+
       <BackToTopButton />
     </>
   );
