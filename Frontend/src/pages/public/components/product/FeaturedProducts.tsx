@@ -5,29 +5,19 @@ import { TitleDecor } from "@/lib/iconsCustom";
 import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
 import { handleUpClick } from "@/lib/utils";
-import { getProducts } from "../../services/productService";
-import { CarouselApi, Product } from "@/types/types";
+import { CarouselApi } from "@/types/types";
+import useFeaturedProductStore from "@/store/featuredProductStore";
 
 export default function FeaturedProducts() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { featuredProducts, loading, fetchFeaturedProducts } = useFeaturedProductStore();
   const navigate = useNavigate();
   const [api, setApi] = useState<CarouselApi | null>(null);
 
   useEffect(() => {
-    const fetchFeaturedProducts = async () => {
-      try {
-        const response = await getProducts({ is_featured: 1 });
-        setProducts(response.data);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFeaturedProducts();
-  }, []);
+    if (featuredProducts.length === 0) {
+      fetchFeaturedProducts();
+    }
+  }, [fetchFeaturedProducts, featuredProducts]);
 
   const handleProductClick = (id: number) => {
     navigate(`/product/${id}`);
@@ -58,7 +48,7 @@ export default function FeaturedProducts() {
 
         <Carousel className="w-full mx-auto" setApi={(api) => setApi(api as CarouselApi)}>
           <CarouselContent className="gap-4">
-            {products.map((product) => (
+            {featuredProducts.map((product) => (
               <CarouselItem key={product.id} className="md:basis-1/2 lg:basis-1/4 2xl:basis-1/5">
                 <ProductCard product={product} onClick={() => handleProductClick(product.id)} />
               </CarouselItem>
