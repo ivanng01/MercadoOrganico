@@ -211,3 +211,9 @@ export interface ProductStore {
   setProducts: (newProducts: Record<number, Product>) => void;
   addProduct: (id: number, productData: Product) => void;
 }
+
+export interface FeaturedProductStore {
+  featuredProducts: Product[];
+  loading: boolean;
+  fetchFeaturedProducts: () => Promise<void>;
+}
