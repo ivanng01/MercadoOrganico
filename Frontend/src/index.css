@@ -32,6 +32,19 @@
         --chart-5: 340 75% 55%;
         --radius: 0.5rem
     }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: var(--primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #63bb89;
+        border-radius: 6px;
+    }
 }
 
 @layer base {

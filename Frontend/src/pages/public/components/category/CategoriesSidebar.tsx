@@ -9,23 +9,19 @@ interface CategoriesSidebarProps {
 
 export default function CategoriesSidebar({ categories, loading, error, onCategoryChange }: CategoriesSidebarProps) {
   return (
-    <div className="text-card-foreground rounded-lg pl-4">
+    <div className="rounded-lg pl-4">
       {loading ? (
         <p>Cargando categorías...</p>
       ) : error ? (
         <p>{error}</p>
       ) : (
         <ul>
-          <li className="flex justify-between items-center py-2 cursor-pointer" onClick={() => onCategoryChange("Todos")}>
-            <span className="hover:text-primary">Todos</span>
+          <li className="flex justify-between items-center py-2 px-4 cursor-pointer" onClick={() => onCategoryChange("Todos")}>
+            <span>Todos</span>
             <ChevronRight className="h-5 w-5 text-primary" />
           </li>
           {categories.map((category) => (
-            <li
-              key={category.id}
-              className="flex justify-between items-center py-2 cursor-pointer hover:text-primary"
-              onClick={() => onCategoryChange(category)}
-            >
+            <li key={category.id} className="flex justify-between items-center p-4 cursor-pointer" onClick={() => onCategoryChange(category)}>
               <span>{category.name}</span>
               <ChevronRight className="h-5 w-5 text-primary" />
             </li>

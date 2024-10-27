@@ -3,13 +3,17 @@ import { PackageX } from "lucide-react";
 
 export default function NoProductsFound() {
   return (
-    <div className="w-full flex flex-col items-center justify-start text-center pt-20 h-screen">
-      <PackageX className="w-24 h-24 text-muted-foreground mb-6" />
-      <h2 className="text-2xl font-bold text-card-foreground mb-2">No se encontraron productos</h2>
-      <p className="text-gray-400 mb-6">Lo sentimos, no hemos podido encontrar productos en categoría.</p>
-      <div className="inline-block space-x-2">
-        <Button>Explorar otras categorías</Button>
-        <Button variant="secondary">Limpiar filtros</Button>
+    <div className="w-screen flex flex-col items-center justify-start gap-4 p-8 rounded-lg min-h-[300px]">
+      <PackageX className="w-16 h-16 text-muted-foreground" />
+      <div className="text-center">
+        <h3 className="text-xl font-semibold mb-2 text-card-foreground">No se encontraron productos</h3>
+        <p className="text-muted-foreground mb-4">Intenta ajustar los filtros o realiza una nueva búsqueda</p>
+        <section className="flex gap-4 justify-center">
+          <Button>Limpiar Filtros</Button>
+          <Button variant="secondary" className="w-32">
+            Volver
+          </Button>
+        </section>
       </div>
     </div>
   );

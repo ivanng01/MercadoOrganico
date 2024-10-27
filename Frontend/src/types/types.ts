@@ -112,6 +112,7 @@ export interface ProductFilters {
   is_featured?: number;
   sort?: string;
   page?: number;
+  category_id?: number;
 }
 
 export interface PaginationProps {
