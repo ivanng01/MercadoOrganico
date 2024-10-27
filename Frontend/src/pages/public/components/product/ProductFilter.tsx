@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, Plus, Minus } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import SliderwithNumberInput from "@/components/custom/SliderwithNumberInput";
 import { getCategories } from "../../services/categorieService";
 import CategoriesSidebar from "../category/CategoriesSidebar";
@@ -31,29 +31,20 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
   }, []);
 
   const handleCategoryChange = (category: string | { id: number; name: string }) => {
-    const categoryName = category === "Todos" ? "Todos" : (category as { id: number; name: string }).name;
-    setSelectedCategory(categoryName);
-    const filters = category === "Todos" ? {} : { category_id: (category as { id: number }).id };
-    onFilterChange(filters);
+    if (category === "Todos") {
+      setSelectedCategory(null);
+      onFilterChange({});
+    } else {
+      const selected = category as { id: number; name: string };
+      setSelectedCategory(selected.name);
+      onFilterChange({ category_id: selected.id });
+    }
   };
 
   return (
-    <div className="flex flex-col gap-2 items-start justify-start rounded-lg mr-4 w-72">
-      <div className="w-full">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Búsqueda"
-            className="w-full py-2 px-4 h-11 rounded-lg outline-none text-white bg-primary placeholder-white"
-          />
-          <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
-            <Search className="h-6 w-6 text-white" />
-          </span>
-        </div>
-      </div>
-
-      <div className="w-full">
-        <button onClick={() => setIsSliderExpanded(!isSliderExpanded)} className="flex items-center text-gray-700 font-bold pb-4">
+    <div className="flex flex-col gap-2 items-start justify-start rounded-lg w-full pl-4">
+      <div className="w-full py-4">
+        <button onClick={() => setIsSliderExpanded(!isSliderExpanded)} className="flex items-center font-bold pb-4">
           {isSliderExpanded ? <Minus className="h-4 w-4 mr-4" /> : <Plus className="h-4 w-4 mr-4" />} Filtrar por
         </button>
         {isSliderExpanded && (
@@ -63,9 +54,9 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
         )}
       </div>
 
-      <div className="w-full">
+      <div className="w-full py-4">
         {selectedCategory && <div className={`p-2 text-white font-bold rounded-lg bg-gray-500`}>Categoría seleccionada: {selectedCategory}</div>}
-        <button onClick={() => setIsCategoriesExpanded(!isCategoriesExpanded)} className="flex items-center text-gray-700 font-bold pb-4">
+        <button onClick={() => setIsCategoriesExpanded(!isCategoriesExpanded)} className="flex items-center font-bold pb-4">
           {isCategoriesExpanded ? <Minus className="h-4 w-4 mr-4" /> : <Plus className="h-4 w-4 mr-4" />} Categorías
         </button>
         {isCategoriesExpanded && (

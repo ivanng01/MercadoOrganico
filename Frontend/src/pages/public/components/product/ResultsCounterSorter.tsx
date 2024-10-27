@@ -29,7 +29,7 @@ export default function ResultsCounterSorter({ totalResults, currentPage, result
   };
 
   return (
-    <div className="flex justify-between items-center w-full pb-4">
+    <div className="flex flex-col md:flex-row justify-between items-center w-full gap-4 py-4">
       <div className="text-sm text-card-foreground">
         Mostrando {startResult}-{endResult} de {totalResults} resultados
       </div>

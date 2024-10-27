@@ -33,7 +33,7 @@ export default function SliderwithNumberInput() {
   };
 
   return (
-    <div className="w-full space-y-4 p-4 rounded-lg border border-input text-card-foreground">
+    <div className="w-full space-y-4 p-4 rounded-lg">
       <h2 className="text-lg font-semibold">Precio</h2>
       <PriceRangeSlider value={range} onChange={setRange} />
       <div className="flex justify-center space-x-2">

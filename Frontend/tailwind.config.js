@@ -58,9 +58,21 @@ export const theme = {
         "0%": { transform: "translateX(0%)" },
         "100%": { transform: "translateX(-100%)" },
       },
+      slide: {
+        "0%": { transform: "translateX(-30px)" },
+        "100%": { transform: "translateX(30px)" },
+      },
+      grow: {
+        "0%": { transform: "scale(0) translate(0, 20px)", opacity: "0" },
+        "50%": { transform: "scale(1) translate(0, 10px)", opacity: "1" },
+        "100%": { transform: "scale(1) translate(0, 0)", opacity: "0" },
+      },
     },
     animation: {
       marquee: "marquee 30s linear infinite",
+      fall: "fall 3s forwards",
+      slide: "slide 2s ease-in-out infinite alternate",
+      grow: "grow 2s infinite",
     },
   },
 };

@@ -70,7 +70,7 @@ export default function FeaturedProducts() {
 
         <div className="text-center mt-8">
           <Link to="/store">
-            <Button variant="outline" className="bg-primary text-white px-8 py-2">
+            <Button variant="outline" className="bg-primary text-white px-8 py-2" onClick={handleUpClick}>
               Ver más productos
             </Button>
           </Link>
