@@ -194,8 +194,8 @@ Vercel*
     <td align='center'>
       <div>
        <h4>Tester QA</h4>
-        <a href="https://www.linkedin.com/in/giselalago/" target="_blank" rel="author">
-          <img width="95" src="https://github.com/user-attachments/assets/4d6f9204-8958-452a-b2b7-44098d9f357e"/>
+        <a href="https://github.com/GMLago/GMLago" target="_blank" rel="author"> 
+          <img width="110" src="https://avatars.githubusercontent.com/u/172336522?v=4"/>
         </a>
           <h4 style="margin-top: 1rem;">Gisela <br> Lago</h4>
         <div style='display: flex; flex-direction: column'>
