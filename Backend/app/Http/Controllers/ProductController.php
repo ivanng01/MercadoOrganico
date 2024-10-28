@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductRequest;
 use App\Models\MeasurementUnit;
+use App\Models\Discount;
+use App\Models\ProductDiscount;
 use Cloudinary\Cloudinary;
 
 /**
@@ -569,6 +571,7 @@ class ProductController extends Controller
             'request' => $requestToUpdate
         ], 200);
     }
+
 
 
     private function validateProduct(Request $request)
