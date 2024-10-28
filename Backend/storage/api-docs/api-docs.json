@@ -400,6 +400,89 @@
                 ]
             }
         },
+        "/products/{productId}/discounts": {
+            "post": {
+                "tags": [
+                    "Discounts"
+                ],
+                "summary": "Crear y asignar un descuento a un producto",
+                "operationId": "f97ad261c1f6ba5fd1c6a25580de764e",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID del producto al que se asignará el descuento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discount"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Descuento creado y asignado al producto exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "discounted_price": {
+                                            "type": "number"
+                                        },
+                                        "discount": {
+                                            "$ref": "#/components/schemas/Discount"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso no autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error al agregar descuento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/products": {
             "get": {
                 "tags": [
@@ -1750,6 +1833,31 @@
                 },
                 "type": "object"
             },
+            "Discount": {
+                "properties": {
+                    "name": {
+                        "description": "Nombre del descuento",
+                        "type": "string"
+                    },
+                    "discount_type": {
+                        "description": "Tipo de descuento (percentage, fixed)",
+                        "type": "string",
+                        "enum": [
+                            "percentage",
+                            "fixed"
+                        ]
+                    },
+                    "value": {
+                        "description": "Valor del descuento",
+                        "type": "number"
+                    },
+                    "description": {
+                        "description": "Descripción opcional del descuento",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "Product": {
                 "properties": {
                     "id": {
@@ -1773,6 +1881,9 @@
                     },
                     "image": {
                         "type": "string"
+                    },
+                    "measurement_unit_id": {
+                        "type": "integer"
                     },
                     "is_featured": {
                         "type": "boolean"
@@ -1911,6 +2022,10 @@
         {
             "name": "Categories",
             "description": "Solo para administradores"
+        },
+        {
+            "name": "Discounts",
+            "description": "Operaciones relacionadas con descuentos"
         },
         {
             "name": "Products",

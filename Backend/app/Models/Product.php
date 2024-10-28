@@ -21,6 +21,8 @@ class Product extends Model
         'stock',
         'request_id',
         'image_path',
+        'measurement_unit_id',
+        'discounted_price',
     ];
 
     public function category()
@@ -52,4 +54,15 @@ class Product extends Model
     {
         return $this->belongsTo(ProductRequest::class);
     }
+
+    public function measurementUnit()
+    {
+        return $this->belongsTo(MeasurementUnit::class, 'measurement_unit_id');
+    }
+
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, 'productdiscount');
+    }
+
 }

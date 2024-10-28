@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\DiscountController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +84,12 @@ Route::middleware('auth:sanctum')->group(function () {
             });
         });
     });
+
+    Route::middleware('role:1,2')->group(function () {
+        Route::post('/products/{productId}/discounts', [DiscountController::class, 'createAndAssignDiscount']); // Crear y asignar descuento a producto
+        Route::delete('/products/{productId}/discounts', [DiscountController::class, 'removeAllDiscountsFromProduct']);
+    });
+    
 
     // Rutas del carrito de compras
     Route::prefix('cart')->group(function () {
