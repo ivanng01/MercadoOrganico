@@ -4,15 +4,18 @@ import SliderwithNumberInput from "@/components/custom/SliderwithNumberInput";
 import { getCategories } from "../../services/categorieService";
 import CategoriesSidebar from "../category/CategoriesSidebar";
 import { ProductFilterProps } from "@/types/types";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
   const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   const [isSliderExpanded, setIsSliderExpanded] = useState<boolean>(true);
   const [isCategoriesExpanded, setIsCategoriesExpanded] = useState<boolean>(true);
+
+  const navigate = useNavigate();
 
   const fetchCategories = async () => {
     try {
@@ -31,14 +34,26 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
   }, []);
 
   const handleCategoryChange = (category: string | { id: number; name: string }) => {
+    let categoryId: number | undefined;
+
     if (category === "Todos") {
       setSelectedCategory(null);
-      onFilterChange({});
+      onFilterChange({ category_id: undefined });
+      categoryId = undefined;
     } else {
       const selected = category as { id: number; name: string };
-      setSelectedCategory(selected.name);
+      setSelectedCategory(selected.id);
       onFilterChange({ category_id: selected.id });
+      categoryId = selected.id;
     }
+
+    const params = new URLSearchParams(window.location.search);
+    if (categoryId) {
+      params.set("category_id", String(categoryId));
+    } else {
+      params.delete("category_id");
+    }
+    navigate(`?${params.toString()}`);
   };
 
   return (
@@ -55,7 +70,11 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
       </div>
 
       <div className="w-full py-4">
-        {selectedCategory && <div className={`p-2 text-white font-bold rounded-lg bg-gray-500`}>Categoría seleccionada: {selectedCategory}</div>}
+        {selectedCategory !== null && (
+          <div className={`p-2 text-white font-bold rounded-lg bg-gray-500`}>
+            Categoría seleccionada: {categories.find((cat) => cat.id === selectedCategory)?.name}
+          </div>
+        )}
         <button onClick={() => setIsCategoriesExpanded(!isCategoriesExpanded)} className="flex items-center font-bold pb-4">
           {isCategoriesExpanded ? <Minus className="h-4 w-4 mr-4" /> : <Plus className="h-4 w-4 mr-4" />} Categorías
         </button>

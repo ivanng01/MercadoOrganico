@@ -3,9 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import { Star, Facebook, Twitter, Instagram, Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductData } from "@/types/types";
-import { formatPrice, generateEAN8SKUFromID } from "@/lib/utils";
+import { formatPrice, generateEAN8SKUFromID, handleUpClick } from "@/lib/utils";
 import { getProductById } from "../../services/productService";
 import Header from "../header/Header";
+import RelatedSuggestions from "./RelatedSuggestions";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -93,11 +94,12 @@ export default function ProductDetail() {
             <h3 className="font-semibold mb-2">¿Tienes productos que te gustaría vender?</h3>
             <p className="mb-2">Considera unirte a nuestra comunidad de vendedores para compartir tus productos y llegar a más clientes.</p>
             <Link to="/register">
-              <Button>Únete Ahora</Button>
+              <Button onClick={handleUpClick}>Únete Ahora</Button>
             </Link>
           </div>
         </div>
       </div>
+      <RelatedSuggestions categoryId={product.category_id} />{" "}
     </>
   );
 }

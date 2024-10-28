@@ -6,7 +6,6 @@ import { events } from "../data/events";
 import VideoHero from "../components/hero/VideoHero";
 import ImageCarousel from "../components/gallery/ImageCarousel";
 import TestimonialSlider from "../components/testimonial/TestimonialSlider";
-import BackToTopButton from "@/components/custom/BackToTopButton";
 import AdvertisementOrganic from "../components/advertisement/AdvertisementOrganic";
 import { motion } from "framer-motion";
 
@@ -42,8 +41,6 @@ export default function Home() {
       <EventSection title="Nuestros próximos eventos" subtitle="Lo que viene" events={events} />
 
       <ImageCarousel />
-
-      <BackToTopButton />
     </>
   );
 }

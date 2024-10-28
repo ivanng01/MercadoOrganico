@@ -1,6 +1,7 @@
 import PublicNavbar from "../custom/PublicNavbar";
 import { LayoutProps } from "@/types/types";
 import SiteFooter from "../ui/site-footer";
+import BackToTopButton from "../custom/BackToTopButton";
 
 export default function PublicLayout({ children }: LayoutProps) {
   return (
@@ -8,6 +9,7 @@ export default function PublicLayout({ children }: LayoutProps) {
       <PublicNavbar />
 
       <main className="flex-grow">{children}</main>
+      <BackToTopButton />
       <SiteFooter />
     </main>
   );

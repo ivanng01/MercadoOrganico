@@ -13,6 +13,7 @@ import { X, ListFilter, SlidersHorizontal } from "lucide-react";
 import SearchBar from "@/components/custom/SearchBar";
 import LogoBrand from "@/components/custom/LogoBrand";
 import SpinnerProducts from "@/components/custom/SpinnerProducts";
+import { useLocation } from "react-router-dom";
 
 export default function ProductList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -22,9 +23,43 @@ export default function ProductList() {
   const [totalResults, setTotalResults] = useState<number>(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const categoryId = query.get("category_id");
+  const minPrice = query.get("min_price");
+  const maxPrice = query.get("max_price");
 
-  const resultsPerPage = 15;
+  const resultsPerPage = 60;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handlePriceFilterChange = (event: CustomEvent) => {
+      const { min, max } = event.detail;
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        min_price: min,
+        max_price: max,
+        page: 1,
+      }));
+    };
+
+    const handlePriceFilterClear = () => {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        min_price: undefined,
+        max_price: undefined,
+        page: 1,
+      }));
+    };
+
+    window.addEventListener("priceFilterChanged", handlePriceFilterChange as EventListener);
+    window.addEventListener("priceFilterCleared", handlePriceFilterClear);
+
+    return () => {
+      window.removeEventListener("priceFilterChanged", handlePriceFilterChange as EventListener);
+      window.removeEventListener("priceFilterCleared", handlePriceFilterClear);
+    };
+  }, []);
 
   useEffect(() => {
     if (isFilterOpen) {
@@ -45,8 +80,17 @@ export default function ProductList() {
   const fetchProducts = async () => {
     setLoading(true);
     setError(null);
+
+    const categoryIdAsNumber = categoryId ? Number(categoryId) : undefined;
+
     try {
-      const data = await getProducts(filters);
+      const data = await getProducts({
+        ...filters,
+        min_price: minPrice ? Number(minPrice) : undefined,
+        max_price: maxPrice ? Number(maxPrice) : undefined,
+        category_id: categoryIdAsNumber,
+      });
+
       setProducts(data.data);
       setTotalResults(data.meta.total);
     } catch (error: unknown) {
