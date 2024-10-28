@@ -1,4 +1,4 @@
-# Bienvenido a Raíces Orgánicas
+# Bienvenido a Mercado Orgánico
 **Logo**
 
 *s18-13-n-php-react.NoCuntry*
@@ -8,13 +8,13 @@ Descubre una nueva forma de comprar y vender Productos Orgánicos. En nuestra we
 
 ## **Acerca de Nosotros**
 
-Raíces Orgánicas es una plataforma e-commerce diseñada para promover la venta de productos orgánicos por parte de productores independientes.
+Mercado Orgánico es una plataforma e-commerce diseñada para promover la venta de productos orgánicos por parte de productores independientes.
 Nuestro sistema online proporciona la búsqueda de alimentos orgánicos de manera fácil y rápida, brindando calidad y practicidad sin necesidad de distribuidores intermediarios. En consecuencia, fomenta precios justos entre ambas partes al momento de ofrecer y adquirir algún producto.
 La plataforma digital es intuitiva y fácil de usar, cuenta con opciones disponibles en dispositivos móviles además de asegurar la transparencia en cada operación de compra-venta.
 
 ## **Propuesta de Valor**
 
-Raíces Orgánicas ofrece una nueva forma de comprar y vender productos orgánicos.
+Mercado Orgánico ofrece una nueva forma de comprar y vender productos orgánicos.
 En nuestra web app, priorizamos la conexión entre productores y consumidores de productos orgánicos sin intermediarios para una experiencia directa, rápida y fácil.
 **Comunidad y Confianza:** Los usuarios registrados forman parte de una comunidad comprometida con la calidad y el bienestar. Vendedores y compradores interactúan directamente, creando relaciones de confianza.
 **Transparencia Total:** Cada transacción es clara y directa. Los consumidores conocen el origen de los productos, cómo fueron cultivados y quiénes están detrás de ellos.
@@ -100,14 +100,22 @@ En nuestra web app, priorizamos la conexión entre productores y consumidores de
 
 **💻 Frontend:**
 
-*React  
-Vite  
-Tailwind Css  
-Shadcn UI  
-Zustand  
-Vercel*
+- *React*  
+- *Vite*
+- *Tailwind CSS*  
+- *Shadcn UI*  
+- *Zustand*  
+- *Vercel*
 
 **🔧 Backend:**
+
+- Lenguaje: *PHP*
+- Framework: *Laravel*
+- Database: *MySQL*
+- Documentación: *Swagger* 
+- Almacenamieto de imágenes: *Cloudinary* 
+- Deploy: *Vercel* 
+
 
 
 **🕵️ Tester:**
@@ -237,4 +245,4 @@ Figma Diseño:
 Figma Prototipo:
 
 Pruebas del Equipo Tester:
-## **UML 
+
