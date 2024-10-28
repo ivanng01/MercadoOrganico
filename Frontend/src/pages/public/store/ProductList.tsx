@@ -22,15 +22,32 @@ export default function ProductList() {
   const [filters, setFilters] = useState<ProductFilters>({ page: 1 });
   const [totalResults, setTotalResults] = useState<number>(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
+
   const query = new URLSearchParams(location.search);
+  const searchTerm = query.get("search");
   const categoryId = query.get("category_id");
   const minPrice = query.get("min_price");
   const maxPrice = query.get("max_price");
 
   const resultsPerPage = 60;
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (searchTerm) {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        search: searchTerm,
+        page: 1,
+      }));
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        search: undefined,
+        page: 1,
+      }));
+    }
+  }, [searchTerm]);
 
   useEffect(() => {
     const handlePriceFilterChange = (event: CustomEvent) => {
@@ -125,10 +142,6 @@ export default function ProductList() {
     }));
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
-
   const handleFilterChange = (newFilters: Partial<ProductFilters>) => {
     const updatedFilters = {
       ...filters,
@@ -136,6 +149,7 @@ export default function ProductList() {
       category_id: typeof newFilters.category_id === "string" && newFilters.category_id === "Todos" ? undefined : newFilters.category_id,
       page: 1,
     };
+
     setFilters(updatedFilters);
   };
 
@@ -151,7 +165,7 @@ export default function ProductList() {
       <section className="p-4 lg:px-[120px] bg-foreground gap-4 w-full min-h-screen flex flex-col">
         <div className="relative flex flex-col max-w-screen-2xl mx-auto gap-4">
           <div className="sticky top-20 flex justify-between items-center bg-white text-card-foreground p-4 py-4 rounded-lg border border-input">
-            <SearchBar placeholder="Buscar productos..." value={searchTerm} onChange={handleSearchChange} />
+            <SearchBar />
             <button onClick={toggleFilter}>{isFilterOpen ? <ListFilter /> : <SlidersHorizontal />}</button>
           </div>
 
@@ -159,8 +173,7 @@ export default function ProductList() {
 
           <div className="flex gap-4">
             <aside
-              className={`
-                fixed inset-y-0 left-0 w-80 max-w-[80vw] bg-background z-50
+              className={`fixed inset-y-0 left-0 w-80 max-w-[80vw] bg-background z-50
                 transform transition-all duration-300 ease-in-out
                 ${isFilterOpen ? "translate-x-0" : "-translate-x-full"}
                 shadow-lg
