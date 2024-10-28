@@ -101,7 +101,6 @@ export interface ProductsApiResponse {
     total: number;
   };
 }
-// types/types.ts
 export interface ProductFilterProps {
   category_id?: number;
   sort?: string;
@@ -118,6 +117,8 @@ export interface ProductFilters {
   sort?: string;
   page?: number;
   category_id?: number;
+  min_price?: number;
+  max_price?: number;
 }
 
 export interface PaginationProps {
@@ -216,4 +217,12 @@ export interface FeaturedProductStore {
   featuredProducts: Product[];
   loading: boolean;
   fetchFeaturedProducts: () => Promise<void>;
+}
+
+export interface RelatedSuggestionsProps {
+  categoryId: number;
+}
+
+export interface ExtendedProduct extends Product {
+  sku: string;
 }

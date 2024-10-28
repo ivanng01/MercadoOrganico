@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { TitleDecor } from "@/lib/iconsCustom";
 import { teamInfo } from "../../data/teamInfo";
 import { TeamMember } from "@/types/types";
-import { X } from "lucide-react"; 
+import { X } from "lucide-react";
 
 export default function TeamSection() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -67,11 +67,8 @@ export default function TeamSection() {
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <X
-                  className="w-6 h-6 text-gray-800 absolute top-4 right-4 cursor-pointer"
-                  onClick={() => setSelectedId(null)}
-                />
-                
+                <X className="w-6 h-6 text-gray-800 absolute top-4 right-4 cursor-pointer" onClick={() => setSelectedId(null)} />
+
                 <div className="aspect-square overflow-hidden mt-6">
                   <img src={selectedMember.imageUrl} alt={selectedMember.name} className="w-full h-full object-cover" />
                 </div>
