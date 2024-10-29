@@ -57,7 +57,7 @@ export default function ProductFilter({ onFilterChange }: ProductFilterProps) {
   };
 
   return (
-    <div className="flex flex-col gap-2 items-start justify-start rounded-lg w-full pl-4">
+    <div className="flex flex-col gap-2 items-start justify-start w-full pl-4 bg-muted">
       <div className="w-full py-4">
         <button onClick={() => setIsSliderExpanded(!isSliderExpanded)} className="flex items-center font-bold pb-4">
           {isSliderExpanded ? <Minus className="h-4 w-4 mr-4" /> : <Plus className="h-4 w-4 mr-4" />} Filtrar por

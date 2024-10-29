@@ -2,7 +2,7 @@ import { Leaf } from "lucide-react";
 
 export default function SpinnerProducts() {
   return (
-    <div className="flex items-start justify-center min-h-screen bg-foreground w-screen">
+    <div className="flex items-start justify-center min-h-screen w-screen">
       <div className="text-center">
         <div className="relative">
           <div className="absolute inset-0 flex items-center justify-center animate-spin-slow">

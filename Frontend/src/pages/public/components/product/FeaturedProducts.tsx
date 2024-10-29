@@ -38,7 +38,7 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <section className="px-4 lg:px-[120px] bg-foreground mx-auto">
+    <section className="px-4 lg:px-[120px]">
       <div className="py-12 max-w-screen-2xl mx-auto">
         <div className="text-center mb-12">
           <TitleDecor className="h-8 w-8 text-primary mx-auto mb-2" />

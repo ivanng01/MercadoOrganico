@@ -17,7 +17,7 @@ export default function TestimonialSlider() {
   }, [api]);
 
   return (
-    <section className="px-4 lg:px-[120px] bg-foreground">
+    <section className="px-4 lg:px-[120px]">
       <div className="mx-auto max-w-screen-2xl">
         <div className="flex flex-col items-center justify-center gap-2 mb-4">
           <TitleDecor className="h-8 w-8 text-primary" />

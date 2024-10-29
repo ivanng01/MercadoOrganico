@@ -18,7 +18,7 @@ export default function ContactPage() {
   return (
     <>
       <Header title="Contacto" />
-      <div className="relative flex flex-col items-center p-4 bg-foreground text-card-foreground">
+      <div className="relative flex flex-col items-center p-4 text-card-foreground">
         <header className="flex flex-col justify-center items-center pt-8 px-4">
           <TitleDecor className="h-8 w-8 text-primary" />
           <p className="text-primary mb-2 text-xl font-semibold">Contactános</p>
@@ -27,7 +27,7 @@ export default function ContactPage() {
 
         <div className="relative w-full max-w-lg">
           <img src="/contact-shape-1.png" alt="Decoración Naranja" className="absolute -top-1/2 -left-3/4 h-auto w-96 object-cover z-0" />
-          <form onSubmit={onSubmit} className="relative space-y-4 z-10 bg-foreground rounded-lg">
+          <form onSubmit={onSubmit} className="relative space-y-4 z-10 rounded-lg">
             <div className="grid grid-cols-2 gap-4">
               <Input name="nombre" placeholder="Ingresa tu nombre" />
               <Input name="apellido" placeholder="Ingresa tu apellido" />

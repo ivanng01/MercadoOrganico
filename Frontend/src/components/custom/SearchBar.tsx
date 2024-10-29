@@ -8,7 +8,7 @@ interface SearchBarProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function SearchBar({ placeholder = "Búsqueda", value, onChange }: SearchBarProps) {
+export default function SearchBar({ placeholder = "Búscar productos...", value, onChange }: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState(value || "");
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ export default function SearchBar({ placeholder = "Búsqueda", value, onChange }
         className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-transparent outline-none cursor-pointer"
         aria-label="Buscar"
       >
-        <Search className="h-6 w-6 text-background" />
+        <Search className="h-6 w-6 text-card-foreground" />
       </button>
     </div>
   );

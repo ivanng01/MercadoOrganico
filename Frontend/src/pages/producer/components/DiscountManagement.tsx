@@ -19,7 +19,7 @@ export default function DiscountManagement() {
               Gestión de Descuentos
               <span className="ml-2 text-sm font-normal text-primary">0 Descuentos</span>
             </CardTitle>
-            <p className="text-sm text-gray-500">Administra, edita y organiza tus descuentos para optimizar tus ventas.</p>
+            <p className="text-sm text-gray-700">Administra, edita y organiza tus descuentos para optimizar tus ventas.</p>
           </div>
           <div className="flex space-x-2">
             <Button variant="secondary">

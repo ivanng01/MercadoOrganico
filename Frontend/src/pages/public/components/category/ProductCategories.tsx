@@ -16,7 +16,7 @@ const categories = [
 
 export default function ProductCategories() {
   return (
-    <section className="px-4 lg:px-[120px]">
+    <section className="px-4 lg:px-[120px] bg-muted">
       <div className="relative py-14 max-w-screen-2xl mx-auto">
         <img src="/category_head.svg" alt="" className="absolute bottom-0 left-0 w-full h-auto" />
 

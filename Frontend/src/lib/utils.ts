@@ -25,3 +25,8 @@ export const generateEAN8SKUFromID = (id: number): string => {
 export const handleUpClick = (): void => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
+
+export const getInitials = (firstName: string, lastName: string) => {
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  return initials;
+};

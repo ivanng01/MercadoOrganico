@@ -46,7 +46,7 @@ export default function ProductDetail() {
   return (
     <>
       <Header title="Detalle del Producto" />
-      <div className="flex flex-col md:flex-row bg-foreground text-card-foreground p-6 gap-6">
+      <div className="container mx-auto flex flex-col md:flex-row text-card-foreground p-6 gap-6">
         <div className="md:w-1/2">
           <img src={product.image_path} alt={product.name} width={600} height={600} className="w-full h-auto" />
         </div>
@@ -94,7 +94,7 @@ export default function ProductDetail() {
             <h3 className="font-semibold mb-2">¿Tienes productos que te gustaría vender?</h3>
             <p className="mb-2">Considera unirte a nuestra comunidad de vendedores para compartir tus productos y llegar a más clientes.</p>
             <Link to="/register">
-              <Button onClick={handleUpClick}>Únete Ahora</Button>
+              <Button onClick={handleUpClick} >Únete Ahora</Button>
             </Link>
           </div>
         </div>

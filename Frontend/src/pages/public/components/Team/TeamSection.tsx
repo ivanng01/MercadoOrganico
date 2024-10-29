@@ -15,7 +15,7 @@ export default function TeamSection() {
   }
 
   return (
-    <section className="px-4 lg:px-[120px] bg-foreground">
+    <section className="px-4 lg:px-[120px]">
       <div className="w-full py-16 max-w-screen-2xl mx-auto">
         <div className="text-center mb-12">
           <div className="flex flex-col items-center justify-center gap-2 mb-4">

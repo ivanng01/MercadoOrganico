@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 export default function AdvertisementOrganic() {
   return (
-    <section className="px-4 lg:px-[120px] bg-foreground mx-auto">
-      <div className="bg-foreground text-card-foreground flex items-center justify-center py-12 max-w-screen-2xl mx-auto">
+    <section className="px-4 lg:px-[120px] mx-auto">
+      <div className="text-card-foreground flex items-center justify-center py-12 max-w-screen-2xl mx-auto">
         <div className="relative grid md:grid-cols-2 gap-8 items-center">
           <div>
             <div className="flex flex-col items-start justify-start gap-2 mb-4">
@@ -40,7 +40,7 @@ export default function AdvertisementOrganic() {
               ))}
             </ul>
             <Link to={"/store"}>
-              <Button className="bg-primary hover:bg-background text-white font-semibold py-2 px-6 rounded" onClick={handleUpClick}>
+              <Button onClick={handleUpClick}>
                 Comprar Ahora
               </Button>
             </Link>

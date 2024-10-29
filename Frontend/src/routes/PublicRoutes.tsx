@@ -1,7 +1,7 @@
 import NotFound from "@/pages/public/error/NotFound";
 import Home from "@/pages/public/home/Home";
 import Login from "@/pages/public/login/Login";
-import ProductList from "@/pages/public/store/ProductList";
+import ProductList from "@/pages/public/shop/ProductList";
 import Register from "@/pages/public/register/Register";
 import { Route, Routes } from "react-router-dom";
 import ProductDetail from "@/pages/public/components/product/ProductDetail";

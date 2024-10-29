@@ -4,7 +4,7 @@ import { Separator } from "./separator";
 
 export default function SiteFooter() {
   return (
-    <section className="px-4 lg:px-[120px] overflow-hidden">
+    <section className="px-4 lg:px-[120px] overflow-hidden bg-muted">
       <footer className="relative py-12 mx-auto max-h-[474px] max-w-screen-2xl pb-60">
         <img src="/Image [site-footer__shape-1].svg" alt="" className="absolute top-0 -right-[4%] w-[150px] lg:w-1/2 lg:h-auto" />
         <img src="/Image [site-footer__shape-2].svg" alt="" className="absolute bottom-0 -left-[4%] w-[250px] lg:w-1/2 lg:h-auto" />
