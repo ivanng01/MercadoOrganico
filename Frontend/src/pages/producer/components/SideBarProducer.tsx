@@ -22,7 +22,7 @@ export default function SideBarProducer() {
     { icon: LayoutDashboard, label: "Dashboard", path: `dashboard` },
     { icon: Box, label: "Productos", badge: "10", path: `products` },
     { icon: ClipboardList, label: "Inventario", path: "inventory" },
-    { icon: FileText, label: "Pedidos", badge: "32", path: "orders" },
+    { icon: FileText, label: "Pedidos", badge: "15", path: "orders" },
     { icon: Percent, label: "Descuentos", path: "discounts" },
     { icon: HelpCircle, label: "Ayuda", path: "help" },
     { icon: Settings, label: "Configuración", path: "settings" },
