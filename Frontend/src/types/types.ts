@@ -231,3 +231,15 @@ export interface ProtectedRouteProps {
   redirectTo?: string;
   children: React.ReactNode;
 }
+
+export interface Order {
+  id: string;
+  customerName: string;
+  orderDate: string;
+  status: "Pendiente" | "Enviado" | "Entregado" | "Cancelado";
+  total: number;
+}
+
+export interface OrderListProps {
+  orders: Order[];
+}
