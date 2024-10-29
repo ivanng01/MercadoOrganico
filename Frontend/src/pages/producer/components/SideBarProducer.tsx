@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, LayoutDashboard, Box, ClipboardList, FileText, Percent, HelpCircle, Settings, LogOut } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+import { getInitials } from "@/lib/utils";
 
 export default function SideBarProducer() {
   const [isOpen, setIsOpen] = useState(true);
@@ -30,14 +31,12 @@ export default function SideBarProducer() {
 
   return (
     <div
-      className={`flex flex-col container transition-all duration-300 bg-card text-card-foreground border-input ${isOpen ? "w-64" : "w-20"} border-r`}
+      className={`sticky top-[64px] left-0 h-full transition-all duration-300 bg-card text-card-foreground border-input ${
+        isOpen ? "w-72" : "w-20"
+      } border-r`}
     >
       <div className="p-4">
-        <Button
-          variant="ghost"
-          className={`w-full justify-${isOpen ? "start" : "center"} bg-primary hover:bg-green-600 text-white`}
-          onClick={toggleSidebar}
-        >
+        <Button className={`w-full justify-${isOpen ? "start" : "center"} bg-primary hover:bg-green-600 text-white`} onClick={toggleSidebar}>
           {isOpen ? <ChevronLeft /> : <ChevronRight />}
           {isOpen && <span className="ml-2">Menu</span>}
         </Button>
@@ -64,8 +63,8 @@ export default function SideBarProducer() {
       <div className={`p-4 border-t border-input ${isOpen ? "" : "text-center"}`}>
         <div className="flex items-center mb-4">
           <Avatar className="h-10 w-10">
-            <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Olivia Peréz" />
-            <AvatarFallback className="text-white">OP</AvatarFallback>
+            <AvatarImage src="/placeholder.svg?height=40&width=40" alt={`${firstName} ${lastName}`} />
+            <AvatarFallback className="text-white">{getInitials(firstName, lastName)}</AvatarFallback>
           </Avatar>
           {isOpen && (
             <div className="ml-3">

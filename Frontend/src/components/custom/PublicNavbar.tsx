@@ -33,7 +33,7 @@ export default function PublicNavbar() {
     <>
       {!isAuthRoute && <SocialMediaNavbar />}
 
-      <header className={`sticky top-0 z-50 w-full px-4 lg:px-[120px] bg-background py-2 ${isScrolled ? "shadow-lg" : ""}`}>
+      <header className={`sticky top-0 z-50 w-full px-4 lg:px-[120px] bg-muted py-2 ${isScrolled ? "shadow-lg" : ""}`}>
         <div className="flex h-16 items-center justify-between max-w-screen-2xl mx-auto">
           <LogoBrand variant="small" />
 

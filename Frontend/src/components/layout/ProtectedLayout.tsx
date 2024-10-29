@@ -6,10 +6,9 @@ export default function ProtectedLayout({ children }: LayoutProps) {
   return (
     <main className="flex flex-col min-h-screen">
       <AuthenticatedNavbar />
-      <div className="flex flex-grow bg-foreground gap-4">
+      <div className="flex flex-grow">
         <SideBarProducer />
-
-        <div className="flex-grow p-4">{children}</div>
+        <div className="flex-grow p-4 transition-all duration-300">{children}</div>
       </div>
     </main>
   );

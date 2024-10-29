@@ -162,7 +162,7 @@ export default function ProductList() {
 
   return (
     <>
-      <section className="p-4 lg:px-[120px] bg-foreground gap-4 w-full min-h-screen flex flex-col">
+      <section className="p-4 lg:px-[120px] gap-4 w-full min-h-screen flex flex-col">
         <div className="relative flex flex-col max-w-screen-2xl mx-auto gap-4">
           <div className="sticky top-20 flex justify-between items-center bg-white text-card-foreground p-4 py-4 rounded-lg border border-input">
             <SearchBar />
@@ -179,7 +179,7 @@ export default function ProductList() {
                 shadow-lg
               `}
             >
-              <div className="sticky top-0 flex justify-between items-center p-4 border-b">
+              <div className="bg-muted sticky top-0 flex justify-between items-center p-4 border-b">
                 <LogoBrand variant="small" />
                 <button onClick={toggleFilter} className="p-2 hover:bg-primary rounded-full transition-colors">
                   <X className="w-6 h-6" />

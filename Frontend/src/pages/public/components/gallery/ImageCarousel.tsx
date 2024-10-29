@@ -17,7 +17,7 @@ export default function ImageCarousel() {
   }, [api]);
 
   return (
-    <div className="bg-foreground py-12 px-4 lg:px-[120px]">
+    <div className="py-12 px-4 lg:px-[120px]">
       <section className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col items-center justify-center gap-2 mb-4">
           <TitleDecor className="h-8 w-8 text-primary" />

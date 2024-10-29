@@ -13,7 +13,7 @@ export default function Partner({
   ],
 }: PartnerProps) {
   return (
-    <div className="w-full py-16 overflow-hidden bg-foreground">
+    <div className="w-full py-16 overflow-hidden">
       <div className="text-center mb-12 space-y-4">
         <div className="flex flex-col items-center justify-center gap-2">
           <TitleDecor className="h-8 w-8 text-primary" />

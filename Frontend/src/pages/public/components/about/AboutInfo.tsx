@@ -6,7 +6,7 @@ import { aboutInfo } from "../../data/abouInfo";
 
 export default function AboutInfo() {
   return (
-    <div className="mx-auto px-4 lg:px-[120px] py-12 bg-foreground">
+    <div className="mx-auto px-4 lg:px-[120px] py-12">
       <div className="flex flex-col md:flex-row items-center gap-8 max-w-screen-2xl mx-auto">
         <div className="w-full md:w-1/2 relative">
           <div className="relative w-full aspect-square">

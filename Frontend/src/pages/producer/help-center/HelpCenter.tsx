@@ -36,10 +36,10 @@ const helpSections = [
 
 export default function HelpCenter() {
   return (
-    <div className="container mx-auto py-8">
+    <section className="container mx-auto gap-4 p-6">
       <h1 className="text-4xl font-bold text-center mb-2 text-card-foreground">Centro de Ayuda</h1>
       <p className="text-xl text-center text-gray-600 mb-8">Encuentra respuestas a tus preguntas y soluciones rápidas</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {helpSections.map((section, index) => {
           const Icon = section.icon;
           return (
@@ -55,6 +55,6 @@ export default function HelpCenter() {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }

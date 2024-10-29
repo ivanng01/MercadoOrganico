@@ -8,11 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import LogoBrand from "./LogoBrand";
 import { useAuthStore } from "@/store/authStore";
-
-const getInitials = (firstName: string, lastName: string) => {
-  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-  return initials;
-};
+import { getInitials } from "@/lib/utils";
 
 export default function AuthenticatedNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -40,7 +36,7 @@ export default function AuthenticatedNavbar() {
   };
 
   return (
-    <header className={`sticky top-0 z-50 w-full bg-background ${isScrolled ? "supports-[backdrop-filter]" : ""}`}>
+    <header className={`sticky top-0 z-50 w-full bg-muted ${isScrolled ? "supports-[backdrop-filter]" : ""}`}>
       <nav className="flex justify-between h-16 items-center p-4">
         <LogoBrand variant="small" />
 

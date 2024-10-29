@@ -81,7 +81,7 @@ export default function SliderWithNumberInput() {
             max={DEFAULT_MAX}
             value={range[0]}
             onChange={(e) => handleInputChange(Number(e.target.value), 0)}
-            className="w-20 rounded px-2 py-1 border text-sm bg-background"
+            className="w-20 rounded px-2 py-1 border text-sm bg-muted"
           />
         </div>
         <span>-</span>
@@ -93,7 +93,7 @@ export default function SliderWithNumberInput() {
             max={DEFAULT_MAX}
             value={range[1]}
             onChange={(e) => handleInputChange(Number(e.target.value), 1)}
-            className="w-20 rounded px-2 py-1 border text-sm bg-background"
+            className="w-20 rounded px-2 py-1 border text-sm bg-muted"
           />
         </div>
       </div>
@@ -102,7 +102,7 @@ export default function SliderWithNumberInput() {
         <Button variant="secondary" onClick={handleClear}>
           Limpiar Filtros
         </Button>
-        <Button variant="default" onClick={handleFilter}>
+        <Button onClick={handleFilter} className="hover:bg-primary">
           Aplicar Filtros
         </Button>
       </div>
