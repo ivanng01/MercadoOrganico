@@ -7,12 +7,15 @@ import { formatPrice, generateEAN8SKUFromID, handleUpClick } from "@/lib/utils";
 import { getProductById } from "../../services/productService";
 import Header from "../header/Header";
 import RelatedSuggestions from "./RelatedSuggestions";
+import useCartStore from "@/store/cartStore";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState<ProductData | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,6 +36,12 @@ export default function ProductDetail() {
 
   const handleQuantityChange = (amount: number) => {
     setQuantity((prev) => Math.max(1, prev + amount));
+  };
+
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart({ product_id: product.id, quantity });
+    }
   };
 
   if (loading) {
@@ -70,7 +79,9 @@ export default function ProductDetail() {
             </Button>
           </div>
           <div className="flex gap-4">
-            <Button className="flex-1">Agregar Al Carrito</Button>
+            <Button className="flex-1" onClick={handleAddToCart}>
+              Agregar Al Carrito
+            </Button>
             <Button variant="secondary" className="flex-1">
               Lista De Deseos
             </Button>
@@ -99,7 +110,7 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-      <RelatedSuggestions categoryId={product.category_id} />{" "}
+      <RelatedSuggestions categoryId={product.category_id} />
     </>
   );
 }
