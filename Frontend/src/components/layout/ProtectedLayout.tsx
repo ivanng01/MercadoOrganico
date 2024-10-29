@@ -7,11 +7,9 @@ export default function ProtectedLayout({ children }: LayoutProps) {
     <main className="flex flex-col min-h-screen">
       <AuthenticatedNavbar />
       <div className="flex flex-grow bg-foreground gap-4">
-        <SideBarProducer/> 
-        
-        <div className="flex-grow p-4">
-          {children}
-        </div>
+        <SideBarProducer />
+
+        <div className="flex-grow p-4">{children}</div>
       </div>
     </main>
   );

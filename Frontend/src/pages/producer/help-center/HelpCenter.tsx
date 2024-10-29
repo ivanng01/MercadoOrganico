@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { HelpCircle, Truck, RotateCcw, CreditCard, Headphones, User } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { HelpCircle, Truck, RotateCcw, CreditCard, Headphones, User } from "lucide-react";
 
 const helpSections = [
   {
@@ -32,15 +32,13 @@ const helpSections = [
     description: "Guías sobre cómo gestionar tu cuenta, cambiar contraseñas o actualizar la información del perfil.",
     icon: User,
   },
-]
+];
 
 export default function HelpCenter() {
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-4xl font-bold text-center mb-2 text-card-foreground">Centro de Ayuda</h1>
-      <p className="text-xl text-center text-gray-600 mb-8">
-        Encuentra respuestas a tus preguntas y soluciones rápidas
-      </p>
+      <p className="text-xl text-center text-gray-600 mb-8">Encuentra respuestas a tus preguntas y soluciones rápidas</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {helpSections.map((section, index) => {
           const Icon = section.icon;
@@ -58,5 +56,5 @@ export default function HelpCenter() {
         })}
       </div>
     </div>
-  )
+  );
 }

@@ -13,7 +13,6 @@ export default function ProducerRoutes() {
       <Route path="help" element={<HelpCenter />} />
 
       {/* Aquí puedes añadir más rutas para el productor */}
-
     </Routes>
   );
 }

@@ -26,9 +26,9 @@ export default function ProductManagement() {
               <Download className="mr-2 h-4 w-4" /> Importar
             </Button>
             <Link to="new">
-            <Button>
-              <Plus className="mr-2 h-4 w-4" /> Agregar un producto
-            </Button>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" /> Agregar un producto
+              </Button>
             </Link>
           </div>
         </CardHeader>
@@ -76,9 +76,9 @@ export default function ProductManagement() {
             <div className="flex justify-center space-x-2">
               <Button variant="secondary">Explorar catálogo</Button>
               <Link to="new">
-              <Button onClick={handleUpClick}>
-                <Plus className="mr-2 h-4 w-4" /> Agregar producto
-              </Button>
+                <Button onClick={handleUpClick}>
+                  <Plus className="mr-2 h-4 w-4" /> Agregar producto
+                </Button>
               </Link>
             </div>
           </div>
