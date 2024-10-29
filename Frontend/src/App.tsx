@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { AdminRoutes, ClientRoutes, ProducerRoutes, PublicRoutes } from "./routes";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
 import PublicLayout from "./components/layout/PublicLayout";
+import ProtectedRoute from "./components/custom/ProtectedRoute";
 
 function App() {
   return (
@@ -21,9 +22,11 @@ function App() {
         <Route
           path="/admin/*"
           element={
-            <ProtectedLayout>
-              <AdminRoutes />
-            </ProtectedLayout>
+            <ProtectedRoute redirectTo="/login">
+              <ProtectedLayout>
+                <AdminRoutes />
+              </ProtectedLayout>
+            </ProtectedRoute>
           }
         />
 
@@ -31,9 +34,11 @@ function App() {
         <Route
           path="/client/*"
           element={
-            <ProtectedLayout>
-              <ClientRoutes />
-            </ProtectedLayout>
+            <ProtectedRoute redirectTo="/login">
+              <ProtectedLayout>
+                <ClientRoutes />
+              </ProtectedLayout>
+            </ProtectedRoute>
           }
         />
 
@@ -41,9 +46,11 @@ function App() {
         <Route
           path="/producer/*"
           element={
-            <ProtectedLayout>
-              <ProducerRoutes />
-            </ProtectedLayout>
+            <ProtectedRoute redirectTo="/login">
+              <ProtectedLayout>
+                <ProducerRoutes />
+              </ProtectedLayout>
+            </ProtectedRoute>
           }
         />
       </Routes>
