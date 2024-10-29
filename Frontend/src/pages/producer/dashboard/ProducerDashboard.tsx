@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowUpIcon, ArrowDownIcon, FileIcon, MoreHorizontal } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { useAuthStore } from "@/store/authStore";
 
 const data = [
   { name: "Feb", value: 30000 },
@@ -28,11 +29,12 @@ const transactions = [
 
 export default function ProducerDashboard() {
   const [timeRange, setTimeRange] = useState("6 Meses");
+  const { firstName } = useAuthStore();
 
   return (
     <div className="container mx-auto space-y-4">
       <h1 className="text-2xl text-card-foreground">
-        <span className="font-bold">Hola Olivia</span> - Esto es lo que está pasando con tu tienda hoy.
+        <span className="font-bold">Hola {firstName}</span> - Esto es lo que está pasando con tu tienda hoy.
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

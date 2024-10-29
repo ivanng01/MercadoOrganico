@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, LayoutDashboard, Box, ClipboardList, FileText, Percent, HelpCircle, Settings, LogOut } from "lucide-react";
+import { useAuthStore } from "@/store/authStore";
 
 export default function SideBarProducer() {
   const [isOpen, setIsOpen] = useState(true);
+  const { email, firstName, lastName, clearAuthData } = useAuthStore();
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearAuthData();
+    navigate("/");
+  };
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -60,12 +69,16 @@ export default function SideBarProducer() {
           </Avatar>
           {isOpen && (
             <div className="ml-3">
-              <p className="text-sm font-medium">Olivia Peréz</p>
-              <p className="text-xs text-gray-500">fincaperez@gmail.com</p>
+              <p className="text-sm font-medium">{`${firstName} ${lastName}`}</p>
+              <p className="text-xs text-gray-500">{email}</p>
             </div>
           )}
         </div>
-        <Button variant="secondary" className={`w-full justify-${isOpen ? "start" : "center"} text-red-500 hover:text-red-700 hover:bg-red-100`}>
+        <Button
+          variant="secondary"
+          className={`w-full justify-${isOpen ? "start" : "center"} text-red-500 hover:text-red-700 hover:bg-red-100`}
+          onClick={handleLogout}
+        >
           <LogOut className="h-5 w-5" />
           {isOpen && <span className="ml-2">Cerrar Sesión</span>}
         </Button>

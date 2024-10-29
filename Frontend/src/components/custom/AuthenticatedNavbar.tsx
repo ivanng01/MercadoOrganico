@@ -7,12 +7,20 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import LogoBrand from "./LogoBrand";
+import { useAuthStore } from "@/store/authStore";
+
+const getInitials = (firstName: string, lastName: string) => {
+  const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  return initials;
+};
 
 export default function AuthenticatedNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
   const navigate = useNavigate();
+
+  const { firstName, lastName, role, clearAuthData } = useAuthStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,6 +35,7 @@ export default function AuthenticatedNavbar() {
   }, []);
 
   const handleLogout = () => {
+    clearAuthData();
     navigate("/");
   };
 
@@ -61,15 +70,15 @@ export default function AuthenticatedNavbar() {
                 <Button variant="outline" className="relative rounded-full h-8 w-8 p-0">
                   <Avatar>
                     <AvatarImage src="/placeholder-avatar.jpg" alt="Usuario" />
-                    <AvatarFallback>US</AvatarFallback>
+                    <AvatarFallback>{getInitials(firstName, lastName)}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <div className="flex items-center gap-2 p-2">
                   <div className="flex flex-col space-y-1 leading-none">
-                    <p className="font-medium">Usuario Ejemplo</p>
-                    <p className="text-sm text-muted-foreground">usuario@ejemplo.com</p>
+                    <p className="font-medium">{`${firstName} ${lastName}`}</p>
+                    <p className="text-sm text-muted-foreground capitalize">{role}</p>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
@@ -105,11 +114,11 @@ export default function AuthenticatedNavbar() {
                 <div className="flex items-center space-x-4 mb-4">
                   <Avatar>
                     <AvatarImage src="/placeholder-avatar.jpg" alt="Usuario" />
-                    <AvatarFallback>US</AvatarFallback>
+                    <AvatarFallback>{getInitials(firstName, lastName)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-medium">Usuario Ejemplo</p>
-                    <p className="text-xs text-muted-foreground">usuario@ejemplo.com</p>
+                    <p className="text-sm font-medium">{`${firstName} ${lastName}`}</p>
+                    <p className="text-xs text-muted-foreground">{role}</p>
                   </div>
                 </div>
                 <Link to="/profile" className="text-sm font-medium">
