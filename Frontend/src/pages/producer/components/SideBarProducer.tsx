@@ -36,10 +36,7 @@ export default function SideBarProducer() {
       } border-r`}
     >
       <div className="p-4">
-        <Button
-          className={`w-full justify-${isOpen ? "start" : "center"} bg-primary hover:bg-green-600 text-white`}
-          onClick={toggleSidebar}
-        >
+        <Button className={`w-full justify-${isOpen ? "start" : "center"} bg-primary hover:bg-green-600 text-white`} onClick={toggleSidebar}>
           {isOpen ? <ChevronLeft /> : <ChevronRight />}
           {isOpen && <span className="ml-2">Menu</span>}
         </Button>

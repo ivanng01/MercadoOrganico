@@ -24,7 +24,6 @@ export default function ProducerRoutes() {
       <Route path="settings" element={<SettingsPage />} />
       <Route path="inventory" element={<ComingSoon />} />
 
-
       {/* Aquí puedes añadir más rutas para el productor */}
     </Routes>
   );

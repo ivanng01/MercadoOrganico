@@ -40,9 +40,7 @@ export default function AdvertisementOrganic() {
               ))}
             </ul>
             <Link to={"/store"}>
-              <Button onClick={handleUpClick}>
-                Comprar Ahora
-              </Button>
+              <Button onClick={handleUpClick}>Comprar Ahora</Button>
             </Link>
           </div>
           <img src="/[call-to-action-two__image]-2.webp" alt="Fresh vegetables in heart shape" className="w-full h-full object-contain" />

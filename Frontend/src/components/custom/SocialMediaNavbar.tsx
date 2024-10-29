@@ -35,7 +35,7 @@ export default function SocialMediaNavbar() {
         </div>
       </nav>
       <section className="bg-muted">
-        <Separator/>
+        <Separator />
       </section>
     </>
   );

@@ -57,7 +57,9 @@ export default function ComingSoon() {
               className="w-full"
             />
             <section className="flex justify-center">
-              <Button type="submit" className="w-full">Mantenerme informado</Button>
+              <Button type="submit" className="w-full">
+                Mantenerme informado
+              </Button>
             </section>
           </form>
         </CardContent>

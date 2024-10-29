@@ -94,7 +94,7 @@ export default function ProductDetail() {
             <h3 className="font-semibold mb-2">¿Tienes productos que te gustaría vender?</h3>
             <p className="mb-2">Considera unirte a nuestra comunidad de vendedores para compartir tus productos y llegar a más clientes.</p>
             <Link to="/register">
-              <Button onClick={handleUpClick} >Únete Ahora</Button>
+              <Button onClick={handleUpClick}>Únete Ahora</Button>
             </Link>
           </div>
         </div>
