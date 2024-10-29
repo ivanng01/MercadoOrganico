@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://raices-organicas.vercel.app
+Host: https://mercado-organico.vercel.app
