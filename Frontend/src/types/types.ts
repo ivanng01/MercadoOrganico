@@ -226,3 +226,8 @@ export interface RelatedSuggestionsProps {
 export interface ExtendedProduct extends Product {
   sku: string;
 }
+
+export interface ProtectedRouteProps {
+  redirectTo?: string;
+  children: React.ReactNode;
+}

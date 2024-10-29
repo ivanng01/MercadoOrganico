@@ -11,7 +11,7 @@ import { loginSchema } from "@/lib/validation";
 import { loginUser } from "@/api/services/authService";
 import LogoBrand from "@/components/custom/LogoBrand";
 import { useAuthStore } from "@/store/authStore";
-import { Spinner } from "@/components/ui/Spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 const defaultUsers = [
   { label: "Productor", identifier: "max.cereceda", password: "12345678" },
@@ -82,7 +82,7 @@ export default function Login() {
                 <label htmlFor="userSelect" className="text-sm font-medium leading-none">
                   Seleccionar Usuario: (Apartado solo para pruebas)
                 </label>
-                <select id="userSelect" onChange={handleUserSelect} className="w-full border p-2 rounded-md text-gray-700">
+                <select id="userSelect" onChange={handleUserSelect} className="w-full border p-2 rounded-md border-input bg-white">
                   <option value="">Selecciona un usuario</option>
                   {defaultUsers.map((user, index) => (
                     <option key={index} value={user.label}>
