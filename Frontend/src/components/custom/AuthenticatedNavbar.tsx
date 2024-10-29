@@ -32,7 +32,7 @@ export default function AuthenticatedNavbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full max-w-screen-2xl mx-auto lg:px-[120px] ${isScrolled ? "backdrop-blur supports-[backdrop-filter]" : ""}`}
+      className={`sticky top-0 z-50 w-full bg-background ${isScrolled ? "supports-[backdrop-filter]" : ""}`}
     >
       <nav className="flex justify-between h-16 items-center p-4">
         <LogoBrand variant="small" />
