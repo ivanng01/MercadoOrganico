@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarIcon, CloudUpload, HelpCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
@@ -14,7 +14,7 @@ export default function NewDiscountForm() {
   const [expirationDate, setExpirationDate] = useState<Date>();
 
   return (
-    <Card className="container mx-auto">
+    <section className="container mx-auto text-card-foreground">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Nuevo Descuento</CardTitle>
         <p className="text-gray-600">Añade un nuevo descuento a tu tienda y comienza a vender.</p>
@@ -116,6 +116,6 @@ export default function NewDiscountForm() {
         <Button variant="secondary">Cancelar</Button>
         <Button>Crear Descuento</Button>
       </CardFooter>
-    </Card>
+    </section>
   );
 }

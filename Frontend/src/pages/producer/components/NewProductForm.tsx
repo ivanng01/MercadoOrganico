@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarIcon, CloudUpload, HelpCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
@@ -16,7 +16,7 @@ export default function NewProductForm() {
   const [expirationDate, setExpirationDate] = useState<Date>();
 
   return (
-    <Card className="container mx-auto">
+    <section className="container mx-auto text-card-foreground">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Nuevo Producto</CardTitle>
         <p className="text-gray-600">Añade un nuevo producto a tu tienda y comienza a vender.</p>
@@ -137,6 +137,6 @@ export default function NewProductForm() {
         <Button variant="secondary">Cancelar</Button>
         <Button>Crear Producto</Button>
       </CardFooter>
-    </Card>
+    </section>
   );
 }

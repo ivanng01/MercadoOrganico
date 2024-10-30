@@ -1,9 +1,11 @@
 import ProductManagement from "../components/ProductManagement";
 
-export default function ProductCatalog() {
+const ProductCatalog = () => {
   return (
-    <section>
+    <>
       <ProductManagement />
-    </section>
+    </>
   );
-}
+};
+
+export default ProductCatalog;

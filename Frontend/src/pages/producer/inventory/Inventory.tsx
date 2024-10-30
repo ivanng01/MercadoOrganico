@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Leaf, Footprints, Gift, Truck, BarChart2 } from "lucide-react";
+import { Leaf, Footprints, Gift, Truck, BarChart2, Package } from "lucide-react";
 
 export default function ComingSoon() {
   const [email, setEmail] = useState("");
@@ -21,15 +21,11 @@ export default function ComingSoon() {
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }} className="flex justify-center mb-4">
             <Leaf className="h-12 w-12 text-green-700" />
           </motion.div>
-          <CardTitle className="text-2xl font-bold text-green-800">Próximamente</CardTitle>
-          <CardDescription>Innovadoras funcionalidades sostenibles para tu e-commerce</CardDescription>
+          <CardTitle className="text-2xl font-bold text-green-600">Próximamente</CardTitle>
+          <CardDescription className="text-muted">Innovadoras funcionalidades sostenibles para tu e-commerce</CardDescription>
         </CardHeader>
         <CardContent>
           <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }} className="space-y-2 mb-6">
-            <li className="flex items-center space-x-2">
-              <Footprints className="h-5 w-5 text-green-600" />
-              <span>Huella de carbono personalizada</span>
-            </li>
             <li className="flex items-center space-x-2">
               <Gift className="h-5 w-5 text-green-600" />
               <span>Programa de recompensas verdes</span>
@@ -45,6 +41,11 @@ export default function ComingSoon() {
             <li className="flex items-center space-x-2">
               <Footprints className="h-5 w-5 text-green-600" />
               <span>Impacto ambiental del pedido</span>
+            </li>
+            {/* Nuevo elemento para control de inventario */}
+            <li className="flex items-center space-x-2">
+              <Package className="h-5 w-5 text-green-600" />
+              <span>Gestiona tus productos de manera eficiente</span>
             </li>
           </motion.ul>
           <form onSubmit={handleSubmit} className="space-y-4">
