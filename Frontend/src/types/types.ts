@@ -104,17 +104,19 @@ export interface ProductsApiResponse {
 export interface ProductFilterProps {
   category_id?: number;
   sort?: string;
-  onFilterChange: (filters: { category_id?: number; [key: string]: unknown }) => void;
+  user_id?: number;
+  onFilterChange: (filters: { category_id?: number; user_id?: number; [key: string]: unknown }) => void;
 }
 
 export interface ProductCardProps {
   product: Product;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export interface ProductFilters {
   is_featured?: number;
   sort?: string;
+  user_id?: number;
   page?: number;
   category_id?: number;
   min_price?: number;
@@ -242,4 +244,10 @@ export interface Order {
 
 export interface OrderListProps {
   orders: Order[];
+}
+
+export interface UserProductStore {
+  userProducts: Product[];
+  loading: boolean;
+  fetchUserProducts: (user_id: number) => Promise<void>;
 }

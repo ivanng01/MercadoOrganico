@@ -32,7 +32,7 @@ export default function ProducerDashboard() {
   const { firstName } = useAuthStore();
 
   return (
-    <div className="container mx-auto space-y-4">
+    <div className="container mx-auto space-y-4 lg:p-6">
       <h1 className="text-2xl text-card-foreground">
         <span className="font-bold">Hola {firstName}</span> - Esto es lo que está pasando con tu tienda hoy.
       </h1>

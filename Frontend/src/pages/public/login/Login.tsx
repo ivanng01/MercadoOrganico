@@ -48,7 +48,7 @@ export default function Login() {
       const response = await loginUser({ identifier, password });
       const { token, user } = response.data;
 
-      setAuthData(token, user.firstname, user.lastname, user.role.name, user.email);
+      setAuthData(token, user.firstname, user.lastname, user.role.name, user.email, user.id);
 
       navigate(`/${user.role.name}/dashboard`);
     } catch (error) {

@@ -36,24 +36,22 @@ const helpSections = [
 
 export default function HelpCenter() {
   return (
-    <section className="container mx-auto gap-4 p-6">
+    <section className="container mx-auto lg:p-6">
       <h1 className="text-4xl font-bold text-center mb-2 text-card-foreground">Centro de Ayuda</h1>
       <p className="text-xl text-center text-gray-600 mb-8">Encuentra respuestas a tus preguntas y soluciones rápidas</p>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {helpSections.map((section, index) => {
-          const Icon = section.icon;
-          return (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-              <CardHeader className="flex items-center space-x-2">
-                <Icon className="h-12 w-12 text-card-foreground pb-4" />
-                <CardTitle className="text-xl font-semibold">{section.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600">{section.description}</p>
-              </CardContent>
-            </Card>
-          );
-        })}
+        {helpSections.map((section, index) => (
+          <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="flex items-center space-x-2">
+              <section.icon className="h-12 w-12 text-card-foreground pb-4" />
+              <CardTitle className="text-xl font-semibold">{section.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">{section.description}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </section>
   );
