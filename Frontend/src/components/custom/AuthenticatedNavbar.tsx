@@ -18,7 +18,7 @@ export default function AuthenticatedNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
   const navigate = useNavigate();
-  
+
   const { firstName, lastName, role, clearAuthData } = useAuthStore();
   const { getTotalQuantity } = useCartStore();
   const totalQuantity = getTotalQuantity();
@@ -48,14 +48,16 @@ export default function AuthenticatedNavbar() {
         <ul className="hidden sm:flex sm:items-center space-x-4">
           {role === "cliente" && (
             <div className="flex items-center space-x-4">
-            <button className="text-button" aria-label="Buscar" onClick={() => setSearchModalOpen(true)}>
-              <Search className="h-5 w-5" />
-            </button>
-            <Link to="/cart" aria-label="Carrito" className="relative">
-              <ShoppingCart className="h-5 w-5" onClick={handleUpClick} />
-              {totalQuantity > 0 && <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1">{totalQuantity}</span>}
-            </Link>          
-          </div>
+              <button className="text-button" aria-label="Buscar" onClick={() => setSearchModalOpen(true)}>
+                <Search className="h-5 w-5" />
+              </button>
+              <Link to="/cart" aria-label="Carrito" className="relative">
+                <ShoppingCart className="h-5 w-5" onClick={handleUpClick} />
+                {totalQuantity > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1">{totalQuantity}</span>
+                )}
+              </Link>
+            </div>
           )}
           <li>
             <DropdownMenu>

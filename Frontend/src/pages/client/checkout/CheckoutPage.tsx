@@ -12,7 +12,7 @@ export default function CheckoutPage() {
     firstName: "Gisela",
     lastName: "Lago",
     email: "gisela.lago@gmail.com",
-    phone: "+54 9 11 1234 5678", 
+    phone: "+54 9 11 1234 5678",
     address: "Av. Corrientes 1234",
     city: "Buenos Aires",
     postalCode: "C1010",
@@ -30,7 +30,7 @@ export default function CheckoutPage() {
       [id]: value,
     }));
   };
-  
+
   return (
     <div className="container mx-auto text-card-foreground">
       <CardHeader className="flex flex-col justify-between items-start space-y-2">
@@ -121,9 +121,9 @@ export default function CheckoutPage() {
             </div>
           </div>
           <Link to="success">
-          <Button size="lg" className="mt-4">
-            Procesar Pedido
-          </Button>
+            <Button size="lg" className="mt-4">
+              Procesar Pedido
+            </Button>
           </Link>
         </div>
       </CardContent>
