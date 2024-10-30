@@ -15,12 +15,12 @@ export default function AdvertisementOrganic() {
               <span className="text-primary text-xl font-semibold">100 % Natural y económico</span>
               <h2 className="text-3xl font-bold text-card-foreground">Productos frescos todos los días.</h2>
             </div>
-            <p className="text-primary mb-4 font- italic">
+            <p className="text-primary mb-4 font-bold italic">
               Un pequeño paso para ti,
               <br />
               un gran salto para el planeta
             </p>
-            <p className="mb-6 text-[#717573]">
+            <p className="mb-6 text-card-foreground">
               Al elegir productos orgánicos, estás optando por una alimentación más saludable y contribuyendo a un futuro más sostenible.
             </p>
             <ul className="space-y-2 mb-6">

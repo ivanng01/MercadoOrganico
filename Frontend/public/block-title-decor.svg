@@ -1,9 +1,8 @@
-<svg width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="21" height="14" transform="translate(0.5 0.799805)" fill="url(#pattern0_49_1441)"/>
-<defs>
-<pattern id="pattern0_49_1441" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_49_1441" transform="scale(0.047619 0.0714286)"/>
-</pattern>
-<image id="image0_49_1441" width="21" height="14" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAOBAMAAAAyKEr9AAAAMFBMVEUAAABgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnR+jGpxAAAAD3RSTlMA70AQ35+AYM+/jzCvIHDQQNrQAAAAjklEQVQI1z3IMRLBUABF0SeCYRQpNeZnFNqktQCNTbCDaFUpLECWYAlKXZZAYwU2ICQpwsz1f5Hc5p15GjfqSotn51tRXlrzMXO33iIWWVpZPgyBCHxijQzO3wmhUta8ZKohoUc9sN6yJPTZ5WSKmKG87J/YawqVkubKT7LHW0kJR0kr6whquQ5n9djcpT+1uEIBe5TuUQAAAABJRU5ErkJggg=="/>
-</defs>
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#16a26e" fill-rule="evenodd">
+    <circle cx="50" cy="50" r="40" />
+    <path d="M50 10c22.091 0 40 17.909 40 40S72.091 90 50 90 10 72.091 10 50 27.909 10 50 10zm0 8c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32-14.327-32-32-32z" />
+    <path d="M33 48h34v4H33z" />
+    <path d="M48 33v34h4V33z" />
+  </g>
 </svg>

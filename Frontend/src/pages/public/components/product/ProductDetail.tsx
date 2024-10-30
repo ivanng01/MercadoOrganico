@@ -8,6 +8,8 @@ import { getProductById } from "../../services/productService";
 import Header from "../header/Header";
 import RelatedSuggestions from "./RelatedSuggestions";
 import useCartStore from "@/store/cartStore";
+import PaymentMethod from "@/components/custom/PaymentMethod";
+import ReviewList from "../reviews/Review";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -66,7 +68,7 @@ export default function ProductDetail() {
           <div className="text-4xl font-bold text-primary">{formatPrice(product.price)}</div>
           <div className="flex">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-6 h-6 text-yellow-400" />
+              <Star key={i} className="w-6 h-6 text-yellow-400 fill-current" />
             ))}
           </div>
           <div className="flex items-center gap-4">
@@ -110,6 +112,10 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+      <section className="container mx-auto flex flex-col md:flex-row gap-4">
+        <ReviewList />
+        <PaymentMethod />
+      </section>
       <RelatedSuggestions categoryId={product.category_id} />
     </>
   );

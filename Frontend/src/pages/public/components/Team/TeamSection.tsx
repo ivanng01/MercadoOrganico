@@ -38,7 +38,7 @@ export default function TeamSection() {
               </div>
               <div className="flex flex-col justify-between p-6 flex-1">
                 <div className="space-y-4">
-                  <motion.h3 className="text-xl font-semibold text-gray-800">{member.name}</motion.h3>
+                  <motion.h3 className="text-xl font-semibold text-gray-800 text-primary">{member.name}</motion.h3>
                   <motion.p className="font-medium" style={{ color: member.roleColor || "#000" }}>
                     {member.role}
                   </motion.p>
