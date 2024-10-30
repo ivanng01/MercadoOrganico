@@ -251,3 +251,19 @@ export interface UserProductStore {
   loading: boolean;
   fetchUserProducts: (user_id: number) => Promise<void>;
 }
+
+export interface ProfileData {
+  firstname: string;
+  lastname: string;
+  email: string;
+  birth_date?: string;
+  phone_number?: string;
+  picture?: string;
+  gender?: string;
+  username: string;
+}
+
+export interface UserStore {
+  profileData: ProfileData;
+  setProfileData: (data: ProfileData) => void;
+}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,47 +10,36 @@ import { CalendarIcon, Trash2, Upload } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { getUserProfile } from "../services/userService";
 import { getInitials } from "@/lib/utils";
-import { useUserStore } from "@/store/userStore";
+import { getUserProfile } from "@/pages/client/services/userService";
 
-export default function SettingsPageClient() {
-  const { profileData, setProfileData } = useUserStore();
-  const [birthDate, setBirthDate] = useState<Date | undefined>(() => (profileData.birth_date ? new Date(profileData.birth_date) : undefined));
+export default function SettingsPageProducer() {
+  const [expirationDate, setExpirationDate] = useState<Date | null>(null);
+  const [profileData, setProfileData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    birth_date: "",
+    phone_number: "",
+    picture: "",
+    gender: "",
+    username: "",
+  });
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const { data } = await getUserProfile();
         setProfileData(data);
-        if (data.birth_date) {
-          setBirthDate(new Date(data.birth_date));
-        }
+
+        setExpirationDate(data.birth_date ? new Date(data.birth_date) : null);
       } catch (error) {
         console.error("Error al obtener el perfil del usuario:", error);
       }
     };
 
     fetchProfileData();
-  }, [setProfileData]);
-
-  const handleBirthDateChange = (date: Date | undefined) => {
-    setBirthDate(date);
-    if (date) {
-      setProfileData({
-        ...profileData,
-        birth_date: date.toISOString().split("T")[0],
-      });
-    } else {
-      setProfileData({
-        ...profileData,
-        birth_date: undefined,
-      });
-    }
-  };
-
-  const firstName = profileData.firstname;
-  const lastName = profileData.lastname;
+  }, []);
 
   return (
     <div className="container mx-auto text-card-foreground">
@@ -70,7 +59,7 @@ export default function SettingsPageClient() {
               {profileData.picture ? (
                 <AvatarImage src={profileData.picture} alt="Usuario" className="w-25 h-auto" width={350} height={350} />
               ) : (
-                <AvatarFallback className="bg-red-500 text-white">{getInitials(firstName, lastName)}</AvatarFallback>
+                <AvatarFallback className="bg-blue-500">{getInitials(profileData.firstname, profileData.lastname)}</AvatarFallback>
               )}
             </Avatar>
             <div className="space-x-2">
@@ -118,16 +107,30 @@ export default function SettingsPageClient() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="birthDate">Fecha de Nacimiento</Label>
+              <Label htmlFor="expirationDate">Fecha de Nacimiento</Label>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="secondary" className={`w-full justify-start text-left font-normal ${!birthDate ? "text-muted-foreground" : ""}`}>
+                  <Button
+                    variant="secondary"
+                    className={`w-full justify-start text-left font-normal ${!expirationDate ? "text-muted-foreground" : ""}`}
+                  >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {birthDate ? format(birthDate, "PPP") : <span>Seleccionar una fecha</span>}
+                    {expirationDate ? format(expirationDate, "PPP") : <span>Seleccionar una fecha</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar mode="single" selected={birthDate} onSelect={handleBirthDateChange} initialFocus />
+                  <Calendar
+                    mode="single"
+                    selected={expirationDate || undefined}
+                    onSelect={(date) => {
+                      setExpirationDate(date ?? null);
+                      setProfileData((prevData) => ({
+                        ...prevData,
+                        birth_date: date ? format(date, "yyyy-MM-dd") : "",
+                      }));
+                    }}
+                    initialFocus
+                  />
                 </PopoverContent>
               </Popover>
             </div>
