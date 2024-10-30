@@ -43,9 +43,7 @@ export default function PurchaseSuccess({ orderId, totalAmount, products }: Purc
 
       <div className="mt-4">
         <Link to="/store">
-          <Button size="lg" onClick={() => (window.location.href = "/")}>
-            Volver a la Tienda
-          </Button>
+          <Button size="lg">Volver a la Tienda</Button>
         </Link>
       </div>
     </div>

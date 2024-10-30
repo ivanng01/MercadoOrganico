@@ -8,6 +8,8 @@ import { formatPrice, handleUpClick } from "@/lib/utils";
 import SpinnerProducts from "@/components/custom/SpinnerProducts";
 import useProductStore from "@/store/productStore";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
+import showDialog from "@/lib/showDialog";
 
 interface CartItemDisplay {
   id: number;
@@ -22,6 +24,7 @@ export default function ShoppingCart() {
   const { products, addProduct } = useProductStore();
   const [loading, setLoading] = useState(true);
   const { cart, clearCart } = useCartStore();
+  const { token } = useAuthStore((state) => state);
 
   const navigate = useNavigate();
 
@@ -132,10 +135,23 @@ export default function ShoppingCart() {
     setLoading(false);
   };
 
-  const handleConfirm = () => {
-    console.log("Procesando orden...", cartItems);
-    handleUpClick();
-    navigate("/client/checkout");
+  const handleConfirm = async () => {
+    if (token) {
+      console.log("Procesando orden...", cartItems);
+      handleUpClick();
+      navigate("/client/checkout");
+    } else {
+      const confirmed = await showDialog({
+        title: "Iniciar Sesión",
+        text: "Por favor, inicia sesión para continuar con la compra.",
+        icon: "info",
+        isConfirmation: true,
+      });
+
+      if (confirmed) {
+        navigate("/login");
+      }
+    }
   };
 
   if (loading) {

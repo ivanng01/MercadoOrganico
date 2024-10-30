@@ -99,27 +99,33 @@ export default function CheckoutPage() {
               <SelectContent>
                 <SelectItem value="credit-card">Tarjeta de Crédito</SelectItem>
                 <SelectItem value="debit-card">Tarjeta de Débito</SelectItem>
-                <SelectItem value="paypal">PayPal</SelectItem>
+                <SelectItem value="mercado-pago">Mercado Pago</SelectItem>
+                <SelectItem value="cash-on-delivery">Contra Entrega</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          {/* Campo de Información de la Tarjeta */}
-          <div className="space-y-2">
-            <Label htmlFor="cardNumber">Número de Tarjeta</Label>
-            <Input id="cardNumber" placeholder="Ingresa el número de tarjeta" value={formData.cardNumber} onChange={handleChange} />
-          </div>
+          {/* Campo de Información Pago (Renderizado Condicional) */}
+          {(formData.paymentMethod === "credit-card" || formData.paymentMethod === "debit-card") && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="cardNumber">Número de Tarjeta</Label>
+                <Input id="cardNumber" placeholder="Ingresa el número de tarjeta" value={formData.cardNumber} onChange={handleChange} />
+              </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="expiryDate">Fecha de Expiración</Label>
-              <Input id="expiryDate" placeholder="MM/AA" value={formData.expiryDate} onChange={handleChange} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="cvv">CVV</Label>
-              <Input id="cvv" placeholder="Ingresa el CVV" value={formData.cvv} onChange={handleChange} />
-            </div>
-          </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="expiryDate">Fecha de Expiración</Label>
+                  <Input id="expiryDate" placeholder="MM/AA" value={formData.expiryDate} onChange={handleChange} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="cvv">CVV</Label>
+                  <Input id="cvv" type="password" placeholder="Ingresa el CVV" value={formData.cvv} onChange={handleChange} />
+                </div>
+              </div>
+            </>
+          )}
+
           <Link to="success">
             <Button size="lg" className="mt-4">
               Procesar Pedido

@@ -44,19 +44,23 @@ export const Jar = ({ size = 48, color = "currentColor", strokeWidth = 4, classN
   </svg>
 );
 
-export const TitleDecor = ({ width = 22, height = 15, className = "" }) => (
-  <svg width={width} height={height} viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <rect width="21" height="14" transform="translate(0.5 0.799805)" fill="url(#pattern0_49_1441)" />
-    <defs>
-      <pattern id="pattern0_49_1441" patternContentUnits="objectBoundingBox" width="1" height="1">
-        <use xlinkHref="#image0_49_1441" transform="scale(0.047619 0.0714286)" />
-      </pattern>
-      <image
-        id="image0_49_1441"
-        width="21"
-        height="14"
-        xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAOBAMAAAAyKEr9AAAAMFBMVEUAAABgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnRgvnR+jGpxAAAAD3RSTlMA70AQ35+AYM+/jzCvIHDQQNrQAAAAjklEQVQI1z3IMRLBUABF0SeCYRQpNeZnFNqktQCNTbCDaFUpLECWYAlKXZZAYwU2ICQpwsz1f5Hc5p15GjfqSotn51tRXlrzMXO33iIWWVpZPgyBCHxijQzO3wmhUta8ZKohoUc9sN6yJPTZ5WSKmKG87J/YawqVkubKT7LHW0kJR0kr6whquQ5n9djcpT+1uEIBe5TuUQAAAABJRU5ErkJggg=="
-      />
-    </defs>
+export const TitleDecor = ({ width = 512, height = 512, className = "" }) => (
+  <svg width={width} height={height} className={className} viewBox="0 0 512.000000 512.000000" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#16a26e" stroke="none">
+      <path d="M3980 4895 c-725 -99 -1315 -651 -1461 -1368 -25 -125 -38 -302 -39 -521 l0 -169 -42 79 c-240 457 -666 779 -1186 896 -90 20 -130 22 -552 25 l-455 4 -17 -21 c-16 -20 -18 -52 -18 -359 0 -185 5 -376 11 -426 62 -507 388 -959 852 -1180 180 -86 317 -125 509 -145 51 -5 274 -10 495 -10 l403 0 2 -726 3 -726 24 -19 c30 -24 72 -24 102 0 l24 19 3 1260 2 1260 308 5 c338 5 405 13 614 73 605 173 1099 667 1272 1272 55 189 68 284 73 525 5 217 5 218 -18 243 l-22 24 -396 -1 c-264 -1 -428 -5 -491 -14z m-514 -1091 c13 -19 15 -32 8 -52 -10 -29 -12 -30 -166 -101 -326 -150 -553 -384 -644 -666 l-23 -70 -1 163 0 164 53 76 c128 187 340 353 597 469 112 51 152 54 176 17z m-1973 -882 c403 -191 748 -449 938 -700 l49 -65 -1 -151 0 -151 -18 50 c-110 309 -453 613 -996 885 l-170 85 -3 37 c-2 28 2 40 20 52 12 9 31 16 40 16 10 0 73 -26 141 -58z" />
+      <path d="M4429 2901 l-24 -19 0 -460 c0 -438 1 -461 19 -481 26 -29 86 -29 112 0 18 20 19 43 19 481 l0 460 -24 19 c-13 10 -36 19 -51 19 -15 0 -38 -9 -51 -19z" />
+      <path d="M3960 2633 c-50 -18 -50 -20 -50 -285 0 -235 1 -249 20 -268 30 -30 83 -27 109 6 20 25 21 39 21 255 0 125 -4 239 -9 252 -6 14 -23 29 -42 36 -17 6 -32 11 -33 10 -1 0 -8 -3 -16 -6z" />
+      <path d="M3356 2538 c-14 -19 -16 -79 -16 -444 l0 -423 26 -20 c35 -28 69 -26 99 4 l25 24 0 421 c0 407 -1 421 -20 440 -29 29 -94 27 -114 -2z" />
+      <path d="M3927 1832 c-13 -14 -17 -38 -17 -90 0 -60 3 -74 22 -92 30 -27 73 -26 103 5 34 33 36 128 4 169 -25 32 -86 37 -112 8z" />
+      <path d="M662 1694 c-22 -15 -22 -16 -22 -340 0 -311 1 -325 20 -344 25 -25 71 -26 101 -1 l24 19 3 316 3 316 -25 25 c-29 29 -71 33 -104 9z" />
+      <path d="M4429 1691 c-23 -19 -24 -24 -24 -159 0 -162 8 -182 75 -182 67 0 75 20 75 182 0 135 -1 140 -24 159 -13 10 -36 19 -51 19 -15 0 -38 -9 -51 -19z" />
+      <path d="M1516 1549 l-26 -20 0 -283 c0 -282 0 -283 23 -304 31 -29 77 -29 105 1 22 23 22 30 22 301 l0 277 -25 24 c-30 30 -64 32 -99 4z" />
+      <path d="M3366 1479 c-26 -20 -26 -21 -26 -164 l0 -144 27 -21 c33 -26 79 -21 106 11 14 18 17 42 17 156 0 129 -1 135 -25 158 -30 30 -64 32 -99 4z" />
+      <path d="M4424 1189 c-15 -17 -19 -36 -19 -91 0 -61 3 -72 24 -89 13 -10 36 -19 51 -19 15 0 38 9 51 19 21 17 24 28 24 89 0 85 -18 112 -75 112 -25 0 -43 -7 -56 -21z" />
+      <path d="M3360 1050 c-16 -16 -20 -33 -20 -90 0 -83 18 -110 74 -110 51 0 76 36 76 110 0 74 -25 110 -76 110 -21 0 -42 -8 -54 -20z" />
+      <path d="M660 910 c-18 -18 -20 -33 -20 -163 0 -125 2 -146 18 -159 27 -23 49 -28 81 -17 44 16 53 50 49 194 -3 119 -4 128 -27 146 -30 25 -76 24 -101 -1z" />
+      <path d="M1516 767 c-23 -23 -26 -35 -26 -90 0 -82 20 -111 75 -111 55 0 75 29 75 109 0 73 -17 102 -67 111 -26 5 -37 1 -57 -19z" />
+      <path d="M1510 480 c-16 -16 -20 -33 -20 -88 0 -59 3 -72 23 -90 31 -29 77 -29 105 1 31 33 32 143 2 175 -27 29 -83 29 -110 2z" />
+    </g>
   </svg>
 );
