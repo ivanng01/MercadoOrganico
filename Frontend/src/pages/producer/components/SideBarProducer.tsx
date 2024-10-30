@@ -33,13 +33,13 @@ export default function SideBarProducer() {
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const menuItems = [
+    { icon: ShoppingCart, label: "Confirmar compra", path: "checkout", roles: ["cliente"] },
     { icon: LayoutDashboard, label: "Dashboard", path: `dashboard`, roles: ["admin", "productor", "cliente"] },
     { icon: Box, label: "Productos", badge: "10", path: `products`, roles: ["admin", "productor"] },
     { icon: ClipboardList, label: "Inventario", path: "inventory", roles: ["admin", "productor"] },
     { icon: FileText, label: "Pedidos", badge: "15", path: "orders", roles: ["admin", "productor"] },
     { icon: Percent, label: "Descuentos", path: "discounts", roles: ["admin", "productor"] },
-    { icon: HelpCircle, label: "Ayuda", path: "help", roles: ["admin", "productor", "viewer"] },
-    { icon: ShoppingCart, label: "Confirmar compra", path: "checkout", roles: ["cliente"] },
+    { icon: HelpCircle, label: "Ayuda", path: "help", roles: ["admin", "productor", "cliente"] },
     { icon: Settings, label: "Configuración", path: "settings", roles: ["productor", "cliente"] },
   ];
 

@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { orders } from "../data/ordersList";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Truck, Package, XCircle } from "lucide-react";
+import { formatPrice } from "@/lib/utils";
 
 export default function OrderDetail() {
   const { id } = useParams<{ id: string }>();
@@ -59,7 +60,7 @@ export default function OrderDetail() {
             <strong>Fecha:</strong> {order.orderDate}
           </p>
           <p>
-            <strong>Total:</strong> ${order.total.toFixed(2)}
+            <strong>Total:</strong> {formatPrice(order.total)}
           </p>
           <p>
             <strong>Estado:</strong> {order.status}

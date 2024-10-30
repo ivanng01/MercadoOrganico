@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpIcon, ArrowDownIcon, FileIcon, MoreHorizontal } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useAuthStore } from "@/store/authStore";
+import { formatPrice } from "@/lib/utils";
 
 const data = [
   { name: "Feb", value: 30000 },
@@ -43,7 +44,7 @@ export default function ProducerDashboard() {
             <CardTitle className="text-sm font-medium">TUS VENTAS HOY</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$12,426</div>
+            <div className="text-2xl font-bold">{formatPrice(12426)}</div>
             <p className="text-xs text-primary">
               +36% <ArrowUpIcon className="inline" size={12} />
             </p>
@@ -54,7 +55,7 @@ export default function ProducerDashboard() {
             <CardTitle className="text-sm font-medium">TOTAL DE VENTAS</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$2,38,485</div>
+            <div className="text-2xl font-bold">{formatPrice(238485)}</div>
             <p className="text-xs text-red-500">
               -14% <ArrowDownIcon className="inline" size={12} />
             </p>

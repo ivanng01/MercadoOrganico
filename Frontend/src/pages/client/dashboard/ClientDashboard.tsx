@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpIcon, ArrowDownIcon, FileIcon, MoreHorizontal } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useAuthStore } from "@/store/authStore";
+import { formatPrice } from "@/lib/utils";
 
 const data = [
   { name: "Feb", value: 30000 },
@@ -74,7 +75,7 @@ export default function ClientDashboard() {
             <CardTitle className="text-sm font-medium">TUS GASTOS HOY</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$1,426</div>
+            <div className="text-2xl font-bold">{formatPrice(1426)}</div>
             <p className="text-xs text-primary">
               +12% <ArrowUpIcon className="inline" size={12} />
             </p>
@@ -85,7 +86,7 @@ export default function ClientDashboard() {
             <CardTitle className="text-sm font-medium">TOTAL GASTADO</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$12,485</div>
+            <div className="text-2xl font-bold">{formatPrice(12485)}</div>
             <p className="text-xs text-red-500">
               -8% <ArrowDownIcon className="inline" size={12} />
             </p>
@@ -96,7 +97,7 @@ export default function ClientDashboard() {
             <CardTitle className="text-sm font-medium">TOTAL DE TRANSACCIONES</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">324</div>
+            <div className="text-2xl font-bold">10</div>
             <p className="text-xs text-primary">
               +20% <ArrowUpIcon className="inline" size={12} />
             </p>
@@ -139,7 +140,7 @@ export default function ClientDashboard() {
           </Button>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-gray-500 mb-4">Aquí están tus últimas compras de productos orgánicos.</p>
+          <p className="text-sm text-gray-500 mb-4">Revisa el registro de tus últimas compras.</p>
           <div className="space-y-2">
             {lastPurchases.map((purchase) => (
               <div key={purchase.id} className="flex items-center justify-between p-4 border-b border-gray-200">
