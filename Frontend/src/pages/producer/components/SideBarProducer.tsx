@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, LayoutDashboard, Box, ClipboardList, FileText, Percent, HelpCircle, Settings, LogOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutDashboard, Box, ClipboardList, FileText, Percent, HelpCircle, Settings, LogOut, ShoppingCart } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { getInitials, handleUpClick } from "@/lib/utils";
 
 export default function SideBarProducer() {
   const [isOpen, setIsOpen] = useState(true);
-  const { email, firstName, lastName, clearAuthData } = useAuthStore();
+  const { email, firstName, lastName, clearAuthData, role } = useAuthStore(); 
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -16,17 +16,23 @@ export default function SideBarProducer() {
     navigate("/");
   };
 
+  console.log(role);
+  
+
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: `dashboard` },
-    { icon: Box, label: "Productos", badge: "10", path: `products` },
-    { icon: ClipboardList, label: "Inventario", path: "inventory" },
-    { icon: FileText, label: "Pedidos", badge: "15", path: "orders" },
-    { icon: Percent, label: "Descuentos", path: "discounts" },
-    { icon: HelpCircle, label: "Ayuda", path: "help" },
-    { icon: Settings, label: "Configuración", path: "settings" },
+    { icon: LayoutDashboard, label: "Dashboard", path: `dashboard`, roles: ["admin", "productor", "cliente"] },
+    { icon: Box, label: "Productos", badge: "10", path: `products`, roles: ["admin", "productor"] },
+    { icon: ClipboardList, label: "Inventario", path: "inventory", roles: ["admin", "productor"] },
+    { icon: FileText, label: "Pedidos", badge: "15", path: "orders", roles: ["admin", "productor"] },
+    { icon: Percent, label: "Descuentos", path: "discounts", roles: ["admin","productor"] },
+    { icon: HelpCircle, label: "Ayuda", path: "help", roles: ["admin", "productor", "viewer"] },
+    { icon: ShoppingCart, label: "Confirmar compra", path: "checkout", roles: ["cliente"] },
+    { icon: Settings, label: "Configuración", path: "settings", roles: ["productor","cliente"] },
   ];
+
+  const filteredMenuItems = menuItems.filter(item => item.roles.includes(role));
 
   return (
     <div
@@ -44,7 +50,7 @@ export default function SideBarProducer() {
 
         <nav className="flex-1 overflow-y-auto">
           <ul>
-            {menuItems.map((item, index) => (
+            {filteredMenuItems.map((item, index) => (
               <li key={index} className="px-4 py-1">
                 <Link to={item.path}>
                   <Button variant="ghost" onClick={handleUpClick} className={`w-full justify-${isOpen ? "start" : "center"}`}>

@@ -135,7 +135,7 @@ export default function ShoppingCart() {
   const handleConfirm = () => {
     console.log("Procesando orden...", cartItems);
     handleUpClick();
-    navigate("/login");
+    navigate("/client/checkout");
   };
 
   if (loading) {
