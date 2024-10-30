@@ -59,13 +59,13 @@ export default function SearchModal({ open, onOpenChange }: SearchModalProps) {
               placeholder="Buscar productos, ayuda, etc..."
               value={searchQuery}
               onChange={handleInputChange}
-              className="pr-10 pl-10 border border-primary outline-none focus:ring-0"
+              className="pr-10 pl-10 border border-primary outline-none focus:ring-0 bg-muted"
             />
             <button type="submit" aria-label="Buscar" className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary">
               <Search />
             </button>
             {suggestions.length > 0 && (
-              <ul className="absolute z-10 mt-1 bg-background border border-gray-700 rounded-md shadow-lg w-full">
+              <ul className="absolute z-10 mt-1 bg-muted border border-gray-700 rounded-md shadow-lg w-full">
                 {suggestions.map((suggestion, index) => (
                   <li key={index} className="px-4 py-2 hover:bg-gray-800 cursor-pointer" onClick={() => handleSuggestionClick(suggestion)}>
                     {suggestion}
