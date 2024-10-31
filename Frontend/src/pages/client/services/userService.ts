@@ -5,7 +5,7 @@ export const getUserProfile = async () => {
   console.log("Iniciando la solicitud para obtener el perfil del usuario logueado...");
 
   try {
-    const response = await api.get("/users/profile", authConfig()); 
+    const response = await api.get("/users/profile", authConfig());
     console.log("Solicitud exitosa. Perfil de usuario recibido:", response.data);
     return response.data;
   } catch (error: unknown) {
