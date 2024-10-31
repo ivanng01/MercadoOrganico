@@ -58,7 +58,6 @@ export default function PurchaseSuccess() {
                         <img src={product.image_path} alt={product.name} className="w-24 h-24 object-cover mr-4" />
                         <div className="flex-grow">
                           <h4 className="text-md font-semibold">{product.name}</h4>
-                          <p className="text-gray-600">{product.description}</p>
                           <p>
                             <strong>Cantidad:</strong> {item.quantity} x {formatPrice(product.price)}
                           </p>
