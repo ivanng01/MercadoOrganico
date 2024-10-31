@@ -45,6 +45,37 @@ export default function AuthenticatedNavbar() {
       <nav className="flex justify-between h-16 items-center p-4">
         <LogoBrand variant="small" />
 
+        {/* Navegación Principal para Clientes */}
+        {role === "cliente" && (
+          <nav className="hidden md:flex items-center space-x-4">
+            <Button variant="link" asChild>
+              <Link to="/" onClick={handleUpClick}>
+                Inicio
+              </Link>
+            </Button>
+            <Button variant="link" asChild>
+              <Link to="/about" onClick={handleUpClick}>
+                Sobre Nosotros
+              </Link>
+            </Button>
+            <Button variant="link" asChild>
+              <Link to="/store" onClick={handleUpClick}>
+                Tienda
+              </Link>
+            </Button>
+            <Button variant="link" asChild>
+              <Link to="/events" onClick={handleUpClick}>
+                Eventos
+              </Link>
+            </Button>
+            <Button variant="link" asChild>
+              <Link to="/contact" onClick={handleUpClick}>
+                Contacto
+              </Link>
+            </Button>
+          </nav>
+        )}
+
         <ul className="hidden sm:flex sm:items-center space-x-4">
           {role === "cliente" && (
             <div className="flex items-center space-x-4">
@@ -134,6 +165,25 @@ export default function AuthenticatedNavbar() {
                     <p className="text-xs text-muted-foreground">{role}</p>
                   </div>
                 </div>
+                {role === "cliente" && (
+                  <>
+                    <Link to="/" className="text-sm font-medium">
+                      Inicio
+                    </Link>
+                    <Link to="/about" className="text-sm font-medium">
+                      Sobre Nosotros
+                    </Link>
+                    <Link to="/store" className="text-sm font-medium">
+                      Tienda
+                    </Link>
+                    <Link to="/events" className="text-sm font-medium">
+                      Eventos
+                    </Link>
+                    <Link to="/contact" className="text-sm font-medium">
+                      Contacto
+                    </Link>
+                  </>
+                )}
                 <Link to="/profile" className="text-sm font-medium">
                   Perfil
                 </Link>

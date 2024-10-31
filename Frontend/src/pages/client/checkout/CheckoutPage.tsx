@@ -5,7 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import showDialog from "@/lib/showDialog";
 
 export default function CheckoutPage() {
   const [formData, setFormData] = useState({
@@ -23,12 +24,39 @@ export default function CheckoutPage() {
     cvv: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [id]: value,
     }));
+  };
+
+  const handleSubmit = async () => {
+    if (!formData.paymentMethod) {
+      await showDialog({
+        title: "Método de Pago Requerido",
+        text: "Por favor, selecciona un método de pago para continuar.",
+        icon: "warning",
+      });
+      return;
+    }
+
+    if (
+      (formData.paymentMethod === "credit-card" || formData.paymentMethod === "debit-card") &&
+      (!formData.cardNumber || !formData.expiryDate || !formData.cvv)
+    ) {
+      await showDialog({
+        title: "Datos de Tarjeta Requeridos",
+        text: "Por favor, completa todos los campos de la tarjeta para continuar.",
+        icon: "warning",
+      });
+      return;
+    }
+
+    navigate("success");
   };
 
   return (
@@ -42,7 +70,6 @@ export default function CheckoutPage() {
 
       <CardContent>
         <div className="space-y-4">
-          {/* Campos de Información Personal */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">Nombre</Label>
@@ -65,31 +92,26 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Campo de Dirección */}
           <div className="space-y-2">
             <Label htmlFor="address">Dirección de Envío</Label>
             <Input id="address" placeholder="Ingresa tu dirección de envío" value={formData.address} onChange={handleChange} />
           </div>
 
-          {/* Campo de Ciudad */}
           <div className="space-y-2">
             <Label htmlFor="city">Ciudad</Label>
             <Input id="city" placeholder="Ingresa tu ciudad" value={formData.city} onChange={handleChange} />
           </div>
 
-          {/* Campo de Código Postal */}
           <div className="space-y-2">
             <Label htmlFor="postalCode">Código Postal</Label>
             <Input id="postalCode" placeholder="Ingresa tu código postal" value={formData.postalCode} onChange={handleChange} />
           </div>
 
-          {/* Campo de País */}
           <div className="space-y-2">
             <Label htmlFor="country">País</Label>
             <Input id="country" placeholder="Ingresa tu país" value={formData.country} onChange={handleChange} />
           </div>
 
-          {/* Selección de Método de Pago */}
           <div className="space-y-2">
             <Label htmlFor="paymentMethod">Método de Pago</Label>
             <Select value={formData.paymentMethod} onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}>
@@ -105,32 +127,29 @@ export default function CheckoutPage() {
             </Select>
           </div>
 
-          {/* Campo de Información Pago (Renderizado Condicional) */}
           {(formData.paymentMethod === "credit-card" || formData.paymentMethod === "debit-card") && (
             <>
               <div className="space-y-2">
                 <Label htmlFor="cardNumber">Número de Tarjeta</Label>
-                <Input id="cardNumber" placeholder="Ingresa el número de tarjeta" value={formData.cardNumber} onChange={handleChange} />
+                <Input id="cardNumber" placeholder="Ingresa el número de tarjeta" value={formData.cardNumber} onChange={handleChange} required />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="expiryDate">Fecha de Expiración</Label>
-                  <Input id="expiryDate" placeholder="MM/AA" value={formData.expiryDate} onChange={handleChange} />
+                  <Input id="expiryDate" placeholder="MM/AA" value={formData.expiryDate} onChange={handleChange} required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="cvv">CVV</Label>
-                  <Input id="cvv" type="password" placeholder="Ingresa el CVV" value={formData.cvv} onChange={handleChange} />
+                  <Input id="cvv" type="password" placeholder="Ingresa el CVV" value={formData.cvv} onChange={handleChange} required />
                 </div>
               </div>
             </>
           )}
 
-          <Link to="success">
-            <Button size="lg" className="mt-4">
-              Procesar Pedido
-            </Button>
-          </Link>
+          <Button size="lg" className="mt-4" onClick={handleSubmit}>
+            Procesar Pedido
+          </Button>
         </div>
       </CardContent>
     </div>
