@@ -9,11 +9,6 @@ import TestimonialSlider from "../components/testimonial/TestimonialSlider";
 import AdvertisementOrganic from "../components/advertisement/AdvertisementOrganic";
 import { motion } from "framer-motion";
 
-const fadeInScale = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.7, ease: "easeOut" } },
-};
-
 const fadeInDiagonal = {
   hidden: { opacity: 0, x: -50, y: 20 },
   visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.9, ease: "easeOut" } },
@@ -22,9 +17,7 @@ const fadeInDiagonal = {
 export default function Home() {
   return (
     <>
-      <motion.div initial="hidden" whileInView="visible" variants={fadeInScale} viewport={{ once: false }}>
-        <CarouselHero />
-      </motion.div>
+      <CarouselHero />
 
       <ProductCategories />
 
