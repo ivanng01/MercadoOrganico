@@ -36,7 +36,6 @@ export default function PublicNavbar() {
       <header className={`sticky top-0 z-50 w-full px-4 lg:px-[120px] bg-muted py-2 ${isScrolled ? "shadow-lg" : ""}`}>
         <div className="flex h-16 items-center justify-between max-w-screen-2xl mx-auto">
           <LogoBrand variant="small" />
-
           <nav className="hidden md:flex items-center space-x-4">
             <Button variant="link" asChild>
               <Link to="/" onClick={handleUpClick}>

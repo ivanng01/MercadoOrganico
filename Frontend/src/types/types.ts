@@ -8,7 +8,7 @@ export interface Product {
   user_id: number;
   is_featured?: number;
   stock: number;
-  image_path: string | null;
+  image_path?: string | undefined;
   created_at: string;
   updated_at: string;
   product_picture: string;
