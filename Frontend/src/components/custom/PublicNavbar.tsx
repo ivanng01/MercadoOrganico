@@ -70,7 +70,9 @@ export default function PublicNavbar() {
             </button>
             <Link to="/cart" aria-label="Carrito" className="relative">
               <ShoppingCart className="h-5 w-5" onClick={handleUpClick} />
-              {totalQuantity > 0 && <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1">{totalQuantity}</span>}
+              {totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-2 bg-destructive text-card text-xs rounded-full px-1">{totalQuantity}</span>
+              )}
             </Link>
 
             <Sheet>

@@ -4,7 +4,7 @@ export default function CardsContact() {
   return (
     <div className="flex flex-col md:flex-row justify-center items-stretch gap-4 lg:py-10">
       <ContactCard icon={<MapPin className="w-6 h-6 text-primary" />} title="Dirección" content="Av. Corrientes 1234, C1043AAX, BS, Argentina" />
-      <ContactCard icon={<Mail className="w-6 h-6 text-primary" />} title="Enviar un correo" content="info@company.com" />
+      <ContactCard icon={<Mail className="w-6 h-6 text-primary" />} title="Enviar un correo" content="info@mercadoorganico.com" />
       <ContactCard icon={<Phone className="w-6 h-6 text-primary" />} title="Call Center" content="+54 11 4321-5678" />
     </div>
   );
