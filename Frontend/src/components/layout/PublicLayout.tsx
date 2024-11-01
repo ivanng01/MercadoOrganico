@@ -5,7 +5,7 @@ import BackToTopButton from "../custom/BackToTopButton";
 
 export default function PublicLayout({ children }: LayoutProps) {
   return (
-    <div className="flex flex-col min-h-screen overflow-hidden">
+    <div className="flex flex-col min-h-screen">
       <PublicNavbar />
       <div className="flex-grow">{children}</div>
       <SiteFooter />
