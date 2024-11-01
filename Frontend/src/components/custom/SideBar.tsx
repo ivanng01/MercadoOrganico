@@ -18,7 +18,7 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { getInitials, handleUpClick } from "@/lib/utils";
 
-export default function SideBarProducer() {
+export default function SideBar() {
   const [isOpen, setIsOpen] = useState(true);
   const { email, firstName, lastName, clearAuthData, role } = useAuthStore();
   const navigate = useNavigate();
@@ -27,8 +27,6 @@ export default function SideBarProducer() {
     clearAuthData();
     navigate("/");
   };
-
-  console.log(role);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
