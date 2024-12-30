@@ -1,0 +1,2047 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ecommerce de productos orgánicos",
+        "description": "Documentación para la API de ecommerce de productos orgánicos",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://backend-raices.vercel.app/api/api",
+            "description": "Servidor de producción"
+        },
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Servidor local de desarrollo"
+        }
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Registra un usuario cliente",
+                "operationId": "2d21e359fe383ed65e6eade8f537bb58",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "username",
+                                    "firstname",
+                                    "lastname",
+                                    "password",
+                                    "phone_number",
+                                    "gender",
+                                    "birth_date"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "firstname": {
+                                        "type": "string"
+                                    },
+                                    "lastname": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Iniciar sesión",
+                "operationId": "a18fa152592f54ccf7546ec09758a011",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "identifier",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "identifier": {
+                                        "description": "Nombre de usuario o email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Contraseña",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "example": {
+                                "identifier": "olivia.perez@gmail.com",
+                                "password": "12345678"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login satisfactorio"
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Cerrar sesión",
+                "description": "Este endpoint cierra la sesión del usuario. Se requiere autenticación.",
+                "operationId": "13d1b10ae1f04943de6d1707e9be6f62",
+                "responses": {
+                    "200": {
+                        "description": "Sesión cerrada"
+                    },
+                    "401": {
+                        "description": "No autorizado, el usuario no está autenticado"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Listar todas las categorías",
+                "operationId": "ead5fb1cf2a7453acb2e37928a1b1eaf",
+                "responses": {
+                    "200": {
+                        "description": "Lista de categorías",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para ver las categorías"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Crear una nueva categoría",
+                "description": "Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
+                "operationId": "acbe4469b0ac5de3c86d5c46c280e36a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre de la categoría",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción de la categoría",
+                                        "type": "string"
+                                    },
+                                    "parent_id": {
+                                        "description": "ID de la categoría padre (opcional)",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categoría creada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        },
+                                        "category": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para crear categorías"
+                    },
+                    "422": {
+                        "description": "Datos de entrada no válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "description": "Errores de validación",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/categories/{id}": {
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Eliminar una categoría",
+                "description": "Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
+                "operationId": "d3025043e9f048647bda098aece0f84b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría eliminada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para eliminar categorías"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Actualizar una categoría existente",
+                "description": "Esta operación solo puede ser realizada por usuarios con permisos de administrador.",
+                "operationId": "fad7d7ab8a8e415f1d330c72f3dd6f4e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre de la categoría",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción de la categoría",
+                                        "type": "string"
+                                    },
+                                    "parent_id": {
+                                        "description": "ID de la categoría padre (opcional)",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Categoría actualizada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        },
+                                        "category": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tienes permiso para actualizar categorías"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    },
+                    "422": {
+                        "description": "Datos de entrada no válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "description": "Errores de validación",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{productId}/discounts": {
+            "post": {
+                "tags": [
+                    "Discounts"
+                ],
+                "summary": "Crear y asignar un descuento a un producto",
+                "operationId": "f97ad261c1f6ba5fd1c6a25580de764e",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID del producto al que se asignará el descuento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discount"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Descuento creado y asignado al producto exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "discounted_price": {
+                                            "type": "number"
+                                        },
+                                        "discount": {
+                                            "$ref": "#/components/schemas/Discount"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Acceso no autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error al agregar descuento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener lista de productos con filtros opcionales y ordenamiento",
+                "operationId": "c1ff6f862214e1896c59cfe0491ce0e8",
+                "parameters": [
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "ID de la categoría",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Estado del producto (available, unavailable, etc.)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "available",
+                            "enum": [
+                                "available",
+                                "unavailable",
+                                "out of stock",
+                                "discontinued"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "ID del usuario que creó el producto",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "is_featured",
+                        "in": "query",
+                        "description": "Filtrar productos destacados (1 para sí, 0 para no)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "min_price",
+                        "in": "query",
+                        "description": "Precio mínimo del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "max_price",
+                        "in": "query",
+                        "description": "Precio máximo del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página para paginación",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Cantidad de productos por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Palabra clave para buscar en el nombre o descripción del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Ordenamiento de productos. Ejemplos: price_asc, price_desc, alpha_asc, alpha_desc",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "price_asc",
+                                "price_desc",
+                                "alpha_asc",
+                                "alpha_desc"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron productos con los criterios."
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Crear producto",
+                "operationId": "fc6b0c9d45a547228d52dd3ee292ddc4",
+                "requestBody": {
+                    "description": "Datos del producto a crear. Todos los campos son obligatorios.",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "price",
+                                    "category_id",
+                                    "stock"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Café Orgánico de Oaxaca x 500 gr"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Café 100% orgánico cultivado en las montañas de Oaxaca, sin pesticidas ni fertilizantes sintéticos, garantizando un sabor auténtico y rico."
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 25
+                                    },
+                                    "category_id": {
+                                        "description": "ID de la categoría del producto. Posibles valores: 1 (Huevos), 2 (Verduras), 3 (Lácteos y Sustitutos), 4 (Condimentos y Salsas), 5 (Carnes y Sustitutos), 6 (Miel y Edulcorantes), 7 (Bebidas), 8 (Productos de Panadería), 9 (Frutas), 10 (Granos y Legumbres).",
+                                        "type": "integer",
+                                        "enum": [
+                                            1,
+                                            2,
+                                            3,
+                                            4,
+                                            5,
+                                            6,
+                                            7,
+                                            8,
+                                            9,
+                                            10
+                                        ],
+                                        "example": 10
+                                    },
+                                    "stock": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "is_featured": {
+                                        "description": "Indica si el producto es destacado (0=false):(1=true)",
+                                        "type": "numeric",
+                                        "example": 0
+                                    },
+                                    "image": {
+                                        "description": "Imagen del producto. Se debe enviar como un archivo.",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos."
+                    },
+                    "422": {
+                        "description": "Error de validación."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener un producto por su ID",
+                "operationId": "b46f4aa73232d0368eee698a082342a4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a obtener",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar un producto existente por ID",
+                "description": "Permite actualizar los datos de un producto. Solo se modificarán los campos proporcionados. Utiliza _method=PATCH en los parámetros de consulta para simular el método PATCH.",
+                "operationId": "1c52fc58e33d71677ba74cb346470913",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "_method",
+                        "in": "query",
+                        "description": "Método para simular el PATCH. Debe enviarse como un parámetro en la consulta.",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "PATCH"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Datos del producto que se desea actualizar. Solo se actualizarán los campos enviados.",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Nombre del producto",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Descripción detallada del producto",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Precio del producto",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "category_id": {
+                                        "description": "ID de la categoría asociada",
+                                        "type": "integer"
+                                    },
+                                    "is_featured": {
+                                        "description": "Indica si el producto es destacado",
+                                        "type": "boolean"
+                                    },
+                                    "image": {
+                                        "description": "Archivo de imagen del producto en formato JPEG, PNG o WEBP",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Los datos ingresados son incorrectos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en la solicitud"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se proporcionaron datos para actualizar."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar producto (Soft Delete)",
+                "description": "Marca un producto como eliminado sin borrarlo permanentemente.",
+                "operationId": "6e239d36b1092f33c2e4c1f10ef36f3f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "ID del producto a eliminar",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado exitosamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "400": {
+                        "description": "Error en la solicitud"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/{id}/restore": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Restaurar producto eliminado",
+                "description": "Restaura un producto que ha sido eliminado con Soft Delete.",
+                "operationId": "13d9daa7f04ca483f28ca7008c2ee049",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "description": "ID del producto a restaurar",
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto restaurado exitosamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    },
+                    "400": {
+                        "description": "Error en la solicitud"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/requests/waitlist/": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Obtener los productos en lista de espera",
+                "description": "Este endpoint permite a un administrador listar los productos en la lista de espera.",
+                "operationId": "cde6562739765ef5e12cbd5457168fd9",
+                "responses": {
+                    "201": {
+                        "description": "Productos"
+                    },
+                    "403": {
+                        "description": "No tiene permisos para acceder"
+                    },
+                    "422": {
+                        "description": "Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/requests/waitlist/{id}/approve": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Aprobar un producto en la lista de espera, se proporciona el id del producto",
+                "description": "Este endpoint permite a un administrador aprobar una solicitud de producto en la lista de espera.",
+                "operationId": "cadfdddc7fa2739f19440fb59f52509f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la solicitud de producto que se desea aprobar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Solicitud aprobada con éxito.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Solicitud aprobada."
+                                        },
+                                        "request": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tiene permiso para acceder a esta acción."
+                    },
+                    "404": {
+                        "description": "Solicitud no encontrada o ya procesada."
+                    },
+                    "422": {
+                        "description": "Error en la solicitud."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/requests/waitlist/{id}/reject": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Rechazar un producto en la lista de espera",
+                "description": "Este endpoint permite a un administrador rechazar una solicitud de producto en la lista de espera.",
+                "operationId": "f2a586b96e5373e002f44aa8eeb1a310",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la solicitud de producto que se desea rechazar.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Solicitud rechazada con éxito.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Solicitud rechazada."
+                                        },
+                                        "request": {
+                                            "$ref": "#/components/schemas/Product"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "No tiene permiso para acceder a esta acción."
+                    },
+                    "404": {
+                        "description": "Solicitud no encontrada o ya procesada."
+                    },
+                    "422": {
+                        "description": "Error en la solicitud."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Obtener todos los roles",
+                "description": "Devuelve una lista de roles. Solo los administradores (rol id=1) pueden acceder a esta operación.",
+                "operationId": "6e28bdec08d7292bde33180ca5928718",
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Crear un nuevo rol",
+                "description": "Crea un nuevo rol en el sistema. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "b47f38c8385567ad7a473d82fb6ebf63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Role"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rol creado exitosamente"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Obtener un rol por ID",
+                "description": "Devuelve los detalles de un rol específico. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "a4b5c5aa1ac224a279b2060bab05733c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del rol"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Eliminar un rol",
+                "description": "Elimina un rol específico del sistema. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "f5117dc2943b621bdb53820fcc72b457",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Rol eliminado exitosamente"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Actualizar un rol existente",
+                "description": "Actualiza los detalles de un rol específico. Solo los administradores (rol id=1) pueden realizar esta operación.",
+                "operationId": "852042c9cece9741fddbf2a40bc2535e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Role"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rol actualizado exitosamente"
+                    },
+                    "403": {
+                        "description": "Acceso denegado"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    },
+                    "400": {
+                        "description": "Solicitud inválida"
+                    },
+                    "500": {
+                        "description": "Error interno del servidor"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart/products": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Agregar un producto al carrito",
+                "operationId": "7b18094197fb0278033a7d005defd910",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "description": "ID del producto",
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "description": "Cantidad del producto",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto añadido al carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Stock insuficiente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Eliminar un producto del carrito",
+                "operationId": "3abba5fe9fb37d322eef8640dec89cba",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "description": "ID del producto a eliminar",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado del carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado en el carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Actualizar cantidad de un producto en el carrito",
+                "operationId": "b78cf420f8f8627ebcbb0215db342b56",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_id",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "product_id": {
+                                        "description": "ID del producto",
+                                        "type": "integer"
+                                    },
+                                    "quantity": {
+                                        "description": "Nueva cantidad del producto",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cantidad actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado en el carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Stock insuficiente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Ver productos en el carrito",
+                "operationId": "d0af7f3dc67d69cf8fbf09382808f844",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos en el carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "cartItems": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CartItem"
+                                            }
+                                        },
+                                        "totalPrice": {
+                                            "description": "Precio total del carrito",
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cart/checkout": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Confirmar compra y crear un pedido",
+                "operationId": "a2ca04e6b844f8dfdba0ca974f51a791",
+                "responses": {
+                    "200": {
+                        "description": "Pedido realizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de éxito",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Carrito vacío o stock insuficiente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Mensaje de error",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener todos los usuarios",
+                "operationId": "7e2f5799553ec93c9c43e2a58490d447",
+                "responses": {
+                    "200": {
+                        "description": "Una lista de usuarios",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "example": {
+                                            "id": 1,
+                                            "username": "johndoe123",
+                                            "email": "johndoe@example.com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener un usuario por ID",
+                "operationId": "910a0c7cf580e1c605648d82a4e57f46",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Un objeto de usuario",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "username": "johndoe123",
+                                    "email": "johndoe@example.com"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Eliminar un usuario",
+                "operationId": "43dd20becb1f47444e484cbb18ce345c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Usuario eliminado exitosamente"
+                    },
+                    "403": {
+                        "description": "No tienes permiso para eliminar el usuario"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Actualizar parcialmente un usuario",
+                "description": "Permite la actualización parcial de un usuario especificando solo los campos que se desean modificar. Se pueden actualizar todos los campos, excepto email, username y password.",
+                "operationId": "6055962f27a3fb88a3445c27693dcf5f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            },
+                            "example": {
+                                "firstname": "Antonio",
+                                "lastname": "Banderas",
+                                "role_id": 1
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado parcialmente exitosamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "username": "antonio54",
+                                    "firstname": "Antonio",
+                                    "lastname": "Banderas",
+                                    "email": "antoniobanderas@gmail.com"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/profile": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Obtener el perfil del usuario autenticado",
+                "operationId": "c478ac7528255232c445adcd37615e93",
+                "responses": {
+                    "200": {
+                        "description": "Perfil de usuario obtenido exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "username": "johndoe123",
+                                    "email": "johndoe@example.com"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Category": {
+                "properties": {
+                    "id": {
+                        "description": "ID de la categoría",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nombre de la categoría",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Descripción de la categoría",
+                        "type": "string"
+                    },
+                    "parent_id": {
+                        "description": "ID de la categoría padre (opcional)",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "Discount": {
+                "properties": {
+                    "name": {
+                        "description": "Nombre del descuento",
+                        "type": "string"
+                    },
+                    "discount_type": {
+                        "description": "Tipo de descuento (percentage, fixed)",
+                        "type": "string",
+                        "enum": [
+                            "percentage",
+                            "fixed"
+                        ]
+                    },
+                    "value": {
+                        "description": "Valor del descuento",
+                        "type": "number"
+                    },
+                    "description": {
+                        "description": "Descripción opcional del descuento",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "category_id": {
+                        "type": "integer"
+                    },
+                    "stock": {
+                        "type": "integer"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "measurement_unit_id": {
+                        "type": "integer"
+                    },
+                    "is_featured": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "Role": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Usuario administrador"
+                    }
+                },
+                "type": "object"
+            },
+            "CartItem": {
+                "properties": {
+                    "product_id": {
+                        "description": "ID del producto",
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "description": "Cantidad del producto en el carrito",
+                        "type": "integer"
+                    },
+                    "product": {
+                        "description": "Detalles del producto",
+                        "properties": {
+                            "id": {
+                                "description": "ID del producto",
+                                "type": "integer"
+                            },
+                            "name": {
+                                "description": "Nombre del producto",
+                                "type": "string"
+                            },
+                            "price": {
+                                "description": "Precio del producto",
+                                "type": "number",
+                                "format": "float"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "phone_number": {
+                        "type": "string"
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "picture": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer"
+                    },
+                    "session": {
+                        "type": "integer"
+                    },
+                    "remember_token": {
+                        "type": "string"
+                    },
+                    "role_id": {
+                        "type": "integer"
+                    },
+                    "email_verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Ingrese el token",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Para todos los usuarios"
+        },
+        {
+            "name": "Categories",
+            "description": "Solo para administradores"
+        },
+        {
+            "name": "Discounts",
+            "description": "Operaciones relacionadas con descuentos"
+        },
+        {
+            "name": "Products",
+            "description": "Para todos los usuarios (Con restricciones)"
+        },
+        {
+            "name": "Roles",
+            "description": "Solo para Administradores"
+        },
+        {
+            "name": "Cart",
+            "description": "Para todos los usuarios"
+        },
+        {
+            "name": "Users",
+            "description": "Solo para Administradores"
+        }
+    ]
+}
